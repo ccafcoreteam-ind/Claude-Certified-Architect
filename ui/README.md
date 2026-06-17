@@ -34,6 +34,20 @@ pip install -r requirements.txt    # only needed for live model calls
 python3 run_all.py ui
 ```
 
+## Offline snapshot (no server)
+
+To share the UI without running anything — e.g. email it, or open on a machine without the
+repo — generate a single self-contained HTML file with every demo pre-run and embedded and
+the quiz fully interactive:
+
+```bash
+python3 ui/snapshot.py                 # -> ui/snapshot.html
+python3 ui/snapshot.py /tmp/ccarch.html
+```
+
+Open the resulting file directly in any browser. (Live API mode still requires the real
+server, since the snapshot bakes in simulated output.)
+
 ## How it's wired
 
 ```

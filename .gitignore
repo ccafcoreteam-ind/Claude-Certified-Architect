@@ -14,3 +14,6 @@ venv/
 .vscode/
 .idea/
 .DS_Store
+
+# generated UI snapshot
+ui/snapshot.html
