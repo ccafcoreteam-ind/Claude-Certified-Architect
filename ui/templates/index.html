@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Claude Certified Architect — Teaching Console</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">◆</span>
+      <div>
+        <h1>Claude Certified Architect</h1>
+        <p>Foundations — runnable teaching console</p>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <span id="mode-badge" class="badge">mode: …</span>
+      <a class="badge ghost" href="https://www.anthropic.com" target="_blank" rel="noopener">5 domains · 6 scenarios · 12 questions</a>
+    </div>
+  </header>
+
+  <div class="layout">
+    <nav id="sidebar" class="sidebar" aria-label="Demos">
+      <div class="sidebar-actions">
+        <button id="tab-demos" class="tab active">Demos</button>
+        <button id="tab-quiz" class="tab">Quiz</button>
+      </div>
+      <div id="nav-list"><p class="muted">Loading…</p></div>
+    </nav>
+
+    <main class="content">
+      <!-- DEMO VIEW -->
+      <section id="demo-view">
+        <div id="demo-header" class="panel-header">
+          <div>
+            <h2 id="demo-title">Pick a demo from the left</h2>
+            <p id="demo-summary" class="muted"></p>
+          </div>
+          <button id="run-btn" class="run-btn" disabled>▶ Run</button>
+        </div>
+        <div id="output" class="output">
+          <div class="placeholder">
+            <h3>Welcome 👋</h3>
+            <p>This console runs the teaching demos and renders their output. Choose any
+            item in the sidebar, then press <strong>Run</strong>. The
+            <span class="chip wrong">✗ anti-patterns</span>,
+            <span class="chip right">✓ fixes</span>, and
+            <span class="chip tip">★ exam tips</span> are highlighted for you.</p>
+            <p class="muted">Tip for teaching: project this, walk a domain top-to-bottom,
+            then switch to the <strong>Quiz</strong> tab and let the room vote.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- QUIZ VIEW -->
+      <section id="quiz-view" hidden>
+        <div class="panel-header">
+          <div>
+            <h2>The 12 official sample questions</h2>
+            <p class="muted">Click an answer — it grades instantly and explains why the
+            distractors fail.</p>
+          </div>
+          <span id="quiz-score" class="badge">score: 0 / 0</span>
+        </div>
+        <div id="quiz-list"></div>
+      </section>
+    </main>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

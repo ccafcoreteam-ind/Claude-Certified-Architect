@@ -9,6 +9,7 @@ project on a screen, step through, and discuss in a teaching session.
   multi-agent research pipeline, an extraction pipeline, and more).
 - **The 12 official sample questions** — as an interactive, self-grading quiz.
 - A **cheat sheet**, the **3 prep exercises**, and a **teaching guide** with a lesson plan.
+- A **web UI** (`ui/`) — a browser console for running demos and the quiz in class.
 
 Every demo runs **with zero setup**: with no API key it uses a clearly-labelled
 deterministic simulator so the architecture and the teaching points are identical. Set
@@ -20,6 +21,7 @@ deterministic simulator so the architecture and the teaching points are identica
 
 ```bash
 # nothing to install for the offline (simulated) demos — standard library only
+python3 run_all.py ui              # ★ launch the web UI, then open http://127.0.0.1:8000
 python3 run_all.py --list          # see everything runnable
 python3 run_all.py --check         # smoke-test every demo (prints PASS/FAIL)
 
@@ -107,8 +109,22 @@ running**, shows the anti-patterns the exam uses as distractors, and ends with t
 ├── domains/                   ← 30 task demos across 5 domains (+ Domain 3 config artifacts)
 ├── scenarios/                 ← 6 end-to-end runnable scenario systems
 ├── exam/                      ← 12 sample questions, cheat sheet, prep exercises
-└── teaching/                  ← lesson plan / session guide
+├── teaching/                  ← lesson plan / session guide
+└── ui/                        ← zero-dependency web console (run demos + quiz in a browser)
 ```
+
+## The web UI
+
+For teaching in front of a screen, launch the browser console:
+
+```bash
+python3 run_all.py ui                      # http://127.0.0.1:8000
+python3 ui/server.py --host 0.0.0.0 --port 9000   # share on your network
+```
+
+It lists every demo in a sidebar, runs them on click (rendering the ✗/✓/★ blocks as
+colored cards), and turns the 12 sample questions into an interactive, self-grading quiz.
+No dependencies — it uses Python's standard-library HTTP server. See `ui/README.md`.
 
 See `teaching/teaching_guide.md` for a ready-to-run session plan, and each
 `domains/*/README.md` for a per-domain index.

@@ -69,6 +69,12 @@ def main():
     args = sys.argv[1:]
     groups = discover()
 
+    if args and args[0] == "ui":
+        # launch the web UI (zero-dependency, stdlib http.server)
+        sys.argv = [str(ROOT / "ui" / "server.py")] + args[1:]
+        runpy.run_path(str(ROOT / "ui" / "server.py"), run_name="__main__")
+        return
+
     if args and args[0] == "--list":
         for g, files in groups.items():
             print(g)
