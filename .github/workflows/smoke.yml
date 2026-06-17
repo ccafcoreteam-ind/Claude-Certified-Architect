@@ -1,0 +1,18 @@
+name: smoke-test demos
+
+# Keeps every teaching demo runnable. The offline (simulated) mode needs no API key,
+# so CI can exercise the whole codebase deterministically.
+on:
+  push:
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run every demo (simulated mode)
+        run: python3 run_all.py --check

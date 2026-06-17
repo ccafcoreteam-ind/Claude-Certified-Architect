@@ -1,0 +1,117 @@
+# Claude Certified Architect — Foundations: A Runnable Teaching Codebase
+
+A hands-on companion to the **Claude Certified Architect – Foundations** exam. Every
+concept from the study guide is turned into a small, **runnable** Python demo you can
+project on a screen, step through, and discuss in a teaching session.
+
+- **5 domains**, all 30 task statements (Tasks 1.1 → 5.6) — one self-explaining demo each.
+- **6 scenarios** — fuller, end-to-end runnable systems (a real support agent, a
+  multi-agent research pipeline, an extraction pipeline, and more).
+- **The 12 official sample questions** — as an interactive, self-grading quiz.
+- A **cheat sheet**, the **3 prep exercises**, and a **teaching guide** with a lesson plan.
+
+Every demo runs **with zero setup**: with no API key it uses a clearly-labelled
+deterministic simulator so the architecture and the teaching points are identical. Set
+`ANTHROPIC_API_KEY` to make the model-calling demos hit the real Claude API.
+
+---
+
+## Quick start
+
+```bash
+# nothing to install for the offline (simulated) demos — standard library only
+python3 run_all.py --list          # see everything runnable
+python3 run_all.py --check         # smoke-test every demo (prints PASS/FAIL)
+
+# run one concept (with [press ENTER] pauses — ideal for live teaching)
+python3 domains/domain1_orchestration/task1_1_agentic_loop.py
+
+# run a whole group, non-stop
+python3 run_all.py domain1
+python3 run_all.py scenarios
+python3 run_all.py exam
+```
+
+To run the model-calling demos **live**:
+
+```bash
+pip install -r requirements.txt
+cp .env.example .env        # then put your key in it, or just export it:
+export ANTHROPIC_API_KEY=sk-ant-...
+python3 domains/domain4_prompt_output/task4_2_few_shot.py   # now hits the real API
+```
+
+> The teaching pauses (`[press ENTER]`) appear only when you run a file directly in a
+> terminal. `run_all.py` and CI set `CCARCH_NONSTOP=1` to skip them.
+
+---
+
+## How the codebase maps to the exam
+
+### The five domains (`domains/`)
+
+| Domain | Weight | Folder | Tasks covered |
+|---|---|---|---|
+| 1 · Agentic Architecture & Orchestration | 27% | `domain1_orchestration/` | 1.1–1.7 |
+| 2 · Tool Design & MCP Integration | 18% | `domain2_tools_mcp/` | 2.1–2.5 |
+| 3 · Claude Code Configuration & Workflows | 20% | `domain3_claude_code/` | 3.1–3.6 (+ real config artifacts) |
+| 4 · Prompt Engineering & Structured Output | 20% | `domain4_prompt_output/` | 4.1–4.6 |
+| 5 · Context Management & Reliability | 15% | `domain5_context_reliability/` | 5.1–5.6 |
+
+Each `taskX_Y_*.py` file is a standalone lesson: it states the concept, **demonstrates it
+running**, shows the anti-patterns the exam uses as distractors, and ends with the exam tip.
+
+### The six scenarios (`scenarios/`)
+
+| Scenario | Primary domains | What runs |
+|---|---|---|
+| 1 · Customer Support Resolution Agent | D1 · D2 · D5 | Agent loop + prerequisite gate + interception hook + structured errors + case-facts + escalation |
+| 2 · Code Generation with Claude Code | D3 · D5 | Config-scope decisions, plan-vs-direct, path rules, refinement |
+| 3 · Multi-Agent Research System | D1 · D2 · D5 | Coordinator + subagents, narrow-decomposition failure + fix, error propagation, provenance |
+| 4 · Developer Productivity | D2 · D3 · D1 | Real incremental exploration (Grep→Read) over a sample repo; delegation + scratchpad |
+| 5 · Claude Code for CI/CD | D3 · D4 | Non-interactive `-p`, structured output, false-positive control, multi-pass review |
+| 6 · Structured Data Extraction | D4 · D5 | Tool-use schema, nullable fields, validation/retry, batch routing, confidence routing |
+
+### The exam (`exam/`)
+
+- `sample_questions.py` — the 12 official sample questions, interactive and self-grading,
+  each tagged with the domain/task and the demo that shows the concept.
+- `cheatsheet.py` — the high-yield facts to memorize, each pointing to its demo.
+- `prep_exercises.py` — the 3 official hands-on exercises, mapped to worked references here.
+
+---
+
+## The three themes that run through everything
+
+1. **Guarantees beat instructions.** Must-follow rules (verify identity before a refund)
+   go in **code** (hooks, gates, schemas), not in a prompt. Prompts are probabilistic.
+2. **Fix the root cause, proportionately.** Vague tool descriptions → better descriptions,
+   not a routing classifier. The exam loves over-engineered distractors.
+3. **Context is a scarce, leaky resource.** Extract key facts, trim noise, pass information
+   explicitly between agents.
+
+> The exam's underlying question is always: *what is the simplest mechanism that reliably
+> fixes the actual root cause?*
+
+---
+
+## Repository layout
+
+```
+.
+├── README.md                  ← you are here
+├── run_all.py                 ← teaching playlist + smoke test
+├── requirements.txt           ← only needed for LIVE (API) mode
+├── .env.example
+├── ccarch/                    ← shared toolkit (display + Claude client w/ simulator)
+├── domains/                   ← 30 task demos across 5 domains (+ Domain 3 config artifacts)
+├── scenarios/                 ← 6 end-to-end runnable scenario systems
+├── exam/                      ← 12 sample questions, cheat sheet, prep exercises
+└── teaching/                  ← lesson plan / session guide
+```
+
+See `teaching/teaching_guide.md` for a ready-to-run session plan, and each
+`domains/*/README.md` for a per-domain index.
+
+*Built as a study and teaching aid based on the official Exam Guide and the Foundations
+tutorial. For educational use.*

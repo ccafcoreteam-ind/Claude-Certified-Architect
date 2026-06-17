@@ -1,0 +1,3 @@
+# The offline (simulated) demos use only the Python standard library — no install needed.
+# Install this ONLY to run the model-calling demos LIVE against the real Claude API.
+anthropic>=0.40.0
