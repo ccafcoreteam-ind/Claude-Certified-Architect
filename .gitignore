@@ -17,3 +17,4 @@ venv/
 
 # generated UI snapshot
 ui/snapshot.html
+ui/console/console_snapshot.html
