@@ -36,7 +36,7 @@ def message_strategy(issues):
 def main():
     banner("Domain 3 · Task 3.5", "Iterative refinement techniques")
     concept("Domain 3: Claude Code Configuration & Workflows (20%)",
-            "Task 3.5 — Iterative refinement",
+            "Task 3.5 — Apply iterative refinement techniques for progressive improvement",
             "Examples > prose; tests as feedback; interview; batch-vs-sequence")
 
     h1("1) Concrete input/output examples beat prose")

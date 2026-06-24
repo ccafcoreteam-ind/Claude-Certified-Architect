@@ -40,7 +40,7 @@ def classify_conflict(values):
 def main():
     banner("Domain 5 · Task 5.6", "Provenance & uncertainty in synthesis")
     concept("Domain 5: Context Management & Reliability (15%)",
-            "Task 5.6 — Information provenance & uncertainty in multi-source synthesis",
+            "Task 5.6 — Preserve information provenance and handle uncertainty in multi-source synthesis",
             "Force claim-source mappings; conflicts & temporal traps")
 
     h1("Attribution dies in summarization unless you force structure")

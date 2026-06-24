@@ -51,7 +51,7 @@ USER_MCP = {
 def main():
     banner("Domain 2 · Task 2.4", "MCP server integration & scoping")
     concept("Domain 2: Tool Design & MCP Integration (18%)",
-            "Task 2.4 — Integrate MCP servers",
+            "Task 2.4 — Integrate MCP servers into Claude Code and agent workflows",
             ".mcp.json (shared) vs ~/.claude.json (personal); resources vs tools")
 
     h1("Where the config lives decides who gets the server")

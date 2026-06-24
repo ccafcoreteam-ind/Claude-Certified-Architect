@@ -42,7 +42,7 @@ def agent_decide(error: dict) -> str:
 def main():
     banner("Domain 2 · Task 2.2", "Structured errors — so the agent can recover")
     concept("Domain 2: Tool Design & MCP Integration (18%)",
-            "Task 2.2 — Structured error responses for MCP tools",
+            "Task 2.2 — Implement structured error responses for MCP tools",
             "errorCategory + isRetryable + human-readable message")
 
     h1("A bare error teaches the agent nothing")

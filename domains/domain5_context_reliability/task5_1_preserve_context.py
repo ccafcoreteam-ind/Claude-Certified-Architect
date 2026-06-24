@@ -35,7 +35,7 @@ CASE_FACTS = {
 def main():
     banner("Domain 5 · Task 5.1", "Preserve critical info across long interactions")
     concept("Domain 5: Context Management & Reliability (15%)",
-            "Task 5.1 — Preserve critical information",
+            "Task 5.1 — Manage conversation context to preserve critical information across long interactions",
             "The 'case facts' block survives summarization")
 
     h1("1) Watch progressive summarization destroy the facts")

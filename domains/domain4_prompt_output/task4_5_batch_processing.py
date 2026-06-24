@@ -43,7 +43,7 @@ WORKLOADS = [
 def main():
     banner("Domain 4 · Task 4.5", "Batch processing strategies")
     concept("Domain 4: Prompt Engineering & Structured Output (20%)",
-            "Task 4.5 — Batch processing strategies",
+            "Task 4.5 — Design efficient batch processing strategies",
             "Batch = 50% cheaper, <=24h, NO latency SLA")
 
     h1("Match each workload to the right API (sample Q11)")

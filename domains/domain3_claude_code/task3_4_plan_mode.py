@@ -48,7 +48,7 @@ TASKS = [
 def main():
     banner("Domain 3 · Task 3.4", "Plan mode vs direct execution")
     concept("Domain 3: Claude Code Configuration & Workflows (20%)",
-            "Task 3.4 — Plan mode vs direct execution",
+            "Task 3.4 — Determine when to use plan mode vs direct execution",
             "Architectural/multi-file -> plan; small known fix -> direct")
 
     h1("A recommender you can reason through")

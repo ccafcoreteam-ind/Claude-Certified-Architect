@@ -47,7 +47,7 @@ def quiz_answer(task):
 def main():
     banner("Domain 2 · Task 2.5", "Built-in tools — pick the right one")
     concept("Domain 2: Tool Design & MCP Integration (18%)",
-            "Task 2.5 — Select and apply built-in tools",
+            "Task 2.5 — Select and apply built-in tools (Read, Write, Edit, Bash, Grep, Glob) effectively",
             "Grep=contents, Glob=names; incremental exploration")
 
     h1("The decision table")

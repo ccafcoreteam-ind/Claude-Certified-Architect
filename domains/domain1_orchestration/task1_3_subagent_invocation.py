@@ -23,7 +23,7 @@ from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, r
 def main():
     banner("Domain 1 · Task 1.3", "Subagent invocation, context passing, spawning")
     concept("Domain 1: Agentic Architecture & Orchestration (27%)",
-            "Task 1.3 — Configure subagent invocation & context passing",
+            "Task 1.3 — Configure subagent invocation, context passing, and spawning",
             "Task tool + explicit context + parallel spawning")
 
     h1("1) The coordinator needs 'Task' in allowedTools")

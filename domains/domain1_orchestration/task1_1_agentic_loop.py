@@ -109,7 +109,7 @@ def run_agent(client: ClaudeClient, user_message: str, max_safety_iterations: in
 def main():
     banner("Domain 1 · Task 1.1", "The Agentic Loop — stop_reason drives everything")
     concept("Domain 1: Agentic Architecture & Orchestration (27%)",
-            "Task 1.1 — Design and implement agentic loops",
+            "Task 1.1 — Design and implement agentic loops for autonomous task execution",
             "Loop on stop_reason; append tool results to history")
 
     h1("Watch one complete loop: 'Where is my order #12345?'")

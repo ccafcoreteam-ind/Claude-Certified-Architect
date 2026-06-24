@@ -45,7 +45,7 @@ def adaptive_plan(seed_discovery):
 def main():
     banner("Domain 1 · Task 1.6", "Task decomposition — chaining vs adaptive")
     concept("Domain 1: Agentic Architecture & Orchestration (27%)",
-            "Task 1.6 — Task decomposition strategies",
+            "Task 1.6 — Design task decomposition strategies for complex workflows",
             "Fixed pipeline (known steps) vs dynamic plan (steps emerge)")
 
     h1("Prompt chaining — when the steps are known in advance")

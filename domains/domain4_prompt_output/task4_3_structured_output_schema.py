@@ -51,7 +51,7 @@ EXTRACTION_TOOL = {
 def main():
     banner("Domain 4 · Task 4.3", "Structured output via tool use + JSON schema")
     concept("Domain 4: Prompt Engineering & Structured Output (20%)",
-            "Task 4.3 — Structured output via tool use and JSON schemas",
+            "Task 4.3 — Enforce structured output using tool use and JSON schemas",
             "Tool input_schema = output contract; nullable prevents fabrication")
 
     h1("The trick: the tool's input_schema IS your output schema")

@@ -27,7 +27,7 @@ from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, r
 def main():
     banner("Domain 2 · Task 2.3", "Tool distribution & tool_choice")
     concept("Domain 2: Tool Design & MCP Integration (18%)",
-            "Task 2.3 — Distribute tools & configure tool_choice",
+            "Task 2.3 — Distribute tools appropriately across agents and configure tool choice",
             "Least privilege for tools + the tool_choice modes")
 
     h1("Fewer tools = better decisions")

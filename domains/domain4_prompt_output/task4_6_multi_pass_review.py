@@ -33,7 +33,7 @@ def review_plan(num_files: int):
 def main():
     banner("Domain 4 · Task 4.6", "Multi-instance & multi-pass review")
     concept("Domain 4: Prompt Engineering & Structured Output (20%)",
-            "Task 4.6 — Multi-instance & multi-pass review architectures",
+            "Task 4.6 — Design multi-instance and multi-pass review architectures",
             "Fresh eyes beat self-review; split passes beat one big pass")
 
     h1("Self-review is structurally weak")

@@ -45,7 +45,7 @@ def show(name, desc):
 def main():
     banner("Domain 2 · Task 2.1", "Tool interfaces — descriptions drive selection")
     concept("Domain 2: Tool Design & MCP Integration (18%)",
-            "Task 2.1 — Design effective tool interfaces",
+            "Task 2.1 — Design effective tool interfaces with clear descriptions and boundaries",
             "Descriptions are the PRIMARY tool-selection mechanism")
 
     h1("Weak descriptions cause misrouting (sample Q2)")

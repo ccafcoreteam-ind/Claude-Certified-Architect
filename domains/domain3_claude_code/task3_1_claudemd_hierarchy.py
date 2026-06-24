@@ -32,7 +32,7 @@ def reaches_teammates(location: str) -> bool:
 def main():
     banner("Domain 3 · Task 3.1", "CLAUDE.md hierarchy & scoping")
     concept("Domain 3: Claude Code Configuration & Workflows (20%)",
-            "Task 3.1 — CLAUDE.md hierarchy, scoping, modular org",
+            "Task 3.1 — Configure CLAUDE.md files with appropriate hierarchy, scoping, and modular organization",
             "Level decides WHO the instructions apply to")
 
     h1("A real project CLAUDE.md is just plain text")

@@ -35,7 +35,7 @@ def decide(prior_context_valid: bool, files_changed, results_stale: bool, compar
 def main():
     banner("Domain 1 · Task 1.7", "Session state — resume, fork, or restart")
     concept("Domain 1: Agentic Architecture & Orchestration (27%)",
-            "Task 1.7 — Manage session state, resumption, forking",
+            "Task 1.7 — Manage session state, resumption, and forking",
             "Resume vs fork vs fresh-start (driven by staleness)")
 
     h1("The three commands / moves")

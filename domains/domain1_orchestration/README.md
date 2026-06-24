@@ -5,13 +5,13 @@ how you enforce workflows that must happen in order.
 
 | Task | Demo | One-line idea |
 |---|---|---|
-| 1.1 Agentic loops | `task1_1_agentic_loop.py` | Loop on `stop_reason`; append tool results to history |
-| 1.2 Coordinator + subagents | `task1_2_coordinator_subagents.py` | Hub-and-spoke; the coordinator's decomposition is the risk |
-| 1.3 Invocation & context passing | `task1_3_subagent_invocation.py` | `Task` tool, explicit context, parallel spawning, structured handoffs |
-| 1.4 Enforcement & handoff | `task1_4_workflow_enforcement.py` | Prerequisite **gates** (deterministic) beat prompt guidance |
-| 1.5 Hooks | `task1_5_hooks.py` | PostToolUse normalizes after; interception blocks before |
-| 1.6 Task decomposition | `task1_6_task_decomposition.py` | Prompt chaining (known steps) vs dynamic adaptive |
-| 1.7 Session state | `task1_7_session_state.py` | `--resume` vs `fork_session` vs fresh-start |
+| 1.1 Design and implement agentic loops for autonomous task execution | `task1_1_agentic_loop.py` | Loop on `stop_reason`; append tool results to history |
+| 1.2 Orchestrate multi-agent systems with coordinator-subagent patterns | `task1_2_coordinator_subagents.py` | Hub-and-spoke; the coordinator's decomposition is the risk |
+| 1.3 Configure subagent invocation, context passing, and spawning | `task1_3_subagent_invocation.py` | `Task` tool, explicit context, parallel spawning, structured handoffs |
+| 1.4 Implement multi-step workflows with enforcement and handoff patterns | `task1_4_workflow_enforcement.py` | Prerequisite **gates** (deterministic) beat prompt guidance |
+| 1.5 Apply Agent SDK hooks for tool call interception and data normalization | `task1_5_hooks.py` | PostToolUse normalizes after; interception blocks before |
+| 1.6 Design task decomposition strategies for complex workflows | `task1_6_task_decomposition.py` | Prompt chaining (known steps) vs dynamic adaptive |
+| 1.7 Manage session state, resumption, and forking | `task1_7_session_state.py` | `--resume` vs `fork_session` vs fresh-start |
 
 ```bash
 python3 run_all.py domain1     # run all seven, non-stop

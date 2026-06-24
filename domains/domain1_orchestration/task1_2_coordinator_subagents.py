@@ -40,7 +40,7 @@ ALL_SECTORS = {"digital art", "graphic design", "photography",
 def main():
     banner("Domain 1 · Task 1.2", "Coordinator + Subagents — hub-and-spoke")
     concept("Domain 1: Agentic Architecture & Orchestration (27%)",
-            "Task 1.2 — Orchestrate multi-agent systems",
+            "Task 1.2 — Orchestrate multi-agent systems with coordinator-subagent patterns",
             "Hub-and-spoke; the coordinator's decomposition is the risk")
 
     h1("Hub-and-spoke architecture")

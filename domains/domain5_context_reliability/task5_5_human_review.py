@@ -32,7 +32,7 @@ def route(field_confidence: float, threshold: float, contradictory: bool):
 def main():
     banner("Domain 5 · Task 5.5", "Human review & confidence calibration")
     concept("Domain 5: Context Management & Reliability (15%)",
-            "Task 5.5 — Human review workflows & confidence calibration",
+            "Task 5.5 — Design human review workflows and confidence calibration",
             "Validate by segment; route by calibrated confidence; audit the fast lane")
 
     h1("Aggregate metrics hide pockets of failure")

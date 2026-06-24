@@ -47,7 +47,7 @@ def coordinator_decide(report: dict) -> str:
 def main():
     banner("Domain 5 · Task 5.3", "Error propagation across agents")
     concept("Domain 5: Context Management & Reliability (15%)",
-            "Task 5.3 — Error propagation across multi-agent systems",
+            "Task 5.3 — Implement error propagation strategies across multi-agent systems",
             "Structured error context enables intelligent recovery")
 
     h1("The CORRECT approach (sample Q8): structured error context")

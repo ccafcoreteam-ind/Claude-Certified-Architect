@@ -52,7 +52,7 @@ def simulator(system, messages, tools) -> LLMResponse:
 def main():
     banner("Domain 4 · Task 4.2", "Few-shot prompting — show, don't tell")
     concept("Domain 4: Prompt Engineering & Structured Output (20%)",
-            "Task 4.2 — Few-shot prompting",
+            "Task 4.2 — Apply few-shot prompting to improve output consistency and quality",
             "2-4 worked examples teach judgment that prose can't")
 
     h1("What few-shot actually looks like")

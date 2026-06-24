@@ -28,7 +28,7 @@ from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, r
 def main():
     banner("Domain 4 · Task 4.1", "Explicit criteria reduce false positives")
     concept("Domain 4: Prompt Engineering & Structured Output (20%)",
-            "Task 4.1 — Explicit criteria to reduce false positives",
+            "Task 4.1 — Design prompts with explicit criteria to improve precision and reduce false positives",
             "Specific categorical criteria > vague modifiers")
 
     h1("Vague vs precise instruction")

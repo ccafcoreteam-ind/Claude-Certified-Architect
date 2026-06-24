@@ -5,12 +5,12 @@ reusable commands and skills, plan mode vs direct execution, refinement, and CI/
 
 | Task | Demo | One-line idea |
 |---|---|---|
-| 3.1 CLAUDE.md hierarchy | `task3_1_claudemd_hierarchy.py` | Level decides WHO the instructions reach |
-| 3.2 Commands & skills | `task3_2_commands_skills.py` | Project (shared) vs personal; skill frontmatter |
-| 3.3 Path-specific rules | `task3_3_path_rules.py` | Glob-scoped rules follow scattered files |
-| 3.4 Plan mode vs direct | `task3_4_plan_mode.py` | Architectural/multi-file → plan; small fix → direct |
-| 3.5 Iterative refinement | `task3_5_iterative_refinement.py` | Show don't tell; tests-as-feedback; interview |
-| 3.6 CI/CD | `task3_6_cicd.py` | `-p` for non-interactive; structured output |
+| 3.1 Configure CLAUDE.md files with appropriate hierarchy, scoping, and modular organization | `task3_1_claudemd_hierarchy.py` | Level decides WHO the instructions reach |
+| 3.2 Create and configure custom slash commands and skills | `task3_2_commands_skills.py` | Project (shared) vs personal; skill frontmatter |
+| 3.3 Apply path-specific rules for conditional convention loading | `task3_3_path_rules.py` | Glob-scoped rules follow scattered files |
+| 3.4 Determine when to use plan mode vs direct execution | `task3_4_plan_mode.py` | Architectural/multi-file → plan; small fix → direct |
+| 3.5 Apply iterative refinement techniques for progressive improvement | `task3_5_iterative_refinement.py` | Show don't tell; tests-as-feedback; interview |
+| 3.6 Integrate Claude Code into CI/CD pipelines | `task3_6_cicd.py` | `-p` for non-interactive; structured output |
 
 ```bash
 python3 run_all.py domain3

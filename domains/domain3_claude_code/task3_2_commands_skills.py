@@ -30,7 +30,7 @@ from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, r
 def main():
     banner("Domain 3 · Task 3.2", "Slash commands & skills")
     concept("Domain 3: Claude Code Configuration & Workflows (20%)",
-            "Task 3.2 — Custom slash commands and skills",
+            "Task 3.2 — Create and configure custom slash commands and skills",
             "Project vs personal scope; skill frontmatter")
 
     h1("Slash commands = saved prompts (sample Q4)")

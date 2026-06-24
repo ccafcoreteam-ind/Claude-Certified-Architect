@@ -47,7 +47,7 @@ def should_escalate(explicit_human=False, policy_gap=False, no_progress=False,
 def main():
     banner("Domain 5 · Task 5.2", "Escalation & ambiguity resolution")
     concept("Domain 5: Context Management & Reliability (15%)",
-            "Task 5.2 — Escalation and ambiguity resolution",
+            "Task 5.2 — Design effective escalation and ambiguity resolution patterns",
             "Escalate by RULE, not by vibe")
 
     h1("Reliable vs unreliable escalation signals")

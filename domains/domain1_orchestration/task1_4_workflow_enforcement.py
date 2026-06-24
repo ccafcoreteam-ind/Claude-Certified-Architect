@@ -46,7 +46,7 @@ class RefundGate:
 def main():
     banner("Domain 1 · Task 1.4", "Enforcement & handoff — guarantees beat instructions")
     concept("Domain 1: Agentic Architecture & Orchestration (27%)",
-            "Task 1.4 — Multi-step workflows with enforcement",
+            "Task 1.4 — Implement multi-step workflows with enforcement and handoff patterns",
             "Prerequisite gates (deterministic) vs prompt guidance (probabilistic)")
 
     h1("The distinction the exam tests more than any other")

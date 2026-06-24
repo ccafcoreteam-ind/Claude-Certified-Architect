@@ -27,7 +27,7 @@ from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, r
 def main():
     banner("Domain 3 · Task 3.6", "Claude Code in CI/CD")
     concept("Domain 3: Claude Code Configuration & Workflows (20%)",
-            "Task 3.6 — Integrate Claude Code into CI/CD",
+            "Task 3.6 — Integrate Claude Code into CI/CD pipelines",
             "-p for non-interactive; structured output; independent review")
 
     h1("The hang (sample Q10) and its fix")

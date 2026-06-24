@@ -41,7 +41,7 @@ def is_futile(missing_field_absent_from_source: bool) -> bool:
 def main():
     banner("Domain 4 · Task 4.4", "Validation, retry & feedback loops")
     concept("Domain 4: Prompt Engineering & Structured Output (20%)",
-            "Task 4.4 — Validation, retry, and feedback loops",
+            "Task 4.4 — Implement validation, retry, and feedback loops for extraction quality",
             "Retry WITH specific errors; know when retry is futile")
 
     h1("Retry-with-error-feedback (a real validation loop)")

@@ -53,7 +53,7 @@ def refund_interceptor(tool_name, tool_input: dict):
 def main():
     banner("Domain 1 · Task 1.5", "Hooks — normalize after, intercept before")
     concept("Domain 1: Agentic Architecture & Orchestration (27%)",
-            "Task 1.5 — Agent SDK hooks",
+            "Task 1.5 — Apply Agent SDK hooks for tool call interception and data normalization",
             "PostToolUse normalization + interception gating")
 
     h1("PostToolUse hook: normalize heterogeneous tool outputs")

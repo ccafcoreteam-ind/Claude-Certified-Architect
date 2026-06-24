@@ -54,7 +54,7 @@ def rules_for(path: str):
 def main():
     banner("Domain 3 · Task 3.3", "Path-specific rules — conventions that follow files")
     concept("Domain 3: Claude Code Configuration & Workflows (20%)",
-            "Task 3.3 — Path-specific rules",
+            "Task 3.3 — Apply path-specific rules for conditional convention loading",
             "YAML frontmatter `paths` globs load rules only where they apply")
 
     h1("A complete, working rule file")

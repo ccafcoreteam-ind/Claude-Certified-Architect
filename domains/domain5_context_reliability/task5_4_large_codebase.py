@@ -25,7 +25,7 @@ from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, r
 def main():
     banner("Domain 5 · Task 5.4", "Large codebase exploration")
     concept("Domain 5: Context Management & Reliability (15%)",
-            "Task 5.4 — Context management in large codebase exploration",
+            "Task 5.4 — Manage context effectively in large codebase exploration",
             "External memory + delegation keep the main context clean")
 
     h1("Recognize context degradation")
