@@ -1,8 +1,39 @@
 # The Six Exam Scenarios — runnable end-to-end systems
 
 Every exam question lives inside one of six production scenarios; you see 4 of the 6 on
-your exam. Each folder here is a **runnable** system that ties together the domains that
-scenario tests.
+your exam. Each folder here has **two** runnable pieces:
+
+- a **teaching walkthrough** (the `*_*.py` file in the table below) — a scripted tour of
+  the concepts; and
+- a **functional app** (`app.py`) — a working mini-app you drive with real input and watch
+  the real logic run (gates, hooks, schema validation, a coordinator, real Grep/Read…).
+
+## Functional apps — see the code in action
+
+```bash
+python3 scenarios/run.py            # list the apps
+python3 scenarios/run.py 1 -i       # chat with the support agent (interactive)
+python3 scenarios/run.py 4 -i       # explore this repo with real Glob/Grep/Read
+python3 scenarios/run.py 6 "Pd $1,200.50 to Acme Corp on 3/4/25"   # one-shot
+```
+
+| # | App | What you can actually do |
+|---|---|---|
+| 1 | `scenario1_customer_support/app.py` | Chat with an agent; the prerequisite gate blocks refunds until you give an email, the $500 hook escalates, case-facts persist across turns. |
+| 2 | `scenario2_code_generation/app.py` | Describe a change → get a plan-vs-direct recommendation, config scope, the right mechanism, and a generated stub+test. |
+| 3 | `scenario3_multi_agent_research/app.py` | Give a topic → coordinator decomposes it, runs subagents, propagates a structured error on `--fail N`, and synthesizes a cited report with coverage gaps. |
+| 4 | `scenario4_developer_productivity/app.py` | A real shell: `glob`, `grep`, `read`, `trace` over any directory (defaults to this repo). |
+| 5 | `scenario5_cicd/app.py` | Review real Python files → structured findings with severities; `--json` for CI mode, `--all` to include style. |
+| 6 | `scenario6_structured_extraction/app.py` | Paste invoice-like text → schema-validated JSON, `null` for absent fields (never fabricated), total validation, confidence routing. |
+
+Each `app.py` runs a scripted demo with no arguments, takes free-text as a one-shot
+argument, and offers an interactive mode with `-i` (in a real terminal). They work offline
+with deterministic logic — no API key required.
+
+## Teaching walkthroughs
+
+Each folder also keeps its original scripted tour, which ties the scenario to the domains
+it tests.
 
 | # | Scenario | Primary domains | Run |
 |---|---|---|---|
