@@ -19,7 +19,7 @@ false-positive reduction, and hallucination reduction in extraction (including n
 
 import sys, pathlib, json
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2]))
-from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause
+from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause, analogy, pitfall
 from ccarch import ClaudeClient, LLMResponse
 
 
@@ -86,6 +86,11 @@ def main():
          "the boundary.")
     note("- Hallucination reduction: show extraction from varied structures (inline "
          "citations vs bibliographies, narrative vs tabular), including correct null handling.")
+
+    rule()
+    h1("Plain-language analogy & the common confusion")
+    analogy('Few-shot is showing a new cook two finished plates, not reciting the recipe — and you make sure one plate is the tricky case (a missing field becomes null), so they learn the edge, not just the happy path.')
+    pitfall('Beginners think the model just copies the literal examples. It generalizes the DEMONSTRATED judgment — so the examples must cover the boundary case you care about, especially: write null, do not invent a value.')
 
     tip("Reach for few-shot when DETAILED INSTRUCTIONS still give inconsistent results. "
         "2-4 examples; always include an example of the hard/edge case (the null case).")

@@ -21,7 +21,7 @@ fresh eyes.
 
 import sys, pathlib
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2]))
-from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause
+from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause, analogy, pitfall
 
 
 def review_plan(num_files: int):
@@ -69,6 +69,10 @@ def main():
          "self-reported confidence per finding")
     right("Confidence scores enable CALIBRATED routing of scarce human review attention "
           "(more in Task 5.5).")
+
+    rule()
+    h1("A common confusion to clear up")
+    pitfall('Two myths: a bigger context window fixes a sprawling 14-file review (it does not — attention still dilutes), and a session can fairly review its own code (it cannot — it re-reads what it MEANT to write). Split into passes; use fresh eyes.')
 
     tip("Independent fresh instance > self-review. Large PR -> per-file passes + integration "
         "pass. Bigger context != better attention. Consensus voting hides intermittent bugs.")

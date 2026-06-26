@@ -20,7 +20,7 @@ of the fast lane (stratified sampling) verify the system itself still works.
 
 import sys, pathlib
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2]))
-from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause
+from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause, analogy, pitfall
 
 
 def route(field_confidence: float, threshold: float, contradictory: bool):
@@ -68,6 +68,10 @@ def main():
 
     note("\nAnalogy: airport security — standard screening (high-conf), selective extra "
          "checks (low-conf routing), random audits of the fast lane (stratified sampling).")
+
+    rule()
+    h1("A common confusion to clear up")
+    pitfall("A headline '97% accurate' feels safe to automate, but that average can hide a 60% pocket on one document type. Validate accuracy by type AND by field before trusting it — and keep auditing the high-confidence lane too.")
 
     tip("Aggregate accuracy lies — segment by type & field. Calibrate thresholds on labeled "
         "data. Route low-conf/contradictory to humans. Audit the high-conf lane to stay honest.")

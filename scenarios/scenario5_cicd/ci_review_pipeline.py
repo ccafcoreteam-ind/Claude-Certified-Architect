@@ -17,7 +17,7 @@ In ONE program:
 
 import sys, pathlib, json
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2]))
-from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause
+from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause, analogy, pitfall
 
 
 REVIEW_SCHEMA = {
@@ -89,6 +89,11 @@ def main():
          "only NEW/unaddressed issues → no duplicate comments.")
     note("- For TEST GENERATION: provide existing test files so it doesn't duplicate covered "
          "scenarios; put testing standards & fixtures in CLAUDE.md.")
+
+    rule()
+    h1("Plain-language analogy & the common confusion")
+    analogy('An automated reviewer is a quality inspector on the line. Flag too many non-issues and the workers start ignoring it entirely — so precision (few false positives) matters more than raw volume.')
+    pitfall('Two myths sink CI reviews: that a chatty paragraph is usable by a pipeline (it needs structured JSON), and that the session which wrote the code can fairly review it (use a fresh instance). And without -p, the job just hangs.')
 
     tip("-p for non-interactive (the #1 CI gotcha). Structured JSON for auto-posting. "
         "Explicit criteria + fresh-instance review + multi-pass = actionable, low-noise "

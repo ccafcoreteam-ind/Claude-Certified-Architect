@@ -17,7 +17,7 @@ The MECHANICS of launching subagents in the Claude Agent SDK:
 
 import sys, pathlib, json
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2]))
-from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause
+from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause, analogy, pitfall
 
 
 def main():
@@ -74,6 +74,11 @@ def main():
     note("fork_session creates independent branches from one analysis baseline — e.g., "
          "explore two refactoring strategies from the same codebase understanding WITHOUT "
          "redoing the analysis. (More in Task 1.7.)")
+
+    rule()
+    h1("Plain-language analogy & the common confusion")
+    analogy("A coordinator briefing analysts who work in separate rooms with the doors shut. Nothing on the coordinator's whiteboard is visible to them — whatever they need (prior findings, source URLs) must be photocopied into the briefing packet.")
+    pitfall("Beginners assume subagents can 'see' the parent conversation. They cannot — context is isolated. If you do not paste it into the subagent's prompt, it simply does not exist for that agent.")
 
     tip("Gotchas bundled here: 'Task' must be in allowedTools; subagents inherit NOTHING; "
         "parallelism = multiple Task calls in a single response; structured handoffs "

@@ -16,7 +16,7 @@ THE BIG IDEA
 
 import sys, pathlib
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2]))
-from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause
+from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause, analogy, pitfall
 
 
 def validate(extraction: dict):
@@ -85,6 +85,11 @@ def main():
     h1("Feedback loops for review systems")
     right("Add a detected_pattern field to each finding. When developers dismiss findings, "
           "analyze WHICH code constructs drive false positives — systematically, not anecdotally.")
+
+    rule()
+    h1("Plain-language analogy & the common confusion")
+    analogy("Retry-with-feedback is handing back a form with the errors circled in red — 'this total does not add up, fix it.' A blind 'do it again' with no marks gets you the same mistake.")
+    pitfall('People retry forever on missing data. Retries fix FORMAT and STRUCTURE; they can never conjure information that is not in the source. If the value lives in a document you did not provide, no retry will find it.')
 
     tip("Retry WITH the specific errors attached. Retry fixes format/structure, never "
         "absent information. Extract calculated_total + stated_total so errors self-flag.")

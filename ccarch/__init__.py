@@ -27,6 +27,8 @@ from .display import (
     bullet,
     code,
     pause,
+    analogy,
+    pitfall,
 )
 from .client import ClaudeClient, LLMResponse, ToolCall
 
@@ -44,6 +46,8 @@ __all__ = [
     "bullet",
     "code",
     "pause",
+    "analogy",
+    "pitfall",
     "ClaudeClient",
     "LLMResponse",
     "ToolCall",

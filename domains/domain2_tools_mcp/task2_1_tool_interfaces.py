@@ -16,7 +16,7 @@ thinly-described tools is to EXPAND the descriptions — not few-shot, not a rou
 
 import sys, pathlib
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2]))
-from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause
+from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause, analogy, pitfall
 
 
 def score_description(desc: str) -> dict:
@@ -77,6 +77,10 @@ def main():
          "extract_data_points / summarize_content / verify_claim_against_source.")
     note("4. AUDIT the system prompt for keyword traps — 'always analyze documents "
          "thoroughly' can bias the model toward any tool with 'document' in its name.")
+
+    rule()
+    h1("A common confusion to clear up")
+    pitfall('Beginners reach for few-shot examples or a routing layer when tools are misrouted. But the model chooses tools by reading their DESCRIPTIONS — fix the text first. Vague descriptions are the root cause; the rest treats symptoms.')
 
     tip("When misrouting appears with MINIMAL descriptions, the answer is 'improve the "
         "descriptions'. Distractors: few-shot (token overhead, doesn't fix the cause), a "

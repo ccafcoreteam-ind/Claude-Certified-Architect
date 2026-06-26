@@ -24,7 +24,7 @@ name so teammates are unaffected.
 
 import sys, pathlib
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2]))
-from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause
+from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause, analogy, pitfall
 
 
 def main():
@@ -65,6 +65,11 @@ def main():
     kv("Skills", "ON-DEMAND, task-specific workflows you invoke when needed")
     right("Want a personal variant of a team skill? Create it in ~/.claude/skills/ under a "
           "DIFFERENT name so teammates are unaffected.")
+
+    rule()
+    h1("Plain-language analogy & the common confusion")
+    analogy("A slash command is a saved macro; a skill is a checklist you pull out for a specific job. Keep the team's macros in the repo so everyone gets them; keep personal experiments in your home folder.")
+    pitfall('Learners try to ship a team command from ~/.claude/commands (personal — nobody else gets it) or stuff command definitions into CLAUDE.md (which is for context, not commands). Team command goes in .claude/commands/ in the repo.')
 
     tip(".claude/commands/ = shared; ~/.claude/commands/ = personal. Skill frontmatter: "
         "context: fork, allowed-tools, argument-hint. Always-on standards -> CLAUDE.md; "

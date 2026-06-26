@@ -21,7 +21,7 @@ Running Claude Code with NO human at the keyboard needs specific flags and conte
 
 import sys, pathlib
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2]))
-from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause
+from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause, analogy, pitfall
 
 
 def main():
@@ -58,6 +58,11 @@ def main():
     wrong("Reviewing code in the SAME session that generated it — it carries its own "
           "reasoning and won't question its own decisions.")
     right("Spin up an INDEPENDENT instance with no generation context. (See Task 4.6.)")
+
+    rule()
+    h1("Plain-language analogy & the common confusion")
+    analogy('Running Claude in CI is putting a robot on the assembly line — it must never wait for a human to press a key, and it must hand back a labeled form (JSON), not a chatty paragraph.')
+    pitfall('The hang is the giveaway: without -p, Claude Code waits for interactive input forever. And invented flags (CLAUDE_HEADLESS, --batch) are always distractors — eliminate them on sight.')
 
     tip("-p / --print = non-interactive (the #1 CI gotcha). --output-format json + "
         "--json-schema = structured findings. Invented flags (CLAUDE_HEADLESS, --batch) "

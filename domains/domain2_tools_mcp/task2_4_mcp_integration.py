@@ -28,7 +28,7 @@ THE BIG IDEA
 
 import sys, pathlib, json
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2]))
-from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause
+from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause, analogy, pitfall
 
 
 PROJECT_MCP = {
@@ -88,6 +88,11 @@ def main():
          "back to a familiar built-in (Grep) instead of your better specialized tool.")
     note("- BUY before BUILD: community server for Jira; custom servers only for "
          "team-specific workflows.")
+
+    rule()
+    h1("Plain-language analogy & the common confusion")
+    analogy('Like a team toolbox bolted to the workshop wall (.mcp.json in the repo — everyone shares it) versus your personal toolbox in your locker (~/.claude.json — only you). The same tools can hang in both at once.')
+    pitfall('Two mix-ups: putting team servers in your personal config (teammates never get them), and pasting real secrets into the committed .mcp.json. Shared config goes in the repo; secrets go in ${ENV_VARS}, never in the file.')
 
     tip(".mcp.json = project/shared; ~/.claude.json = personal; secrets via ${ENV_VAR}; "
         "resources = catalogs, tools = actions; all servers coexist.")

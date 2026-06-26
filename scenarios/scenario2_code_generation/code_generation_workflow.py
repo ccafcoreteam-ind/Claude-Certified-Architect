@@ -18,7 +18,7 @@ See real example artifacts under domains/domain3_claude_code/examples/.
 
 import sys, pathlib
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2]))
-from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause
+from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause, analogy, pitfall
 
 
 def shared_with_team(path: str) -> bool:
@@ -84,6 +84,11 @@ def main():
     note("- Write tests first; iterate by pasting the FAILURES as precise feedback.")
     note("- Let Claude interview YOU before building in an unfamiliar area.")
     note("- Batch INTERACTING fixes in one message; sequence INDEPENDENT ones.")
+
+    rule()
+    h1("Plain-language analogy & the common confusion")
+    analogy('Rolling Claude Code out to a team is like writing the shop playbook: shared rules go on the wall (repo .claude/), personal preferences stay in your own locker (~/.claude/), and you measure before big rebuilds (plan mode).')
+    pitfall("The recurring confusion is WHERE config lives and WHO it reaches. Anything in the repo travels to every teammate via git; anything under ~/ stays on your machine. 'Teammate did not get it' almost always means it was personal-scoped.")
 
     tip("This scenario is judgment about CONFIGURATION SCOPE and WORKFLOW MODE. Shared work "
         "→ repo (.claude/...); personal → ~/.claude/...; complexity stated → plan mode now.")

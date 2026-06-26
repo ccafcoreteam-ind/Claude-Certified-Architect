@@ -19,7 +19,7 @@ CLAUDE.md is leaving every light in the building on.
 
 import sys, pathlib, fnmatch
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2]))
-from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause
+from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause, analogy, pitfall
 
 
 # A tiny rule engine: each rule = (name, glob patterns, instruction)
@@ -92,6 +92,10 @@ def main():
     wrong("Skills: need manual/optional invocation, not automatic application.")
     right("One .claude/rules/testing.md with paths: ['**/*.test.tsx'] applies to EVERY "
           "test file regardless of location — automatic and deterministic.")
+
+    rule()
+    h1("A common confusion to clear up")
+    pitfall('People reach for one big CLAUDE.md and hope the model infers which section applies. For conventions that span scattered files (tests live everywhere), a path-scoped rule with a glob applies them automatically — no inference, no guessing.')
 
     tip("'Conventions for files spread across many directories, applied automatically' "
         "=> path-scoped rules with glob patterns. It's the motion-sensor light.")

@@ -16,7 +16,7 @@ In ONE program:
 
 import sys, pathlib, json
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2]))
-from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause
+from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause, analogy, pitfall
 
 ALL_SECTORS = ["digital art", "graphic design", "photography", "music", "writing", "film"]
 
@@ -116,6 +116,10 @@ def main():
           "PRESERVED them, so the final report can be cited (D5 T5.6).")
 
     rule()
+    h1("Plain-language analogy & the common confusion")
+    analogy('A research director assigns analysts, routes notes between them (they never talk directly), and checks the final draft for gaps before publishing — that central desk is the coordinator.')
+    pitfall("When the report misses whole areas, do not blame the analysts — they covered what they were assigned. The real failure is the coordinator's decomposition being too narrow. Read the assignment list first.")
+
     tip("One system shows: hub-and-spoke, the decomposition failure + fix, parallel "
         "spawning, structured error propagation with coverage annotations, and provenance "
         "preservation. That's D1 + D2 + D5.")

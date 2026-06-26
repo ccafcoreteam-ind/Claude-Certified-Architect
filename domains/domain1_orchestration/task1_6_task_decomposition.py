@@ -22,7 +22,7 @@ at once yields uneven depth and contradictory findings (this is sample Q12).
 
 import sys, pathlib
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2]))
-from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause
+from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause, analogy, pitfall
 
 
 def prompt_chaining_review(files):
@@ -70,6 +70,11 @@ def main():
           "one file, approve identical code in another).")
     right("Per-file passes for consistent local depth + ONE integration pass for cross-file "
           "issues. (This is sample Q12.)")
+
+    rule()
+    h1("Plain-language analogy & the common confusion")
+    analogy('Two ways to plan a road trip. Prompt chaining is a printed itinerary with fixed stops — great when you know the route. Dynamic decomposition is following the signs and re-routing as traffic appears — the only option when you do not yet know the road.')
+    pitfall('The confusion is treating one as better than the other. They fit different jobs: known repeatable steps → fixed pipeline; unknown discovery-driven work → adaptive. Forcing a fixed pipeline onto open-ended work is the classic mistake.')
 
     tip("Match the pattern to the work: predictable/multi-aspect -> prompt chaining; "
         "open-ended/unknown-steps -> dynamic adaptive. Bigger context windows do NOT fix "

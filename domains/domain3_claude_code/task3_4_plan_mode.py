@@ -22,7 +22,7 @@ the main conversation's context during multi-phase tasks.
 
 import sys, pathlib
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2]))
-from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause
+from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause, analogy, pitfall
 
 
 def recommend(files_touched, multiple_approaches, architectural, clear_scope):
@@ -74,6 +74,11 @@ def main():
          "preserving the main conversation's context during multi-phase tasks.")
     note("- COMBINE the modes: plan mode for investigation, then direct execution to "
          "implement the agreed plan.")
+
+    rule()
+    h1("Plain-language analogy & the common confusion")
+    analogy('Plan mode is measuring twice before you cut. For a quick trim (a one-line fix) you just cut; for rebuilding the staircase (touches 40 files) you measure, sketch, and check the load-bearing walls first.')
+    pitfall("The trap answer is 'start coding and switch to plan mode if it gets hard.' If the prompt already states the complexity (dozens of files, service boundaries), the difficulty is not hypothetical — plan now.")
 
     tip("If the prompt states the complexity (dozens of files, service boundaries), it's "
         "plan mode NOW — not 'maybe later'.")

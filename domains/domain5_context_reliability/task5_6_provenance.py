@@ -18,7 +18,7 @@ THE BIG IDEA
 
 import sys, pathlib, json
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2]))
-from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause
+from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause, analogy, pitfall
 
 
 CLAIM_MAP = {
@@ -74,6 +74,11 @@ def main():
           "characterization and methodology.")
     right("Render natively: financial data as TABLES, news as PROSE, technical findings as "
           "LISTS. Don't flatten everything into one uniform format.")
+
+    rule()
+    h1("Plain-language analogy & the common confusion")
+    analogy("Synthesizing without keeping sources is like merging everyone's notes and shredding the footnotes — the claims survive but you can no longer say who proved what. Carry the source with each claim, like a name tag that never comes off.")
+    pitfall('A 2021 figure and a 2024 figure look like a contradiction but are usually a TREND. Without dates attached, the model misreads the passage of time as disagreement. Require publication dates in structured outputs.')
 
     tip("Force claim-source mappings end to end. Annotate conflicts with BOTH sources. "
         "Include dates so different-year figures read as a trend, not a contradiction.")

@@ -99,6 +99,18 @@ def tip(text: str) -> None:
     print(_c(_wrap(text, indent="    "), "yellow"))
 
 
+def analogy(text: str) -> None:
+    """Plain-language metaphor to make a concept click for newcomers."""
+    print(_c("  🔗 ANALOGY", "bold", "cyan"))
+    print(_c(_wrap(text, indent="    "), "cyan"))
+
+
+def pitfall(text: str) -> None:
+    """The conceptual mistake learners actually make (distinct from exam distractors)."""
+    print(_c("  ⚠ COMMON CONFUSION", "bold", "magenta"))
+    print(_c(_wrap(text, indent="    "), "magenta"))
+
+
 def note(text: str) -> None:
     print(_wrap(text, indent="  "))
 

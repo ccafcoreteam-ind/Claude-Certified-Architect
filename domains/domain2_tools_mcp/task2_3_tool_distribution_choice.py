@@ -21,7 +21,7 @@ tool_choice settings (Claude API):
 
 import sys, pathlib
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2]))
-from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause
+from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause, analogy, pitfall
 
 
 def main():
@@ -70,6 +70,11 @@ def main():
 
     code('# Force extract_metadata to run before any enrichment step\n'
          'tool_choice = {"type": "tool", "name": "extract_metadata"}', "forced first step")
+
+    rule()
+    h1("Plain-language analogy & the common confusion")
+    analogy('Give a specialist a focused toolkit, not the whole hardware store. A surgeon with five right instruments works better than one staring at five hundred — every extra tool is one more wrong choice waiting to happen.')
+    pitfall("More tools feel safer ('just in case'). They are not — selection reliability drops as the toolset grows, and an agent with off-role tools starts misusing them. Scope each agent to its job.")
 
     tip("'auto' = optional, 'any' = must call something, forced = must call that one. "
         "Pair with Task 4.3: 'any' guarantees structured output when the document type "

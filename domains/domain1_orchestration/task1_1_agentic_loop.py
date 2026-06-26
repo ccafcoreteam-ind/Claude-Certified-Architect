@@ -23,7 +23,7 @@ import sys, pathlib
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2]))
 
 from ccarch import ClaudeClient, LLMResponse, ToolCall
-from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause
+from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause, analogy, pitfall
 
 
 # --- The tools the agent can call (your code owns these) ----------------------
@@ -134,6 +134,11 @@ def main():
           "BOTH text and a tool_use block.")
     right("Inspect stop_reason. 'tool_use' -> run tool, append result, continue. "
           "'end_turn' -> exit and present the answer.")
+
+    rule()
+    h1("Plain-language analogy & the common confusion")
+    analogy("Think of a chef (Claude) and a kitchen runner (your code). The chef calls out 'dice an onion' — a tool_use — but cannot reach the pantry; the runner fetches, dices, and hands the bowl back. The chef looks, calls the next step, and only when they say 'plate it, done' (end_turn) does the runner stop. The chef is the brain; the runner is the hands.")
+    pitfall("The number-one beginner confusion: 'Claude runs the tool.' It does not. Claude only REQUESTS a tool; your code executes it and appends the result. Miss that and the whole loop stops making sense.")
 
     tip("If an answer option decides loop termination by anything other than stop_reason, "
         "it is almost certainly a distractor.")

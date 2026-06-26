@@ -23,7 +23,7 @@ guaranteed latency SLA, and no multi-turn tool calling within a request.
 
 import sys, pathlib
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2]))
-from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause
+from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause, analogy, pitfall
 
 
 def choose_api(blocking: bool, someone_waiting: bool):
@@ -81,6 +81,11 @@ def main():
     h1("Refine before you scale")
     right("Tune the prompt on a SMALL sample first. First-pass success across 100,000 docs "
           "is far cheaper than iterative resubmission.")
+
+    rule()
+    h1("Plain-language analogy & the common confusion")
+    analogy('Batch is overnight shipping at half price; synchronous is the same-hour courier. Use overnight for the report nobody reads till morning; use the courier for the package someone is standing at the door waiting for.')
+    pitfall("The tempting mistake: batch the blocking pre-merge check 'because it is usually fast.' Batch has NO latency guarantee (up to 24h) — 'usually fast' is unacceptable when a developer is blocked on the result.")
 
     tip("Batch: 50% cheaper, <=24h, NO latency SLA, no multi-turn tool calling. Blocking "
         "work stays synchronous. custom_id solves correlation AND partial resubmission.")

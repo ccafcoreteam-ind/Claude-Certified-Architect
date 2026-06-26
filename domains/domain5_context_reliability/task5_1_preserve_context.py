@@ -20,7 +20,7 @@ Also: the API is STATELESS — you must pass the complete conversation history e
 
 import sys, pathlib, json
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2]))
-from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause
+from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause, analogy, pitfall
 
 
 CASE_FACTS = {
@@ -80,6 +80,11 @@ def main():
     note("For multi-agent handoffs: require subagents to return structured data WITH metadata "
          "(dates, source locations); under tight budgets, return key facts + citations + "
          "relevance scores instead of verbose prose.")
+
+    rule()
+    h1("Plain-language analogy & the common confusion")
+    analogy('Summarizing a case file over and over is like photocopying a photocopy — each pass is fuzzier, and the fine print (amounts, dates, deadlines) vanishes first. Keep the key numbers on a separate index card that never gets re-copied.')
+    pitfall("Each individual summary looks reasonable, so the loss is invisible until the actionable facts are already gone. Protect numbers, dates, and order IDs in a persistent 'case facts' block outside the summarized history.")
 
     tip("Numbers/dates die first in summaries. Defend them with a persistent case-facts "
         "block. Summary-at-top + section-headers beats lost-in-the-middle. Trim tool output early.")

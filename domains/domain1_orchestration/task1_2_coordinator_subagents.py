@@ -22,7 +22,7 @@ industries" but only covering visual arts.
 
 import sys, pathlib
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2]))
-from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause
+from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause, analogy, pitfall
 
 
 def research(subtopics):
@@ -91,6 +91,10 @@ def main():
     note("- DYNAMIC delegation: pick which subagents to run based on the query; don't always "
          "run the full pipeline.")
     note("- PARTITION scope so two subagents don't research the same thing.")
+
+    rule()
+    h1("A common confusion to clear up")
+    pitfall("Learners blame the subagent when a report comes back thin. But each subagent only did the slice it was handed — the gap was created upstream when the coordinator carved the topic. Always read the coordinator's decomposition first.")
 
     tip("When a multi-agent system produces an incomplete report but every subagent "
         "'completed successfully', look UPSTREAM: the root cause is the coordinator's "

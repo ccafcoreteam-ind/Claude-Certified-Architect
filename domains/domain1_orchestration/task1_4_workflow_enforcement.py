@@ -18,7 +18,7 @@ Also here: decomposing multi-concern requests, and structured escalation handoff
 
 import sys, pathlib
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2]))
-from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause
+from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause, analogy, pitfall
 
 
 class RefundGate:
@@ -73,6 +73,11 @@ def main():
     note(f"    get_customer -> {cust}")
     result = gate.process_refund(order_id="12345", amount=80.0)
     right(f"Refund allowed only after verification: {result}")
+
+    rule()
+    h1("Plain-language analogy & the common confusion")
+    analogy("A bank teller cannot release cash until the system confirms your ID — the block lives in the software, not in the teller's good intentions. A prerequisite gate is exactly that software block.")
+    pitfall("The trap is thinking a strongly-worded prompt ('ALWAYS verify first!') is enough. Prompts work most of the time; gates work every time. For money, security, and compliance, 'most of the time' is a failure.")
 
     tip("Sample Q1: agent skips identity check 12% of the time. Correct answer = a "
         "programmatic prerequisite gate. Distractors (stronger prompt wording, few-shot "

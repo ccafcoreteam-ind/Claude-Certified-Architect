@@ -17,7 +17,7 @@ Four techniques for progressively improving Claude's output:
 
 import sys, pathlib
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2]))
-from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause
+from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause, analogy, pitfall
 
 
 def message_strategy(issues):
@@ -72,6 +72,11 @@ def main():
         kv("  plan", step)
     note("Interacting bugs fixed separately can ping-pong; describing them together lets "
          "one fix account for the interaction.")
+
+    rule()
+    h1("Plain-language analogy & the common confusion")
+    analogy("Teaching by showing, not telling. 'Make the dates consistent' is vague; three before-to-after pairs are a worked example the model can copy exactly — like demonstrating a knot instead of describing it.")
+    pitfall('When results are inconsistent, learners add MORE prose instructions. Prose is interpreted differently each run; 2-3 concrete input-to-output examples pin the behavior down far better.')
 
     tip("Show, don't describe (2-3 examples). Tests-as-feedback. Interview before building "
         "in unfamiliar areas. Interacting issues -> one message; independent -> sequence.")

@@ -15,7 +15,7 @@ THE BIG IDEA
 
 import sys, pathlib
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2]))
-from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause
+from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause, analogy, pitfall
 
 
 def decide(prior_context_valid: bool, files_changed, results_stale: bool, compare: bool):
@@ -70,6 +70,11 @@ def main():
           "The agent reasons over phantom facts.")
     right("Either (a) resume and explicitly name the changed files for targeted re-analysis, "
           "or (b) start fresh with a structured summary of validated findings.")
+
+    rule()
+    h1("Plain-language analogy & the common confusion")
+    analogy('Reopening a document you edited yesterday. If little changed, resume and note the few edited pages. If half the file is now stale, do not trust memory — start a fresh read with a clean summary of what is still true.')
+    pitfall('People resume an old session and assume its facts still hold. If the files changed underneath it, the agent is reasoning over a stale snapshot. When in doubt, name what changed or start fresh with a summary.')
 
     tip("fork_session = same baseline, divergent branches. --resume = continue one thread. "
         "When results are stale, a fresh session + structured summary beats resuming.")

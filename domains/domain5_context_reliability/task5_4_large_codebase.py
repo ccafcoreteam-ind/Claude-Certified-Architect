@@ -19,7 +19,7 @@ THE BIG IDEA
 
 import sys, pathlib, json
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2]))
-from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause
+from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause, analogy, pitfall
 
 
 def main():
@@ -59,6 +59,11 @@ def main():
     h2("/compact")
     note("Condenses the conversation when extended exploration fills context with verbose "
          "discovery output.")
+
+    rule()
+    h1("Plain-language analogy & the common confusion")
+    analogy('Exploring a huge building, you jot notes in a notebook (a scratchpad file) and send scouts down side corridors who report back one-line summaries — you do not try to hold every room in your head at once.')
+    pitfall("The warning sign of context overload: the agent starts describing 'a typical setup' instead of the SPECIFIC classes it found earlier. When you see that, externalize to a scratchpad or /compact — do not trust those vague answers.")
 
     tip("Symptoms of degradation = answers from 'typical patterns'. Cures: scratchpad "
         "files, delegate verbose work (summaries only), phase summaries, manifests, /compact.")

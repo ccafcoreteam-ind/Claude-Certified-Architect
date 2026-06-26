@@ -17,7 +17,7 @@ In ONE program:
 
 import sys, pathlib, json
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2]))
-from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause
+from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause, analogy, pitfall
 
 # The extraction tool's input_schema = the output contract (D4 T4.3)
 SCHEMA = {
@@ -119,6 +119,10 @@ def main():
           "threshold on a labeled set; also audit high-confidence samples (stratified).")
 
     rule()
+    h1("Plain-language analogy & the common confusion")
+    analogy("Turning a shoebox of receipts into a clean spreadsheet. When a receipt is smudged you write 'unknown' — you do not invent a number to fill the cell. That honesty is exactly what nullable fields buy you.")
+    pitfall('A schema makes learners feel safe, but it only guarantees SHAPE, not truth — totals can still fail to add up. Validate the numbers, keep uncertain fields nullable, and route low-confidence extractions to a human.')
+
     tip("Tool-use schema kills SYNTAX errors; nullable kills fabrication; validation+retry "
         "handles SEMANTICS (but not absent info); batch for non-blocking; confidence routing "
         "for human review. That's D4 + D5.")

@@ -19,7 +19,7 @@ In ONE program:
 
 import sys, pathlib, tempfile, os, re
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2]))
-from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause
+from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause, analogy, pitfall
 
 
 SAMPLE = {
@@ -105,6 +105,10 @@ def main():
               "agent, and the scratchpad survives context pressure.")
 
     rule()
+    h1("Plain-language analogy & the common confusion")
+    analogy('Dropped into a 10-year-old codebase with no map, you do not read every file — you find the front door (Grep for an entry point) and follow the hallways (Read the imports), taking notes as you go.')
+    pitfall("The wasteful instinct is to bulk-read everything 'to understand it' — that blows the context budget. Search for entry points first, then follow only the threads that matter, and let subagents do the noisy digging.")
+
     tip("Grep=CONTENTS, Glob=NAMES. Explore incrementally (Grep→Read), never bulk-read. "
         "Delegate verbose investigations so only summaries return. That's D2 + D3 + D1.")
 

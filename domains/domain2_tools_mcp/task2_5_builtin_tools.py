@@ -19,7 +19,7 @@ the threads. Never read every file upfront.
 
 import sys, pathlib
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2]))
-from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause
+from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause, analogy, pitfall
 
 
 TASKS = [
@@ -80,6 +80,11 @@ def main():
     wrong("Reading every file upfront to 'understand the codebase'. Wasteful; blows context.")
     right("Grep to find entry points -> Read to follow the threads. For wrapper modules: "
           "first identify all exported names, then Grep each across the codebase.")
+
+    rule()
+    h1("Plain-language analogy & the common confusion")
+    analogy("Glob reads the library's index cards (file NAMES); Grep walks the shelves and reads inside the books (file CONTENTS).")
+    pitfall("Both feel like 'search', so learners grab the wrong one. Mnemonic: gloB to Browse file names; greP to find Patterns in text. And Edit needs a UNIQUE anchor — if the text appears twice it fails, so fall back to Read + Write.")
 
     tip("Grep = CONTENTS, Glob = NAMES. Edit needs a unique anchor; fallback is Read + Write. "
         "Explore incrementally, never bulk-read.")

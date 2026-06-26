@@ -20,7 +20,7 @@ Crucial: "the search FAILED" (access failure) != "the search SUCCEEDED and found
 
 import sys, pathlib, json
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2]))
-from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause
+from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause, analogy, pitfall
 
 
 def err(category, retryable, message):
@@ -86,6 +86,11 @@ def main():
     right("Subagents handle transient failures THEMSELVES and propagate upward only what "
           "they cannot resolve — together with partial results and a record of what was "
           "attempted. (Ties to Task 5.3 error propagation.)")
+
+    rule()
+    h1("Plain-language analogy & the common confusion")
+    analogy("A good error is a doctor's note, not a dead phone line. 'Operation failed' tells the agent nothing; 'Refund exceeds the $500 limit — do not retry, offer a supervisor' tells it exactly what to do next.")
+    pitfall("The subtle one: 'the search failed' and 'the search found nothing' are NOT the same. One needs a retry decision; the other is a valid empty result. Returning the same shape for both causes wasted retries or silent data gaps.")
 
     tip("Memorize the categories: transient / validation / business / permission. Return "
         "errorCategory + isRetryable. Empty result != failure.")

@@ -21,7 +21,7 @@ Also: @import keeps CLAUDE.md modular; .claude/rules/ splits a monolith into top
 
 import sys, pathlib
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2]))
-from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause
+from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause, analogy, pitfall
 
 
 def reaches_teammates(location: str) -> bool:
@@ -73,6 +73,11 @@ def main():
          "api-conventions.md, deployment.md (see Task 3.3).")
     note("- /memory shows exactly which memory files are loaded — the first move when "
          "behavior is inconsistent across sessions.")
+
+    rule()
+    h1("Plain-language analogy & the common confusion")
+    analogy("CLAUDE.md is a new hire's onboarding binder. Put it in the shared team drive (project level) and everyone reads it; leave it on your own desk (user level) and only you do.")
+    pitfall('The classic bug: a teammate clones the repo and Claude ignores the conventions. They were written in the personal ~/.claude file, which never travels through git. Team rules belong at the project level.')
 
     tip("User (~/.claude, personal) · Project (repo, shared) · Directory (scoped). "
         "'Teammate doesn't get conventions' => they're at USER level; move to PROJECT.")

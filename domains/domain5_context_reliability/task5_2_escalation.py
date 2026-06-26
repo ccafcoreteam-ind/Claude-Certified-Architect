@@ -24,7 +24,7 @@ heuristic — that's how wrong-account refunds happen.
 
 import sys, pathlib
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2]))
-from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause
+from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause, analogy, pitfall
 
 
 def should_escalate(explicit_human=False, policy_gap=False, no_progress=False,
@@ -80,6 +80,11 @@ def main():
     wrong("Picking 'the most likely' account by heuristic — that's how wrong-account "
           "refunds happen.")
     right("ASK for additional identifiers (email, order #, last 4 of card).")
+
+    rule()
+    h1("Plain-language analogy & the common confusion")
+    analogy('A good front-desk agent hands you to a manager when you ask, or when the rulebook is silent — not because you sounded annoyed. Frustration is noise; an explicit request or a policy gap is the real signal.')
+    pitfall("Two false signals lure learners: customer sentiment (a frustrated customer may have a trivial issue) and the model's own confidence (it is most overconfident exactly on the hard cases). Escalate by rule, not by vibe.")
 
     tip("Reliable triggers: explicit human request (honor NOW), policy gap, no progress. "
         "NOT sentiment, NOT self-confidence, NOT frustration alone. Calibration fix = "

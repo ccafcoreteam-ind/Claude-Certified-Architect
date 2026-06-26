@@ -22,7 +22,7 @@ and worth acting on.
 
 import sys, pathlib
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2]))
-from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause
+from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause, analogy, pitfall
 
 
 def main():
@@ -62,6 +62,10 @@ def main():
          "severity rubric with examples")
     right("Anchor each severity level with example code -> consistent classification "
           "across files and runs.")
+
+    rule()
+    h1("A common confusion to clear up")
+    pitfall("'Be conservative' and 'only high-confidence findings' feel like they should reduce noise. They do not — the model has no concrete boundary. Specific categories ('report bugs and security; skip style') are what actually cut false positives.")
 
     tip("Replace vague modifiers with specific categories + severity anchors. A noisy "
         "category? Disable it while you fix it. (This logic powers scenario 5 CI review.)")

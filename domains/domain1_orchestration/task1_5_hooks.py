@@ -21,7 +21,7 @@ The distractors offer prompt wording / few-shot / confidence thresholds instead.
 import sys, pathlib
 from datetime import datetime, timezone
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2]))
-from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause
+from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause, analogy, pitfall
 
 
 # --- PostToolUse: normalize heterogeneous date formats to one ISO 8601 string -
@@ -85,6 +85,10 @@ def main():
     note("Analogy: a mailroom that opens every package and standardizes the paperwork "
          "(PostToolUse), plus a finance gate that physically cannot release payments above "
          "a threshold without a manager's signature (interception).")
+
+    rule()
+    h1("A common confusion to clear up")
+    pitfall('Learners mix up the two hook directions. PostToolUse runs AFTER a tool to clean up its RESULT; interception runs BEFORE a tool to allow or block the CALL. After = tidy the data; before = guard the action.')
 
     tip("'Guaranteed compliance required' -> hook. Distractors will offer prompt wording, "
         "few-shot examples, or confidence thresholds — all probabilistic, all wrong when "

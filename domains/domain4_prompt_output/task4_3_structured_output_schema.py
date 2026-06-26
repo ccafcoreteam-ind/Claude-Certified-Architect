@@ -23,7 +23,7 @@ SCHEMA DESIGN RULES that prevent hallucination:
 
 import sys, pathlib, json
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2]))
-from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause
+from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause, analogy, pitfall
 
 
 # The tool's input_schema IS the output contract.
@@ -87,6 +87,11 @@ def main():
     h1("Combine with tool_choice (Task 2.3)")
     kv('tool_choice "any"', "guarantees SOME structured tool is called when doc type/schema is unknown")
     kv('forced selection', "guarantees a SPECIFIC extraction runs first")
+
+    rule()
+    h1("Plain-language analogy & the common confusion")
+    analogy('A JSON schema is a form with labeled boxes. It guarantees every box is the right TYPE and present — but it cannot guarantee someone wrote the TRUTH in the boxes. Shape, not correctness.')
+    pitfall('The biggest schema mistake: making a field REQUIRED when the document might not contain it. A required field forces the model to FABRICATE a value. Make uncertain fields nullable so it can honestly emit null.')
 
     tip("Tool use kills SYNTAX errors, not SEMANTIC errors. Required fields cause "
         "fabrication — make uncertain fields nullable. Enums need 'unclear'/'other'+detail.")

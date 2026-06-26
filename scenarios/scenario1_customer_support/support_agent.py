@@ -26,7 +26,7 @@ scripted walkthrough, or run with no args for the same.
 import sys, pathlib, json
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2]))
 from ccarch import ClaudeClient, LLMResponse, ToolCall
-from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause
+from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause, analogy, pitfall
 
 REFUND_LIMIT = 500.0
 
@@ -211,6 +211,10 @@ def main():
           "escalated with a STRUCTURED HANDOFF packet so the human starts warm, not cold.")
 
     rule()
+    h1("Plain-language analogy & the common confusion")
+    analogy('This agent is a brand-new support rep with a great manual but no supervisor — so you bolt on guardrails: an ID check it cannot skip (gate), a spending limit it cannot exceed (hook), and a clean handoff sheet when it escalates.')
+    pitfall("The instinct is to write 'always verify identity' in the prompt and trust it. Under load it slips ~12% of the time. The gate makes the rule impossible to skip — that is the line between a guideline and a guarantee.")
+
     tip("This one app demonstrates: the agentic loop (stop_reason), a prerequisite gate, an "
         "interception hook, structured tool errors, a persistent case-facts block, and "
         "structured escalation. That's D1 + D2 + D5 in a single scenario.")

@@ -25,7 +25,7 @@ completeness. (This is official sample question Q8.)
 
 import sys, pathlib, json
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2]))
-from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause
+from ccarch import banner, concept, h1, h2, wrong, right, tip, note, kv, code, rule, pause, analogy, pitfall
 
 
 GOOD_PROPAGATION = {
@@ -75,6 +75,11 @@ def main():
          '}', "honest uncertainty")
     right("Mark which findings are well-supported and which areas have gaps from "
           "unavailable sources. Honest uncertainty beats false completeness.")
+
+    rule()
+    h1("Plain-language analogy & the common confusion")
+    analogy("When a scout cannot reach a town, the useful radio call is 'road washed out at mile 12, tried the north route, have a partial map' — not silence, not 'mission failed,' and not faking 'town is empty.' Structured context lets HQ decide.")
+    pitfall("Three anti-patterns feel safe but are not: a generic 'unavailable' (hides what HQ needs), empty-as-success (ships a report with silent holes), and killing the whole run for one recoverable failure. Pass structured context up instead.")
 
     tip("CORRECT = structured error context (type, query, partials, alternatives). "
         "Generic status hides; empty-as-success suppresses; full termination overreacts. "
