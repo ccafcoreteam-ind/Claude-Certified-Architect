@@ -79,7 +79,8 @@ def main():
          "thoroughly' can bias the model toward any tool with 'document' in its name.")
 
     rule()
-    h1("A common confusion to clear up")
+    h1("Plain-language analogy & the common confusion")
+    analogy("Two unlabeled doors marked Service and Support — people pick at random. Relabel them 'Returns and refunds (have your order number)' and 'Account and billing' and the misrouting disappears; tool descriptions are those labels.")
     pitfall('Beginners reach for few-shot examples or a routing layer when tools are misrouted. But the model chooses tools by reading their DESCRIPTIONS — fix the text first. Vague descriptions are the root cause; the rest treats symptoms.')
 
     tip("When misrouting appears with MINIMAL descriptions, the answer is 'improve the "

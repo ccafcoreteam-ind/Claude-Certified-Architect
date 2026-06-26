@@ -71,7 +71,8 @@ def main():
           "(more in Task 5.5).")
 
     rule()
-    h1("A common confusion to clear up")
+    h1("Plain-language analogy & the common confusion")
+    analogy('Authors do not copy-edit their own manuscripts — they read what they MEANT to write, so publishers hire fresh eyes. Same model, different session, no shared reasoning equals fresh eyes.')
     pitfall('Two myths: a bigger context window fixes a sprawling 14-file review (it does not — attention still dilutes), and a session can fairly review its own code (it cannot — it re-reads what it MEANT to write). Split into passes; use fresh eyes.')
 
     tip("Independent fresh instance > self-review. Large PR -> per-file passes + integration "

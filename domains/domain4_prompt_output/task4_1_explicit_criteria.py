@@ -64,7 +64,8 @@ def main():
           "across files and runs.")
 
     rule()
-    h1("A common confusion to clear up")
+    h1("Plain-language analogy & the common confusion")
+    analogy("A guard told 'report anything suspicious' drowns you in junk; told 'report propped-open doors after 8pm and unbadged people in the server room', the reports become rare and worth acting on. Specific criteria are those instructions.")
     pitfall("'Be conservative' and 'only high-confidence findings' feel like they should reduce noise. They do not — the model has no concrete boundary. Specific categories ('report bugs and security; skip style') are what actually cut false positives.")
 
     tip("Replace vague modifiers with specific categories + severity anchors. A noisy "

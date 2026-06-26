@@ -165,7 +165,8 @@ OVERRIDES = {
 
 def extract_demo_strings(path):
     tree = ast.parse(open(path, encoding="utf-8").read())
-    concept_summary, first = "", {"wrong": None, "right": None, "tip": None}
+    concept_summary = ""
+    first = {"wrong": None, "right": None, "tip": None, "analogy": None, "pitfall": None}
     calls = [n for n in ast.walk(tree) if isinstance(n, ast.Call) and isinstance(n.func, ast.Name)]
     calls.sort(key=lambda n: getattr(n, "lineno", 0))
     for n in calls:
@@ -174,11 +175,11 @@ def extract_demo_strings(path):
             s = _const_str(n.args[2])
             if s:
                 concept_summary = s
-        elif name in ("wrong", "right", "tip") and first[name] is None and n.args:
+        elif name in first and first[name] is None and n.args:
             s = _const_str(n.args[0])
             if s:
                 first[name] = s
-    return concept_summary, first["wrong"] or "", first["right"] or "", first["tip"] or ""
+    return concept_summary, first
 
 
 def demo_output(rel, limit=18):
@@ -226,12 +227,14 @@ def build_tasks(questions):
         import glob
         hits = glob.glob(os.path.join(REPO, "domains", "*", f"task{tid.replace('.', '_')}_*.py"))
         rel = os.path.relpath(hits[0], REPO)
-        concept, anti, right, tip = extract_demo_strings(hits[0])
-        fields = {"concept": concept, "antipattern": anti, "right": right, "tip": tip}
+        concept, first = extract_demo_strings(hits[0])
+        fields = {"concept": concept, "antipattern": first["wrong"] or "",
+                  "right": first["right"] or "", "tip": first["tip"] or "",
+                  "analogy": first["analogy"] or "", "pitfall": first["pitfall"] or ""}
         for key in fields:
             if (tid, key) in OVERRIDES:
                 fields[key] = OVERRIDES[(tid, key)]
-            if not fields[key]:
+            if not fields[key] and key != "analogy":   # analogy is optional per demo
                 print(f"  WARNING: task {tid} has empty {key}")
         tasks.append({
             "id": tid, "d": d, "title": title, **fields,
@@ -261,7 +264,8 @@ def render(domains, themes, tasks, scenarios, questions, cheat):
     P.append("")
     P.append("  const tasks = [")
     for t in tasks:
-        head = {k: t[k] for k in ("id", "d", "title", "concept", "antipattern", "right", "tip")}
+        head = {k: t[k] for k in ("id", "d", "title", "concept", "antipattern", "right",
+                                  "tip", "analogy", "pitfall")}
         body = js(head)[:-1]  # drop closing brace to append output/q/links
         P.append("    " + body + ", " +
                  f'"output": {emit_output(t["output"])}, ' +

@@ -265,6 +265,13 @@ function DemoView({ task, progress, setCovered, goTask }) {
             <p>{task.concept}</p>
           </div>
 
+          {task.analogy && (
+            <div className="card analogy-card">
+              <span className="eyebrow" style={{ marginBottom: 8, display: "block" }}>🔗 Analogy</span>
+              <p>{task.analogy}</p>
+            </div>
+          )}
+
           <Console task={task} />
 
           <div className="compare">
@@ -277,6 +284,13 @@ function DemoView({ task, progress, setCovered, goTask }) {
               <p>{task.right}</p>
             </div>
           </div>
+
+          {task.pitfall && (
+            <div className="cmp warn">
+              <div className="lbl"><span>⚠</span> Common confusion</div>
+              <p>{task.pitfall}</p>
+            </div>
+          )}
 
           <div className="tipbar">
             <span className="star">★</span>

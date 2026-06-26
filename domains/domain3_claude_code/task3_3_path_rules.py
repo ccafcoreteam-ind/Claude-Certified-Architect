@@ -94,7 +94,8 @@ def main():
           "test file regardless of location — automatic and deterministic.")
 
     rule()
-    h1("A common confusion to clear up")
+    h1("Plain-language analogy & the common confusion")
+    analogy('Path rules are motion-sensor lights: they switch on exactly where you are working. A monolithic CLAUDE.md is leaving every light in the building on.')
     pitfall('People reach for one big CLAUDE.md and hope the model infers which section applies. For conventions that span scattered files (tests live everywhere), a path-scoped rule with a glob applies them automatically — no inference, no guessing.')
 
     tip("'Conventions for files spread across many directories, applied automatically' "

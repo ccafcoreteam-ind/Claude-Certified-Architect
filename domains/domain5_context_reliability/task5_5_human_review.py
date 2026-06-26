@@ -70,7 +70,8 @@ def main():
          "checks (low-conf routing), random audits of the fast lane (stratified sampling).")
 
     rule()
-    h1("A common confusion to clear up")
+    h1("Plain-language analogy & the common confusion")
+    analogy('Airport security: most travelers flow through standard screening (high confidence), a calibrated system flags some for extra checks (low-confidence routing), and random audits of the fast lane (stratified sampling) keep the trusted lane honest.')
     pitfall("A headline '97% accurate' feels safe to automate, but that average can hide a 60% pocket on one document type. Validate accuracy by type AND by field before trusting it — and keep auditing the high-confidence lane too.")
 
     tip("Aggregate accuracy lies — segment by type & field. Calibrate thresholds on labeled "

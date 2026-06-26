@@ -93,7 +93,8 @@ def main():
     note("- PARTITION scope so two subagents don't research the same thing.")
 
     rule()
-    h1("A common confusion to clear up")
+    h1("Plain-language analogy & the common confusion")
+    analogy('A general contractor and trade crews: the plumber and electrician never coordinate directly — the contractor sequences the work, passes information between them, and inspects the result. That central desk is the coordinator.')
     pitfall("Learners blame the subagent when a report comes back thin. But each subagent only did the slice it was handed — the gap was created upstream when the coordinator carved the topic. Always read the coordinator's decomposition first.")
 
     tip("When a multi-agent system produces an incomplete report but every subagent "

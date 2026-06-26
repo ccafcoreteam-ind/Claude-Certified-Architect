@@ -87,7 +87,8 @@ def main():
          "a threshold without a manager's signature (interception).")
 
     rule()
-    h1("A common confusion to clear up")
+    h1("Plain-language analogy & the common confusion")
+    analogy("A mailroom that opens every inbound package and standardizes the paperwork (PostToolUse), plus a finance gate that physically cannot release a payment over the limit without a manager's signature (interception).")
     pitfall('Learners mix up the two hook directions. PostToolUse runs AFTER a tool to clean up its RESULT; interception runs BEFORE a tool to allow or block the CALL. After = tidy the data; before = guard the action.')
 
     tip("'Guaranteed compliance required' -> hook. Distractors will offer prompt wording, "

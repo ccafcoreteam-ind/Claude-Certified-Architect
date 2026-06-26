@@ -16,6 +16,10 @@
   --good-soft: oklch(0.70 0.15 155 / 0.12);
   --bad-soft: oklch(0.63 0.19 26 / 0.12);
   --tip-soft: oklch(0.78 0.13 80 / 0.14);
+  --info: oklch(0.66 0.12 230);       /* 🔗 analogy */
+  --warn: oklch(0.62 0.16 310);       /* ⚠ common confusion */
+  --info-soft: oklch(0.66 0.12 230 / 0.12);
+  --warn-soft: oklch(0.62 0.16 310 / 0.12);
 }
 
 /* ---------- Light (default) ---------- */
@@ -281,7 +285,13 @@ a { color: inherit; }
 .cmp .lbl { font-family: var(--font-mono); font-size: 11px; font-weight: 600; letter-spacing: 0.06em; display: flex; align-items: center; gap: 6px; }
 .cmp.bad .lbl { color: var(--bad); }
 .cmp.good .lbl { color: var(--good); }
+.cmp.warn { background: var(--warn-soft); border-color: color-mix(in oklch, var(--warn) 32%, var(--border)); }
+.cmp.warn .lbl { color: var(--warn); }
 .cmp p { margin: 8px 0 0; font-size: 13px; line-height: 1.5; color: var(--text); }
+
+.analogy-card { padding: 18px 22px; background: var(--info-soft); border-color: color-mix(in oklch, var(--info) 28%, var(--border)); }
+.analogy-card .eyebrow { color: var(--info); }
+.analogy-card p { margin: 0; font-size: 14.5px; line-height: 1.6; color: var(--text); }
 
 .tipbar { display: flex; gap: 11px; padding: 14px 16px; border-radius: 11px; background: var(--tip-soft); border: 1px solid color-mix(in oklch, var(--tip) 40%, var(--border)); }
 .tipbar .star { color: var(--tip); font-size: 16px; flex: none; }
