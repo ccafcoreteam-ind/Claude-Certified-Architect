@@ -1,6 +1,7 @@
-/* CCA Teaching Console — app */
+/* CCA Teaching Console — app (self-paced course) */
 const { useState, useEffect, useRef, useCallback } = React;
 const CCA = window.CCA;
+const TOTAL = CCA.tasks.length; // 30
 
 /* ---------- small helpers ---------- */
 function useLocal(key, init) {
@@ -22,6 +23,10 @@ const Icon = {
   arrow: "M5 12h14M13 6l6 6-6 6",
   check: "M20 6 9 17l-5-5",
   chevron: "M9 6l6 6-6 6",
+  flag: "M4 21V4M4 4h13l-2 4 2 4H4",
+  target: "M12 21a9 9 0 1 1 0-18 9 9 0 0 1 0 18M12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8",
+  award: "M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12M8.5 13.5 7 22l5-3 5 3-1.5-8.5",
+  refresh: "M21 12a9 9 0 1 1-3-6.7M21 4v4h-4",
 };
 function Svg({ d, size = 16, sw = 1.8, fill = "none", cls }) {
   return (
@@ -113,70 +118,189 @@ function Console({ task, autorun }) {
   );
 }
 
-/* ---------- Inline quiz ---------- */
-function Quiz({ q, onGoTask }) {
-  const [picked, setPicked] = useState(null);
+/* ---------- Inline quiz (practice: try again until correct) ---------- */
+function Quiz({ q, solved = false, onSolved, onGoTask }) {
+  const [wrong, setWrong] = useState([]);
+  const [done, setDone] = useState(solved);
   const keys = ["A", "B", "C", "D"];
+  const choose = (i) => {
+    if (done || wrong.includes(i)) return;
+    if (i === q.answer) { setDone(true); if (onSolved) onSolved(); }
+    else setWrong((w) => [...w, i]);
+  };
   return (
-    <div>
-      <div className="qlink" style={{ cursor: "default", background: "transparent", borderColor: "var(--border)" }}>
-        <div className="qmeta">
-          <span className="qtag">{q.id.toUpperCase()}</span>
-          <span className="pill">Task {q.task}</span>
+    <div className="qcard">
+      <div className="qmeta">
+        <span className="qtag">{q.id.toUpperCase()}</span>
+        <span className="pill">Task {q.task}</span>
+        {done && <span className="qsolved">✓ Solved</span>}
+      </div>
+      <p className="qp" style={{ fontSize: 14, marginBottom: 12 }}>{q.prompt}</p>
+      {q.options.map((opt, i) => {
+        let cls = "qopt";
+        if (done && i === q.answer) cls += " correct";
+        else if (wrong.includes(i)) cls += " wrong";
+        return (
+          <button key={i} className={cls} disabled={done || wrong.includes(i)} onClick={() => choose(i)}>
+            <span className="qk">{keys[i]}</span>
+            <span>{opt}</span>
+            {done && i === q.answer && <Svg d={Icon.check} size={15} cls="" />}
+          </button>
+        );
+      })}
+      {!done && wrong.length > 0 && (
+        <div className="qhint">Not quite — try again.{wrong.length >= 2 && " Tip: eliminate options that 'sound reasonable' but add infrastructure where a simpler fix works."}</div>
+      )}
+      {done && (
+        <div className="explain">
+          <b>Correct! </b>{q.why}
+          {onGoTask && <button className="link-row" style={{ marginTop: 10 }} onClick={() => onGoTask(q.task)}>
+            <span className="lid">{q.task}</span>
+            <span className="ltxt">Open the demo that teaches this</span>
+            <Svg d={Icon.arrow} size={14} cls="larr" />
+          </button>}
         </div>
-        <p className="qp" style={{ fontSize: 14, marginBottom: 12 }}>{q.prompt}</p>
-        {q.options.map((opt, i) => {
-          let cls = "qopt";
-          if (picked != null) {
-            if (i === q.answer) cls += " correct";
-            else if (i === picked) cls += " wrong";
-          }
-          return (
-            <button key={i} className={cls} disabled={picked != null} onClick={() => setPicked(i)}>
-              <span className="qk">{keys[i]}</span>
-              <span>{opt}</span>
-              {picked != null && i === q.answer && <Svg d={Icon.check} size={15} cls="" />}
-            </button>
-          );
-        })}
-        {picked != null && (
-          <div className="explain">
-            <b>{picked === q.answer ? "Correct. " : "Not quite. "}</b>{q.why}
-            {onGoTask && <button className="link-row" style={{ marginTop: 10 }} onClick={() => onGoTask(q.task)}>
-              <span className="lid">{q.task}</span>
-              <span className="ltxt">Open the demo that teaches this</span>
-              <Svg d={Icon.arrow} size={14} cls="larr" />
-            </button>}
+      )}
+    </div>
+  );
+}
+
+/* ---------- Confetti (dependency-free) ---------- */
+function Confetti() {
+  const colors = ["var(--accent)", "var(--good)", "var(--tip)", "var(--info)", "var(--warn)", "var(--bad)"];
+  const pieces = useRef(Array.from({ length: 130 }, () => ({
+    l: Math.random() * 100, delay: Math.random() * 2.5, dur: 3 + Math.random() * 2.5,
+    c: colors[Math.floor(Math.random() * colors.length)], w: 6 + Math.random() * 7,
+  })));
+  return (
+    <div className="confetti" aria-hidden="true">
+      {pieces.current.map((p, i) => (
+        <i key={i} style={{ left: p.l + "%", background: p.c, animationDelay: p.delay + "s",
+          animationDuration: p.dur + "s", width: p.w + "px", height: (p.w * 0.55) + "px" }} />
+      ))}
+    </div>
+  );
+}
+
+/* ---------- Start here (welcome) ---------- */
+function StartHere({ name, setName, completeCount, firstIncomplete, goTask, goto }) {
+  const pages = [
+    { icon: Icon.grid, t: "Dashboard", d: "Your progress bar, the five exam domains with their weights, and the three themes that run through everything." },
+    { icon: Icon.book, t: "Lessons (30)", d: "One page per task statement. Each is a self-contained lesson with a runnable demo and a question you must answer correctly to complete it." },
+    { icon: Icon.layers, t: "Scenarios (6)", d: "The end-to-end production systems the exam is built around — each step links to the lesson that teaches it." },
+    { icon: Icon.book, t: "Cheat sheet", d: "The high-yield facts to memorise, grouped by domain, each pointing to the lesson that proves it." },
+    { icon: Icon.target, t: "Mock exam", d: "10 random questions scored 100–1000 (pass ≥ 720), just like the real exam. Retake with a fresh set anytime." },
+  ];
+  const anatomy = [
+    ["Concept", "the idea in one or two sentences"],
+    ["🔗 Analogy", "a plain-language metaphor so it clicks"],
+    ["▶ Run the demo", "watch the real code execute, streamed live"],
+    ["✗ Anti-pattern / ✓ Right way", "the trap vs the fix"],
+    ["⚠ Common confusion", "the mistake learners actually make"],
+    ["★ Exam tip", "how it shows up on the test"],
+    ["Question", "answer it correctly to complete the lesson"],
+  ];
+  return (
+    <div className="page">
+      <span className="eyebrow">Welcome to the course</span>
+      <h1 className="h1" style={{ marginTop: 10 }}>Claude Certified Architect — Foundations</h1>
+      <p className="lede">A self-paced study course for the Foundations exam. Work through 30 short
+        lessons across 5 domains — each with a runnable demo and a question — track your progress, and
+        finish with a completion certificate. Everything is saved in your browser.</p>
+
+      <div className="card namebox">
+        <label htmlFor="learner-name">What should we call you?</label>
+        <input id="learner-name" type="text" value={name} placeholder="Your name"
+          onChange={(e) => setName(e.target.value)} maxLength={40} />
+        <small>Used to greet you and on your completion certificate. Stored only in this browser — never sent anywhere.</small>
+      </div>
+
+      <div className="start-actions">
+        <button className="btn btn-primary" onClick={() => goTask(firstIncomplete().id)}>
+          {completeCount === 0 ? "Begin the course" : completeCount >= TOTAL ? "Review the lessons" : "Continue where you left off"}
+          <Svg d={Icon.arrow} size={15} />
+        </button>
+        <button className="btn btn-ghost" onClick={() => goto({ view: "dashboard" })}>See the dashboard</button>
+      </div>
+
+      <div className="spacer-l"></div>
+      <h2 className="section-title" style={{ marginBottom: 14 }}><span className="nav-dot" style={{ background: "var(--accent)" }}></span>What's inside</h2>
+      <div className="course-map">
+        {pages.map((p) => (
+          <div key={p.t} className="card map-card">
+            <div className="map-ic"><Svg d={p.icon} size={18} /></div>
+            <div><h4>{p.t}</h4><p>{p.d}</p></div>
           </div>
-        )}
+        ))}
+      </div>
+
+      <div className="spacer-l"></div>
+      <h2 className="section-title" style={{ marginBottom: 14 }}><span className="nav-dot" style={{ background: "var(--accent)" }}></span>How a lesson works</h2>
+      <div className="card anatomy">
+        {anatomy.map(([t, d], i) => (
+          <div key={t} className="anat-step">
+            <span className="anat-n">{i + 1}</span>
+            <span className="anat-t">{t}</span>
+            <span className="anat-d">{d}</span>
+          </div>
+        ))}
+      </div>
+      <p className="mono" style={{ marginTop: 18, color: "var(--text-faint)", fontSize: 12.5 }}>
+        5 domains · {TOTAL} lessons · 6 scenarios · {CCA.questions.length} questions
+      </p>
+    </div>
+  );
+}
+
+/* ---------- Progress panel (Dashboard) ---------- */
+function ProgressPanel({ completeCount, goTask, firstIncomplete, goto, resetProgress }) {
+  const pct = Math.round((completeCount / TOTAL) * 100);
+  return (
+    <div className="card progress-panel">
+      <div className="row-between" style={{ marginBottom: 10 }}>
+        <b>Your course progress</b>
+        <span className="mono" style={{ fontSize: 13, color: "var(--accent)", fontWeight: 600 }}>{completeCount}/{TOTAL} lessons · {pct}%</span>
+      </div>
+      <div className="bigbar"><i style={{ width: pct + "%" }} /></div>
+      <div className="start-actions" style={{ marginTop: 14 }}>
+        <button className="btn btn-primary" onClick={() => goTask(firstIncomplete().id)}>
+          {completeCount >= TOTAL ? "Review lessons" : completeCount === 0 ? "Start lesson 1.1" : "Continue where you left off"}
+          <Svg d={Icon.arrow} size={15} />
+        </button>
+        {completeCount >= TOTAL && <button className="btn btn-ghost" onClick={() => goto({ view: "complete" })}><Svg d={Icon.award} size={15} /> View certificate</button>}
+        <button className="btn btn-ghost" onClick={() => { if (window.confirm("Reset all lesson progress and answers? This can't be undone.")) resetProgress(); }}>
+          <Svg d={Icon.refresh} size={14} /> Reset
+        </button>
       </div>
     </div>
   );
 }
 
 /* ---------- Dashboard ---------- */
-function Dashboard({ progress, goDomain, goTask }) {
+function Dashboard({ progress, goDomain, goTask, completeCount, firstIncomplete, goto, resetProgress }) {
   const covered = (d) => CCA.tasks.filter((t) => t.d === d.id && progress[t.id]).length;
   const total = (d) => CCA.tasks.filter((t) => t.d === d.id).length;
-  const allCovered = Object.values(progress).filter(Boolean).length;
   return (
     <div className="page">
-      <span className="eyebrow">Foundations · Teaching Console</span>
-      <h1 className="h1" style={{ marginTop: 10 }}>Claude Certified Architect</h1>
-      <p className="lede">A runnable companion to the Foundations exam — every concept is a small demo you can project, step through, and discuss. Five domains, thirty task demos, six end-to-end scenarios.</p>
+      <span className="eyebrow">Foundations · Study Course</span>
+      <h1 className="h1" style={{ marginTop: 10 }}>Dashboard</h1>
+      <p className="lede">Five domains, thirty lessons, six scenarios. Complete a lesson by answering its question correctly — your progress is tracked below.</p>
+
+      <div className="spacer-m"></div>
+      <ProgressPanel completeCount={completeCount} goTask={goTask} firstIncomplete={firstIncomplete} goto={goto} resetProgress={resetProgress} />
 
       <div className="spacer-l"></div>
       <div className="stat-row">
         <div className="card stat"><div className="n accent mono">5</div><div className="k">Domains</div></div>
-        <div className="card stat"><div className="n mono">30</div><div className="k">Task demos</div></div>
+        <div className="card stat"><div className="n mono">{TOTAL}</div><div className="k">Lessons</div></div>
         <div className="card stat"><div className="n mono">6</div><div className="k">Scenarios</div></div>
-        <div className="card stat"><div className="n mono">{allCovered}<span style={{ fontSize: 16, color: "var(--text-faint)" }}>/30</span></div><div className="k">Covered in class</div></div>
+        <div className="card stat"><div className="n mono">{completeCount}<span style={{ fontSize: 16, color: "var(--text-faint)" }}>/{TOTAL}</span></div><div className="k">Completed</div></div>
       </div>
 
       <div className="spacer-l"></div>
       <div className="row-between" style={{ marginBottom: 14 }}>
         <h2 className="section-title"><span className="nav-dot" style={{ background: "var(--accent)" }}></span>The five domains</h2>
-        <span className="mono" style={{ fontSize: 11.5, color: "var(--text-faint)" }}>click a card to teach it</span>
+        <span className="mono" style={{ fontSize: 11.5, color: "var(--text-faint)" }}>click a card to open it</span>
       </div>
       <div className="grid-domains">
         {CCA.domains.map((d) => {
@@ -220,34 +344,28 @@ function Dashboard({ progress, goDomain, goTask }) {
           </div>
         ))}
       </div>
-      <div className="spacer-m"></div>
-      <div className="card" style={{ padding: "16px 20px", display: "flex", gap: 12, alignItems: "center" }}>
-        <span className="pill accent">tip</span>
-        <p style={{ margin: 0, fontSize: 13.5, color: "var(--text-soft)" }}>
-          The exam's underlying question is always: <b style={{ color: "var(--text)" }}>what is the simplest mechanism that reliably fixes the actual root cause?</b>
-        </p>
-      </div>
     </div>
   );
 }
 
-/* ---------- Demo (task) view ---------- */
-function DemoView({ task, progress, setCovered, goTask }) {
+/* ---------- Demo (task / lesson) view ---------- */
+function DemoView({ task, progress, setCovered, goTask, solvedMap, onSolved }) {
   const domain = CCA.domainById[task.d];
   const domainTasks = CCA.tasks.filter((t) => t.d === task.d);
   const idx = domainTasks.findIndex((t) => t.id === task.id);
-  const isCovered = !!progress[task.id];
+  const isDone = !!progress[task.id];
+  const globalIdx = CCA.tasks.findIndex((t) => t.id === task.id);
   const linkedQs = (task.q || []).map((id) => CCA.questionById[id]).filter(Boolean);
 
   return (
     <div className="page page-wide">
       <div className="row-between" style={{ marginBottom: 18 }}>
         <div>
-          <span className="eyebrow">{domain.title} · Task {task.id}</span>
+          <span className="eyebrow">{domain.title} · Lesson {globalIdx + 1} of {TOTAL}</span>
           <h1 className="h1" style={{ marginTop: 8 }}>{task.title}</h1>
         </div>
-        <button className={"btn " + (isCovered ? "btn-primary" : "btn-ghost")} onClick={() => setCovered(task.id, !isCovered)}>
-          <Svg d={Icon.check} size={15} /> {isCovered ? "Covered" : "Mark covered"}
+        <button className={"btn " + (isDone ? "btn-primary" : "btn-ghost")} onClick={() => setCovered(task.id, !isDone)}>
+          <Svg d={Icon.check} size={15} /> {isDone ? "Completed" : "Mark complete"}
         </button>
       </div>
 
@@ -306,8 +424,12 @@ function DemoView({ task, progress, setCovered, goTask }) {
         <div className="demo-side">
           {linkedQs.length > 0 && (
             <div className="card side-card">
-              <h5>Practice questions</h5>
-              {linkedQs.map((q) => <Quiz key={q.id} q={q} onGoTask={goTask} />)}
+              <h5>Complete this lesson</h5>
+              <p className="side-hint">Answer correctly to mark the lesson complete — keep trying until you get it.</p>
+              {linkedQs.map((q) => (
+                <Quiz key={q.id + (solvedMap[task.id] ? "-s" : "")} q={q}
+                  solved={!!solvedMap[task.id]} onSolved={() => onSolved(task.id)} onGoTask={goTask} />
+              ))}
             </div>
           )}
           {task.links && task.links.length > 0 && (
@@ -338,7 +460,7 @@ function Scenarios({ goTask }) {
     <div className="page">
       <span className="eyebrow">End-to-end</span>
       <h1 className="h1" style={{ marginTop: 10 }}>Six runnable scenarios</h1>
-      <p className="lede">Fuller systems that compose the task concepts — a real support agent, a multi-agent research pipeline, an extraction pipeline, and more. Each step links to the demo that teaches it.</p>
+      <p className="lede">Fuller systems that compose the lesson concepts — a real support agent, a multi-agent research pipeline, an extraction pipeline, and more. Each step links to the lesson that teaches it.</p>
       <div className="spacer-l"></div>
       {CCA.scenarios.map((s) => (
         <div key={s.id} className="card scn">
@@ -357,7 +479,7 @@ function Scenarios({ goTask }) {
               <div key={i} className="step">
                 <div className="sdot">{i + 1}</div>
                 <div className="stxt"><b>{st.t}</b><span>{st.d}</span></div>
-                <button className="slink" onClick={() => goTask(st.task)}>task {st.task} →</button>
+                <button className="slink" onClick={() => goTask(st.task)}>lesson {st.task} →</button>
               </div>
             ))}
           </div>
@@ -373,7 +495,7 @@ function CheatSheet({ goTask }) {
     <div className="page">
       <span className="eyebrow">High-yield</span>
       <h1 className="h1" style={{ marginTop: 10 }}>Cheat sheet</h1>
-      <p className="lede">The facts to memorise, grouped by domain. Every line points to the demo that proves it — jump there to teach it live.</p>
+      <p className="lede">The facts to memorise, grouped by domain. Every line points to the lesson that proves it — jump there to study it live.</p>
       <div className="spacer-l"></div>
       {CCA.domains.map((d) => {
         const items = CCA.cheat.filter((c) => c.d === d.id);
@@ -390,7 +512,7 @@ function CheatSheet({ goTask }) {
                 <div key={i} className="card cheat-item">
                   <span className="ci-mark">→</span>
                   <span className="ci-fact">{c.fact}</span>
-                  <button className="ci-link" onClick={() => goTask(c.task)}>task {c.task}</button>
+                  <button className="ci-link" onClick={() => goTask(c.task)}>lesson {c.task}</button>
                 </div>
               ))}
             </div>
@@ -401,21 +523,135 @@ function CheatSheet({ goTask }) {
   );
 }
 
+/* ---------- Mock exam ---------- */
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+  return a;
+}
+function MockExam({ goTask }) {
+  const N = Math.min(10, CCA.questions.length);
+  const [exam, setExam] = useState(() => shuffle(CCA.questions).slice(0, N));
+  const [answers, setAnswers] = useState({});
+  const answered = Object.keys(answers).length;
+  const correct = exam.filter((q) => answers[q.id] === q.answer).length;
+  const submitted = answered === exam.length;
+  const scaled = Math.round(100 + (correct / exam.length) * 900);
+  const pass = scaled >= 720;
+  const retake = () => { setExam(shuffle(CCA.questions).slice(0, N)); setAnswers({}); window.scrollTo && window.scrollTo(0, 0); };
+  const keys = ["A", "B", "C", "D"];
+  return (
+    <div className="page">
+      <span className="eyebrow">Mock exam</span>
+      <h1 className="h1" style={{ marginTop: 10 }}>Practice exam — {exam.length} questions</h1>
+      <p className="lede">Drawn at random from all {CCA.questions.length} questions. One attempt each, scored 100–1000 — pass is ≥ 720, like the real exam. Answer every question to see your score.</p>
+
+      <div className="exam-bar">
+        <span className="mono">{answered}/{exam.length} answered</span>
+        <span className="minibar" style={{ flex: 1 }}><i style={{ width: (answered / exam.length * 100) + "%" }} /></span>
+        <button className="btn btn-ghost" style={{ height: 30 }} onClick={retake}><Svg d={Icon.refresh} size={14} /> New set</button>
+      </div>
+
+      {submitted && (
+        <div className={"exam-result " + (pass ? "pass" : "fail")}>
+          <div className="score mono">{scaled}<span>/1000</span></div>
+          <div className="score-txt">
+            <b>{pass ? "Pass 🎉" : "Below passing"}</b>
+            <span>{correct} / {exam.length} correct · passing is 720</span>
+          </div>
+          <button className="btn btn-primary" onClick={retake}><Svg d={Icon.refresh} size={15} /> Retake (new questions)</button>
+        </div>
+      )}
+
+      <div className="spacer-m"></div>
+      {exam.map((q, qi) => {
+        const chosen = answers[q.id];
+        const locked = chosen != null;
+        return (
+          <div key={q.id} className="card exam-q">
+            <div className="qmeta">
+              <span className="qtag">{qi + 1}</span>
+              <span className="pill">Task {q.task}</span>
+              {locked && <span className={chosen === q.answer ? "qsolved" : "qsolved bad"}>{chosen === q.answer ? "✓ correct" : "✗ incorrect"}</span>}
+            </div>
+            <p className="qp">{q.prompt}</p>
+            {q.options.map((opt, i) => {
+              let cls = "qopt";
+              if (locked) { if (i === q.answer) cls += " correct"; else if (i === chosen) cls += " wrong"; }
+              return (
+                <button key={i} className={cls} disabled={locked} onClick={() => setAnswers((a) => ({ ...a, [q.id]: i }))}>
+                  <span className="qk">{keys[i]}</span><span>{opt}</span>
+                  {locked && i === q.answer && <Svg d={Icon.check} size={15} />}
+                </button>
+              );
+            })}
+            {locked && (
+              <div className="explain">
+                <b>{chosen === q.answer ? "Correct. " : "Incorrect. "}</b>{q.why}
+                <button className="link-row" style={{ marginTop: 10 }} onClick={() => goTask(q.task)}>
+                  <span className="lid">{q.task}</span><span className="ltxt">Open the lesson</span><Svg d={Icon.arrow} size={14} cls="larr" />
+                </button>
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+/* ---------- Course complete (congratulations + certificate) ---------- */
+function Complete({ name, goto, resetProgress }) {
+  const today = new Date().toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" });
+  return (
+    <div className="page complete-page">
+      <Confetti />
+      <div className="complete-inner">
+        <div className="cert">
+          <div className="cert-ribbon">Certificate of Completion</div>
+          <div className="cert-badge"><Svg d={Icon.award} size={40} /></div>
+          <p className="cert-pre">This certifies that</p>
+          <h1 className="cert-name">{name && name.trim() ? name.trim() : "You"}</h1>
+          <p className="cert-body">has completed all {TOTAL} lessons of the<br /><b>Claude Certified Architect — Foundations Study Course</b></p>
+          <div className="cert-stats">{TOTAL}/{TOTAL} lessons · {TOTAL} questions solved · 5 domains</div>
+          <div className="cert-foot"><span>Self-paced study course</span><span>{today}</span></div>
+        </div>
+
+        <h2 className="congrats">🎉 Congratulations{name && name.trim() ? `, ${name.trim()}` : ""}!</h2>
+        <p className="congrats-sub">You've worked through every domain, run every demo, and answered every question correctly.
+          You're ready to put these patterns to work — and to sit the exam with confidence.</p>
+
+        <div className="start-actions" style={{ justifyContent: "center" }}>
+          <button className="btn btn-primary" onClick={() => goto({ view: "mock" })}><Svg d={Icon.target} size={15} /> Try the mock exam</button>
+          <button className="btn btn-ghost" onClick={() => window.print()}>Print / save certificate</button>
+          <button className="btn btn-ghost" onClick={() => goto({ view: "dashboard" })}>Back to dashboard</button>
+          <button className="btn btn-ghost" onClick={() => { if (window.confirm("Reset all progress and start over?")) { resetProgress(); goto({ view: "start" }); } }}>
+            <Svg d={Icon.refresh} size={14} /> Start over
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* ---------- Sidebar ---------- */
-function Sidebar({ route, goto, goTask, progress }) {
+function Sidebar({ route, goto, goTask, progress, completeCount }) {
   const [open, setOpen] = useState(() => ({ [route.taskId ? CCA.taskById[route.taskId]?.d : "d1"]: true }));
   const toggle = (id) => setOpen((o) => ({ ...o, [id]: !o[id] }));
   const top = [
+    { v: "start", label: "Start here", icon: Icon.flag, key: "0" },
     { v: "dashboard", label: "Dashboard", icon: Icon.grid, key: "1" },
     { v: "scenarios", label: "Scenarios", icon: Icon.layers, key: "2" },
     { v: "cheat", label: "Cheat sheet", icon: Icon.book, key: "3" },
+    { v: "mock", label: "Mock exam", icon: Icon.target, key: "4" },
   ];
+  const pct = Math.round((completeCount / TOTAL) * 100);
   return (
     <aside className="sidebar">
       <div className="sb-head">
         <div className="brand">
           <div className="brand-mark">CC</div>
-          <div className="brand-txt"><b>Architect Console</b><span>foundations · teaching</span></div>
+          <div className="brand-txt"><b>Architect Course</b><span>foundations · self-paced</span></div>
         </div>
       </div>
       <nav className="sb-nav">
@@ -428,7 +664,8 @@ function Sidebar({ route, goto, goTask, progress }) {
           ))}
         </div>
         <div className="nav-group">
-          <div className="nav-label">Domains</div>
+          <div className="nav-label">Lessons · {completeCount}/{TOTAL} done</div>
+          <div className="sb-progress"><i style={{ width: pct + "%" }} /></div>
           <div className="dnav">
             {CCA.domains.map((d) => {
               const tasks = CCA.tasks.filter((t) => t.d === d.id);
@@ -446,7 +683,9 @@ function Sidebar({ route, goto, goTask, progress }) {
                       {tasks.map((t) => (
                         <button key={t.id} className={"nav-item" + (route.taskId === t.id ? " active" : "")}
                           style={{ padding: "6px 10px", fontSize: 12.5 }} onClick={() => goTask(t.id)}>
-                          <span className="nav-dot" style={{ background: progress[t.id] ? "var(--good)" : undefined }}></span>
+                          {progress[t.id]
+                            ? <Svg d={Icon.check} size={13} cls="nav-check" />
+                            : <span className="nav-dot"></span>}
                           <span className="mono" style={{ fontSize: 11.5, color: "var(--text-faint)", width: 24 }}>{t.id}</span>
                           <span style={{ flex: 1, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{t.title}</span>
                         </button>
@@ -471,9 +710,13 @@ function Sidebar({ route, goto, goTask, progress }) {
 /* ---------- App ---------- */
 function App() {
   const [theme, setTheme] = useLocal("cca-theme", "light");
-  const [route, setRoute] = useLocal("cca-route", { view: "dashboard", taskId: null });
+  const [route, setRoute] = useLocal("cca-route", { view: "start", taskId: null });
   const [progress, setProgress] = useLocal("cca-progress", {});
+  const [solvedMap, setSolvedMap] = useLocal("cca-solved", {});
+  const [name, setName] = useLocal("cca-name", "");
   const scrollRef = useRef(null);
+
+  const completeCount = CCA.tasks.filter((t) => progress[t.id]).length;
 
   useEffect(() => { document.documentElement.setAttribute("data-theme", theme); }, [theme]);
   useEffect(() => { if (scrollRef.current) scrollRef.current.scrollTop = 0; }, [route]);
@@ -482,14 +725,26 @@ function App() {
   const goTask = (id) => setRoute({ view: "demo", taskId: id });
   const goDomain = (id) => goTask(CCA.tasks.filter((t) => t.d === id)[0].id);
   const setCovered = (id, val) => setProgress((p) => ({ ...p, [id]: val }));
+  const onSolved = (id) => { setSolvedMap((s) => ({ ...s, [id]: true })); setProgress((p) => ({ ...p, [id]: true })); };
+  const resetProgress = () => { setProgress({}); setSolvedMap({}); };
+  const firstIncomplete = () => CCA.tasks.find((t) => !progress[t.id]) || CCA.tasks[0];
+
+  // celebrate when the learner transitions to all-complete
+  const prevComplete = useRef(completeCount);
+  useEffect(() => {
+    if (prevComplete.current < TOTAL && completeCount === TOTAL) goto({ view: "complete" });
+    prevComplete.current = completeCount;
+  }, [completeCount]);
 
   // keyboard nav
   useEffect(() => {
     const onKey = (e) => {
       if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
-      if (e.key === "1") goto({ view: "dashboard" });
+      if (e.key === "0") goto({ view: "start" });
+      else if (e.key === "1") goto({ view: "dashboard" });
       else if (e.key === "2") goto({ view: "scenarios" });
       else if (e.key === "3") goto({ view: "cheat" });
+      else if (e.key === "4") goto({ view: "mock" });
       else if (e.key.toLowerCase() === "t") setTheme((t) => (t === "light" ? "dark" : "light"));
       else if ((e.key === "ArrowRight" || e.key === "ArrowLeft") && route.view === "demo") {
         const t = CCA.taskById[route.taskId];
@@ -504,32 +759,41 @@ function App() {
   }, [route]);
 
   const task = route.taskId ? CCA.taskById[route.taskId] : null;
+  const labels = { start: "Start here", dashboard: "Dashboard", scenarios: "Scenarios", cheat: "Cheat sheet", mock: "Mock exam", complete: "Course complete" };
   const crumbLabel = route.view === "demo" && task
     ? <><b>{CCA.domainById[task.d].short}</b><span className="crumb-sep">/</span><span>Task {task.id}</span></>
-    : <b>{route.view === "dashboard" ? "Dashboard" : route.view === "scenarios" ? "Scenarios" : "Cheat sheet"}</b>;
+    : <b>{labels[route.view] || "Dashboard"}</b>;
+  const pct = Math.round((completeCount / TOTAL) * 100);
 
   return (
     <div className="shell">
-      <Sidebar route={route} goto={goto} goTask={goTask} progress={progress} />
+      <Sidebar route={route} goto={goto} goTask={goTask} progress={progress} completeCount={completeCount} />
       <div className="main">
         <div className="topbar">
           <div className="crumbs">
-            <span style={{ color: "var(--text-faint)" }}>console</span>
+            <span style={{ color: "var(--text-faint)" }}>course</span>
             <span className="crumb-sep">/</span>
             {crumbLabel}
           </div>
           <div className="topbar-spacer"></div>
-          <span className="kbd">←/→</span><span style={{ fontSize: 11.5, color: "var(--text-faint)" }}>step</span>
+          <div className="tb-progress" title={completeCount + " of " + TOTAL + " lessons complete"}>
+            <span className="minibar"><i style={{ width: pct + "%" }} /></span>
+            <span className="mono" style={{ fontSize: 11.5, color: "var(--text-faint)" }}>{completeCount}/{TOTAL}</span>
+          </div>
+          {name && name.trim() && <span className="greet">Hi, {name.trim().split(" ")[0]}</span>}
           <button className="tb-btn" onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
             <Svg d={theme === "light" ? Icon.moon : Icon.sun} size={15} cls="tb-icon" />
             {theme === "light" ? "Dark" : "Light"}
           </button>
         </div>
         <div className="scroll app-bg" ref={scrollRef}>
-          {route.view === "dashboard" && <Dashboard progress={progress} goDomain={goDomain} goTask={goTask} />}
-          {route.view === "demo" && task && <DemoView task={task} progress={progress} setCovered={setCovered} goTask={goTask} />}
+          {route.view === "start" && <StartHere name={name} setName={setName} completeCount={completeCount} firstIncomplete={firstIncomplete} goTask={goTask} goto={goto} />}
+          {route.view === "dashboard" && <Dashboard progress={progress} goDomain={goDomain} goTask={goTask} completeCount={completeCount} firstIncomplete={firstIncomplete} goto={goto} resetProgress={resetProgress} />}
+          {route.view === "demo" && task && <DemoView task={task} progress={progress} setCovered={setCovered} goTask={goTask} solvedMap={solvedMap} onSolved={onSolved} />}
           {route.view === "scenarios" && <Scenarios goTask={goTask} />}
           {route.view === "cheat" && <CheatSheet goTask={goTask} />}
+          {route.view === "mock" && <MockExam goTask={goTask} />}
+          {route.view === "complete" && <Complete name={name} goto={goto} resetProgress={resetProgress} />}
         </div>
       </div>
     </div>

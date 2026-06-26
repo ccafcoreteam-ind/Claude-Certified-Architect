@@ -18,3 +18,8 @@ venv/
 # generated UI snapshot
 ui/snapshot.html
 ui/console/console_snapshot.html
+
+# node (only used locally to bundle/screenshot the console)
+node_modules/
+package-lock.json
+package.json

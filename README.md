@@ -11,6 +11,13 @@ project on a screen, step through, and discuss in a teaching session.
 > interactive 12-question quiz, and read the cheat sheet — right in your browser. (Loads
 > React from a CDN; nothing to install. Auto-redeploys on every push.)
 
+It's a **self-paced course**: a "Start here" page, a progress bar, per-lesson questions you
+answer until correct, a mock exam, and a completion certificate.
+
+![The course welcome page with a name field and an overview of what each section contains](docs/course-start.png)
+
+![The completion certificate with confetti, shown after all 30 lessons are done](docs/course-certificate.png)
+
 ![The browser console running a task demo — sidebar of domains/tasks, the concept banner, and the anti-pattern/fix cards](docs/console-demo.png)
 
 - **5 domains**, all 30 task statements (Tasks 1.1 → 5.6) — one self-explaining demo each.
