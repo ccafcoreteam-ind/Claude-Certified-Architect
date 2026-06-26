@@ -1,0 +1,39 @@
+name: Deploy Teaching Console to GitHub Pages
+
+# Publishes ui/console/ as a static site. The React console loads React/Babel from a CDN
+# and, with no backend reachable, falls back to the demo output baked into assets/data.js —
+# so it is fully interactive as a static page (sidebar, demos, quiz, cheat sheet, scenarios).
+
+on:
+  push:
+    branches: [claude/architect-exam-codebase-7ytdjz, main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure Pages (auto-enable if needed)
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - name: Upload the console as the site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ui/console
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
