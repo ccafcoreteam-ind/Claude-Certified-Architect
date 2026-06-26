@@ -76,12 +76,6 @@ function Console({ task, autorun }) {
     stream(task.output, 230);
   }, [task]);
 
-  const showAll = () => {
-    clearTimers();
-    setShown(lastLines.current.length ? lastLines.current : task.output);
-    if (!source) setSource("simulated");
-    setRunning(false);
-  };
   const reset = () => { clearTimers(); setShown([]); setRunning(false); setSource(null); lastLines.current = []; };
 
   useEffect(() => { reset(); if (autorun) run(); /* eslint-disable-next-line */ }, [task.id]);
@@ -98,7 +92,6 @@ function Console({ task, autorun }) {
           <button className="btn btn-ghost" style={{ height: 30, padding: "0 11px", fontSize: 12 }} onClick={running ? reset : run}>
             <Svg d={Icon.play} size={13} /> {running ? "Running…" : shown.length ? "Run again" : "Run demo"}
           </button>
-          <button className="btn btn-ghost" style={{ height: 30, padding: "0 11px", fontSize: 12 }} onClick={showAll} title="Reveal full output">Reveal all</button>
         </div>
       </div>
       <div className="console-body">
