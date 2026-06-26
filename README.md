@@ -4,12 +4,22 @@ A hands-on companion to the **Claude Certified Architect – Foundations** exam.
 concept from the study guide is turned into a small, **runnable** Python demo you can
 project on a screen, step through, and discuss in a teaching session.
 
+> ### ▶ Play with it online — no install
+> **[https://jacinthpaul.github.io/Claude-Certified-Architect/](https://jacinthpaul.github.io/Claude-Certified-Architect/)**
+>
+> The hosted **Teaching Console**: browse all 5 domains / 30 tasks, run each demo, take the
+> interactive 12-question quiz, and read the cheat sheet — right in your browser. (Loads
+> React from a CDN; nothing to install. Auto-redeploys on every push.)
+
 - **5 domains**, all 30 task statements (Tasks 1.1 → 5.6) — one self-explaining demo each.
 - **6 scenarios** — fuller, end-to-end runnable systems (a real support agent, a
   multi-agent research pipeline, an extraction pipeline, and more).
 - **The 12 official sample questions** — as an interactive, self-grading quiz.
 - A **cheat sheet**, the **3 prep exercises**, and a **teaching guide** with a lesson plan.
-- A **web UI** (`ui/`) — a browser console for running demos and the quiz in class.
+- Two **web UIs** — a hosted React **Teaching Console** (link above) and a zero-dependency
+  built-in console — for running demos and the quiz in class.
+- **Functional scenario apps** you drive with real input (a chat agent, a live code
+  reviewer, a document extractor, and more).
 
 Every demo runs **with zero setup**: with no API key it uses a clearly-labelled
 deterministic simulator so the architecture and the teaching points are identical. Set
@@ -18,6 +28,8 @@ deterministic simulator so the architecture and the teaching points are identica
 ---
 
 ## Quick start
+
+Or just open the **[hosted console](https://jacinthpaul.github.io/Claude-Certified-Architect/)** — no clone, no install. To run locally:
 
 ```bash
 # nothing to install for the offline (simulated) demos — standard library only
@@ -32,6 +44,10 @@ python3 domains/domain1_orchestration/task1_1_agentic_loop.py
 python3 run_all.py domain1
 python3 run_all.py scenarios
 python3 run_all.py exam
+
+# drive a scenario as a functional app (real input → real output)
+python3 scenarios/run.py 1 -i      # chat with the support agent
+python3 scenarios/run.py 4 -i      # explore this repo with real Grep/Read
 ```
 
 To run the model-calling demos **live**:
@@ -107,24 +123,60 @@ running**, shows the anti-patterns the exam uses as distractors, and ends with t
 ├── .env.example
 ├── ccarch/                    ← shared toolkit (display + Claude client w/ simulator)
 ├── domains/                   ← 30 task demos across 5 domains (+ Domain 3 config artifacts)
-├── scenarios/                 ← 6 end-to-end runnable scenario systems
+├── scenarios/                 ← 6 scenario walkthroughs + functional app.py each + run.py
 ├── exam/                      ← 12 sample questions, cheat sheet, prep exercises
 ├── teaching/                  ← lesson plan / session guide
-└── ui/                        ← zero-dependency web console (run demos + quiz in a browser)
+├── ui/                        ← built-in zero-dependency web console
+│   └── console/               ← React Teaching Console (hosted on GitHub Pages)
+└── .github/workflows/         ← CI smoke test + GitHub Pages deploy
 ```
 
 ## The web UI
 
-For teaching in front of a screen, launch the browser console:
+There are two browser consoles; both run the repo's demos and the quiz, and neither needs
+`pip install`.
+
+### 1. Teaching Console (React) — `ui/console/` · **hosted**
+
+The polished console: a dashboard, domain/task sidebar, **Scenarios** and **Cheat sheet**
+views, light/dark themes, "mark covered" progress, and the interactive 12-question quiz.
+
+- **Hosted (zero setup):** **[https://jacinthpaul.github.io/Claude-Certified-Architect/](https://jacinthpaul.github.io/Claude-Certified-Architect/)**
+  — published from `ui/console/` by `.github/workflows/pages.yml` on every push. As a static
+  page it shows the demo output baked into the page; the sidebar, quiz, and cheat sheet are
+  fully interactive.
+- **Locally, with live demo runs:** `python3 ui/console/api_server.py` then open
+  `http://127.0.0.1:8000` — clicking **Run** executes the actual demo file and streams its
+  real output. See `ui/console/README.md`.
+
+### 2. Built-in console — `ui/`
+
+A zero-dependency console on Python's standard-library HTTP server:
 
 ```bash
 python3 run_all.py ui                      # http://127.0.0.1:8000
 python3 ui/server.py --host 0.0.0.0 --port 9000   # share on your network
 ```
 
-It lists every demo in a sidebar, runs them on click (rendering the ✗/✓/★ blocks as
-colored cards), and turns the 12 sample questions into an interactive, self-grading quiz.
-No dependencies — it uses Python's standard-library HTTP server. See `ui/README.md`.
+It lists every demo in a sidebar, runs them on click (rendering the ✗/✓/★ blocks as colored
+cards), and includes the self-grading quiz. See `ui/README.md`.
+
+> Both consoles cover the **click-through demos + quiz**. The **functional scenario apps**
+> (below) read keyboard input and the filesystem, so they run in a terminal, not the browser.
+
+## Functional scenario apps
+
+Beyond the scripted walkthroughs, each scenario has a working `app.py` you drive with real
+input — see them in action:
+
+```bash
+python3 scenarios/run.py               # list the apps
+python3 scenarios/run.py 1 -i          # chat with a gated, hook-guarded support agent
+python3 scenarios/run.py 5 ccarch/client.py --json   # review a real file, CI-style
+python3 scenarios/run.py 6 "Pd $1,200.50 to Acme Corp on 3/4/25"   # extract → validated JSON
+```
+
+They're deterministic and offline (no API key). See `scenarios/README.md`.
 
 See `teaching/teaching_guide.md` for a ready-to-run session plan, and each
 `domains/*/README.md` for a per-domain index.
