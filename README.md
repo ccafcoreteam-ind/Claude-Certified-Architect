@@ -11,6 +11,8 @@ project on a screen, step through, and discuss in a teaching session.
 > interactive 12-question quiz, and read the cheat sheet — right in your browser. (Loads
 > React from a CDN; nothing to install. Auto-redeploys on every push.)
 
+![The browser console running a task demo — sidebar of domains/tasks, the concept banner, and the anti-pattern/fix cards](docs/console-demo.png)
+
 - **5 domains**, all 30 task statements (Tasks 1.1 → 5.6) — one self-explaining demo each.
 - **6 scenarios** — fuller, end-to-end runnable systems (a real support agent, a
   multi-agent research pipeline, an extraction pipeline, and more).
@@ -160,6 +162,11 @@ python3 ui/server.py --host 0.0.0.0 --port 9000   # share on your network
 
 It lists every demo in a sidebar, runs them on click (rendering the ✗/✓/★ blocks as colored
 cards), and includes the self-grading quiz. See `ui/README.md`.
+
+![The interactive 12-question quiz — click an answer and it grades instantly with an explanation](docs/console-quiz.png)
+
+*(Screenshots show the built-in console; the hosted Teaching Console at the link above has
+its own light/dark themed design.)*
 
 > Both consoles cover the **click-through demos + quiz**. The **functional scenario apps**
 > (below) read keyboard input and the filesystem, so they run in a terminal, not the browser.
