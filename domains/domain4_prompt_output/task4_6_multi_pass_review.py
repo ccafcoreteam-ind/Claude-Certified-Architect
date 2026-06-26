@@ -52,6 +52,15 @@ def main():
         kv("  ", step)
     right("Per-file passes for consistent local depth + ONE integration pass for cross-file "
           "data flow.")
+    code(
+        '''findings = []
+for path in changed_files:               # one FRESH instance per file
+    reviewer = spawn_fresh_instance()    # no generation context to rubber-stamp
+    findings += reviewer.review(path)    # consistent local depth
+
+reviewer = spawn_fresh_instance()        # ONE more pass over everything
+findings += reviewer.review_integration(changed_files)  # cross-file data flow''',
+        "multi-pass + fresh instance")
 
     h2("Why the distractors fail")
     wrong("Bigger context window / higher-tier model — context size does NOT fix ATTENTION "

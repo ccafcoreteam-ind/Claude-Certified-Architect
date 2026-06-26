@@ -71,6 +71,17 @@ def main():
          "while attempting complex policy-exception cases itself.")
     right("Add EXPLICIT escalation criteria + FEW-SHOT examples to the system prompt "
           "(showing when to escalate vs resolve).")
+    code(
+        '''SYSTEM = """Resolve the case yourself UNLESS one of these is true:
+  - the customer explicitly asks for a human
+  - policy is silent on the situation
+  - you have made no progress after two attempts
+Then escalate with a handoff summary. Examples:
+
+  Case: "standard damage replacement, photo attached" -> RESOLVE
+  Case: "competitor price-match, not in policy"       -> ESCALATE (policy gap)
+"""    # explicit criteria + few-shot beats a confidence threshold'''
+        , "escalation criteria + few-shot")
     wrong("Self-reported confidence threshold — already miscalibrated on hard cases.")
     wrong("A separate classifier model — over-engineered before prompt optimization is tried.")
     wrong("Sentiment analysis — solves a different problem; sentiment != complexity.")

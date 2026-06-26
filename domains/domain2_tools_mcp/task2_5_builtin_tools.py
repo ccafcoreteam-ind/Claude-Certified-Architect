@@ -71,6 +71,16 @@ def main():
         note(f"    {why}")
 
     rule()
+    h1("A real exploration, in the order the tools fire")
+    code(
+        '''Glob "**/*.py"                 # which files exist?
+Grep "def process_refund"      # where is it defined / who calls it?
+Read payments/refund.py        # load the file Grep pointed at
+Edit payments/refund.py        # one precise change (unique anchor required)
+Bash "python -m pytest -q"     # verify the change''',
+        "the built-in tools in use")
+
+    rule()
     h1("The contrast you WILL be tested on")
     code("Grep = file CONTENTS  (what's INSIDE files)\n"
          "Glob = file NAMES     (which files EXIST)", "memorize")

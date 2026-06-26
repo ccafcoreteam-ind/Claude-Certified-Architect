@@ -119,6 +119,21 @@ def main():
     run_agent(client, "Where is my order #12345?")
 
     rule()
+    h1("The agentic loop, distilled to its essential shape")
+    code(
+        '''messages = [{"role": "user", "content": user_message}]
+while True:                                   # safety cap omitted for clarity
+    resp = client.messages.create(model=..., tools=TOOLS, messages=messages)
+    if resp.stop_reason == "end_turn":
+        return resp.text                      # <- the ONLY normal exit
+    if resp.stop_reason == "tool_use":
+        messages.append({"role": "assistant", "content": resp.content})
+        results = [run_tool(tc) for tc in resp.tool_calls]   # YOUR code runs them
+        messages.append({"role": "user", "content": results})  # feed facts back
+        # loop: Claude now reasons over the new tool results''',
+        "the loop, in code")
+
+    rule()
     h1("Why tool results MUST go back into the conversation")
     note("Claude has no memory outside the messages list. If you execute lookup_order "
          "but forget to append the result, the next turn Claude is blind to it and will "

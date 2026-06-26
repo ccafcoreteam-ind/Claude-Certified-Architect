@@ -74,6 +74,16 @@ def main():
     result = gate.process_refund(order_id="12345", amount=80.0)
     right(f"Refund allowed only after verification: {result}")
 
+    h2("The gate itself — the guarantee lives in code, not in the prompt")
+    code(
+        '''def process_refund(self, order_id, amount):
+    if not self.verified_customer_id:        # <-- THE GATE (deterministic)
+        raise PermissionError(
+            "BLOCKED: verify identity (call get_customer) first")
+    return charge_refund(order_id, amount)
+# No prompt wording can talk its way past a raised exception.''',
+        "the prerequisite gate, in code")
+
     rule()
     h1("Plain-language analogy & the common confusion")
     analogy("A bank teller cannot release cash until the system confirms your ID — the block lives in the software, not in the teller's good intentions. A prerequisite gate is exactly that software block.")

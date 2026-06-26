@@ -62,6 +62,17 @@ def main():
         kv("  step", s)
     note("Open-ended investigation: you literally cannot write the step list up front "
          "because each discovery changes the next move.")
+    code(
+        '''# CHAINING — steps fixed up front, run in order:
+for step in ["review auth.py", "review orders.py", "integration pass"]:
+    result = run(step)
+
+# ADAPTIVE — the next step is computed from what the last one found:
+plan = ["explore the repo"]
+while plan:
+    finding = run(plan.pop(0))
+    plan += next_steps_from(finding)   # the plan grows as facts surface''',
+        "chaining vs adaptive, in code")
 
     rule()
     h1("Why split big reviews into passes? Attention dilution.")

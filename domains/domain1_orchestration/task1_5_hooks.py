@@ -68,6 +68,14 @@ def main():
         fixed = normalize_dates(name, raw)
         kv(f"  {name}", f"{raw}  ->  {fixed['date']}")
     right("One PostToolUse hook = the agent never has to know three date formats exist.")
+    code(
+        '''async def normalize_dates(input_data, tool_use_id, context):
+    out = input_data["tool_response"]
+    out["date"] = to_iso(out["date"])        # one place fixes every backend
+    return {"tool_response": out}            # rewrites the result the agent sees
+
+options = ClaudeAgentOptions(hooks={"PostToolUse": [normalize_dates]})''',
+        "PostToolUse hook — normalize after")
 
     pause("interception")
     rule()
@@ -79,6 +87,16 @@ def main():
         else:
             wrong(f"process_refund(${amount:.2f}) -> BLOCKED.")
             note(f"    redirected: {redirect}")
+    code(
+        '''async def refund_gate(input_data, tool_use_id, context):
+    if input_data["tool_name"] == "process_refund":
+        if input_data["tool_input"]["amount"] > REFUND_LIMIT:
+            return {"decision": "deny",       # <-- blocks the call BEFORE it runs
+                    "reason": "exceeds limit; escalate to a human"}
+    return {}                                  # {} = allow
+
+options = ClaudeAgentOptions(hooks={"PreToolUse": [refund_gate]})''',
+        "interception hook — block before")
 
     rule()
     h1("Hooks vs prompts — the same dichotomy as Task 1.4")

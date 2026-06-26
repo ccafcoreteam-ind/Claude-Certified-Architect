@@ -58,6 +58,17 @@ def main():
         kv("  signals", ", ".join(f"{k}={v}" for k, v in feats.items()))
         right(f"{mode} — {why}")
 
+    h2("How you actually enter plan mode")
+    code(
+        '''# Interactive: press Shift+Tab to cycle into "plan mode"
+#   -> Claude explores & proposes a plan, makes NO edits until you approve.
+
+# Non-interactive / scripted:
+claude --permission-mode plan "Refactor the auth layer across services"
+
+# Then implement the approved plan with normal (direct) execution.''',
+        "entering plan mode")
+
     pause("the trap")
     rule()
     h1("The trap answer (sample Q5)")

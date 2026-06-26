@@ -184,9 +184,21 @@ def extract_demo_strings(path):
 
 
 def demo_output(rel, limit=18):
+    full = api_server.run_file(os.path.join(REPO, rel))
     lines = [{"type": "cmd", "text": f"$ python3 {rel}"}]
-    for ln in api_server.run_file(os.path.join(REPO, rel))[:limit]:
-        lines.append(ln)
+    lines.extend(full[:limit])
+    # If a code() box lives past the preview window, append the FIRST one so the
+    # "see it as code" snippet still shows in the static console preview. code()
+    # boxes are indented "  ┌─" (banners/concept boxes start at column 0).
+    is_code_top = lambda ln: ln.get("text", "").startswith("  ┌")
+    is_code_end = lambda ln: ln.get("text", "").startswith("  └")
+    head_has_code = any(is_code_top(ln) for ln in full[:limit])
+    if not head_has_code:
+        start = next((i for i in range(limit, len(full)) if is_code_top(full[i])), None)
+        if start is not None:
+            end = next((j for j in range(start, len(full)) if is_code_end(full[j])), start)
+            lines.append({"type": "dim", "text": "   … (skipping ahead to the code) …"})
+            lines.extend(full[start:end + 1])
     return lines
 
 

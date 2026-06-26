@@ -57,6 +57,14 @@ def main():
         kv(f"  {field} (conf={conf}, contradictory={contra})", route(conf, threshold, contra))
     right("Route low-confidence OR ambiguous/contradictory extractions to humans — spend "
           "scarce reviewer capacity where it matters most.")
+    code(
+        '''def route(field_confidence, threshold=0.80, contradictory=False):
+    if contradictory:                 # sources disagree -> always a human
+        return "HUMAN (contradictory sources)"
+    if field_confidence < threshold:  # threshold calibrated on labeled data
+        return "HUMAN (low confidence)"
+    return "AUTO-ACCEPT"              # + audit a random sample of these''',
+        "confidence routing, in code")
 
     pause("stratified sampling")
     rule()

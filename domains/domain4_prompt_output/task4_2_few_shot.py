@@ -63,6 +63,18 @@ def main():
     note("Example 1 silently teaches 3 normalization rules (strip $/comma, expand the "
          "date, standard format). Example 2 teaches the MOST important rule: missing info "
          "-> null, never invent.")
+    code(
+        '''prompt = """Extract invoice fields as JSON. Follow the examples exactly.
+
+Input:  'Pd $1,200.50 to Acme Corp on 3/4/25'
+Output: {"vendor": "Acme Corp", "amount": 1200.50, "date": "2025-03-04"}
+
+Input:  'Invoice from Beta LLC, amount to be confirmed'
+Output: {"vendor": "Beta LLC", "amount": null, "date": null}   # <- teaches null
+
+Input:  '<the new invoice>'
+Output:"""                                  # model continues the pattern''',
+        "few-shot inside the prompt")
 
     pause("run it")
     rule()
