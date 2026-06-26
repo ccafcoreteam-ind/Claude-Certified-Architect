@@ -5,9 +5,9 @@ There are two consoles in this repo; pick whichever you like:
 | Console | Location | Stack | Launch |
 |---|---|---|---|
 | **Built-in console** | `ui/` | stdlib `http.server` + vanilla JS | `python3 run_all.py ui` |
-| **Teaching Console** | `ui/console/` | React (in-browser Babel) + a tiny API server | `python3 ui/console/api_server.py` |
+| **Exam Prep Console** | `ui/console/` | React (in-browser Babel) + a tiny API server | `python3 ui/console/api_server.py` |
 
-Both run the repo's real demos and need no `pip install`. The Teaching Console adds a
+Both run the repo's real demos and need no `pip install`. The Exam Prep Console adds a
 dashboard, scenario/cheat-sheet views, light/dark themes, coverage tracking, and a
 "reveal all" mode; see `ui/console/INTEGRATION.md`. The rest of this file documents the
 built-in console.

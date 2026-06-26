@@ -1,4 +1,4 @@
-name: Deploy Teaching Console to GitHub Pages
+name: Deploy Exam Prep Console to GitHub Pages
 
 # Publishes ui/console/ as a static site. The React console loads React/Babel from a CDN
 # and, with no backend reachable, falls back to the demo output baked into assets/data.js —

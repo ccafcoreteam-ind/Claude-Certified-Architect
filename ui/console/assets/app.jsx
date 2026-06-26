@@ -1,4 +1,4 @@
-/* CCA Teaching Console — app (self-paced course) */
+/* CCA Exam Prep Console — app (self-paced course) */
 const { useState, useEffect, useRef, useCallback } = React;
 const CCA = window.CCA;
 const TOTAL = CCA.tasks.length; // 30

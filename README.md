@@ -7,7 +7,7 @@ project on a screen, step through, and discuss in a teaching session.
 > ### ▶ Play with it online — no install
 > **[https://jacinthpaul.github.io/Claude-Certified-Architect/](https://jacinthpaul.github.io/Claude-Certified-Architect/)**
 >
-> The hosted **Teaching Console**: browse all 5 domains / 30 tasks, run each demo, take the
+> The hosted **Exam Prep Console**: browse all 5 domains / 30 tasks, run each demo, take the
 > interactive 12-question quiz, and read the cheat sheet — right in your browser. (Loads
 > React from a CDN; nothing to install. Auto-redeploys on every push.)
 
@@ -25,7 +25,7 @@ answer until correct, a mock exam, and a completion certificate.
   multi-agent research pipeline, an extraction pipeline, and more).
 - **The 12 official sample questions** — as an interactive, self-grading quiz.
 - A **cheat sheet**, the **3 prep exercises**, and a **teaching guide** with a lesson plan.
-- Two **web UIs** — a hosted React **Teaching Console** (link above) and a zero-dependency
+- Two **web UIs** — a hosted React **Exam Prep Console** (link above) and a zero-dependency
   built-in console — for running demos and the quiz in class.
 - **Functional scenario apps** you drive with real input (a chat agent, a live code
   reviewer, a document extractor, and more).
@@ -136,7 +136,7 @@ running**, shows the anti-patterns the exam uses as distractors, and ends with t
 ├── exam/                      ← 12 sample questions, cheat sheet, prep exercises
 ├── teaching/                  ← lesson plan / session guide
 ├── ui/                        ← built-in zero-dependency web console
-│   └── console/               ← React Teaching Console (hosted on GitHub Pages)
+│   └── console/               ← React Exam Prep Console (hosted on GitHub Pages)
 └── .github/workflows/         ← CI smoke test + GitHub Pages deploy
 ```
 
@@ -145,7 +145,7 @@ running**, shows the anti-patterns the exam uses as distractors, and ends with t
 There are two browser consoles; both run the repo's demos and the quiz, and neither needs
 `pip install`.
 
-### 1. Teaching Console (React) — `ui/console/` · **hosted**
+### 1. Exam Prep Console (React) — `ui/console/` · **hosted**
 
 The polished console: a dashboard, domain/task sidebar, **Scenarios** and **Cheat sheet**
 views, light/dark themes, "mark covered" progress, and the interactive 12-question quiz.
@@ -172,7 +172,7 @@ cards), and includes the self-grading quiz. See `ui/README.md`.
 
 ![The interactive 12-question quiz — click an answer and it grades instantly with an explanation](docs/console-quiz.png)
 
-*(Screenshots show the built-in console; the hosted Teaching Console at the link above has
+*(Screenshots show the built-in console; the hosted Exam Prep Console at the link above has
 its own light/dark themed design.)*
 
 > Both consoles cover the **click-through demos + quiz**. The **functional scenario apps**

@@ -1,4 +1,4 @@
-/* CCA Teaching Console — runtime config.
+/* CCA Exam Prep Console — runtime config.
    Controls whether the console calls a live backend (api_server.py) to run the
    real repo demos, or falls back to the simulated output baked into data.js. */
 window.CCA_CONFIG = {

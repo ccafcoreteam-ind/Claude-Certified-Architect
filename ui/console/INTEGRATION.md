@@ -1,4 +1,4 @@
-# Connecting the Teaching Console to your repository
+# Connecting the Exam Prep Console to your repository
 
 This console can run in two modes:
 

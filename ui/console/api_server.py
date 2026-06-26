@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-CCA Teaching Console — local API + static server (zero dependencies).
+CCA Exam Prep Console — local API + static server (zero dependencies).
 
 Serves the console UI *and* runs your repo's real demo files when a "Run"
 button is clicked, returning their actual stdout as JSON. This makes the

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-ui/console/snapshot.py — render the React Teaching Console into ONE offline HTML file.
+ui/console/snapshot.py — render the React Exam Prep Console into ONE offline HTML file.
 
 It pre-runs every task demo (via the same logic api_server.py uses), inlines the CSS and
 all the assets, and embeds a fetch shim so the live "Run demo" path returns the REAL
