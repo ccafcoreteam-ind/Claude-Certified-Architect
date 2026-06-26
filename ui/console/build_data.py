@@ -27,6 +27,7 @@ sys.path.insert(0, REPO)   # exam.*
 
 import api_server  # noqa: E402
 from exam.sample_questions import QUESTIONS  # noqa: E402
+from exam.practice_questions import PRACTICE  # noqa: E402
 from exam.cheatsheet import FACTS  # noqa: E402
 
 TITLES = {
@@ -198,6 +199,12 @@ def build_questions():
         dom = "d" + re.search(r"D(\d)", maps).group(1)
         out.append({
             "id": f"q{q['n']}", "task": task, "domain": dom, "prompt": q["q"],
+            "options": [q["options"][k] for k in ("A", "B", "C", "D")],
+            "answer": "ABCD".index(q["answer"]), "why": q["why"],
+        })
+    for i, q in enumerate(PRACTICE, 1):   # authored practice questions (P1..P18)
+        out.append({
+            "id": f"p{i}", "task": q["task"], "domain": q["domain"], "prompt": q["q"],
             "options": [q["options"][k] for k in ("A", "B", "C", "D")],
             "answer": "ABCD".index(q["answer"]), "why": q["why"],
         })

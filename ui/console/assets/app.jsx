@@ -306,7 +306,7 @@ function DemoView({ task, progress, setCovered, goTask }) {
         <div className="demo-side">
           {linkedQs.length > 0 && (
             <div className="card side-card">
-              <h5>Linked exam questions</h5>
+              <h5>Practice questions</h5>
               {linkedQs.map((q) => <Quiz key={q.id} q={q} onGoTask={goTask} />)}
             </div>
           )}
