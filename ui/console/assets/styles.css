@@ -486,14 +486,20 @@ a { color: inherit; }
   /* default the certificate PDF/print to landscape */
   @page { size: landscape; margin: 12mm; }
   .sidebar, .topbar, .confetti, .congrats, .congrats-sub, .start-actions, .app-foot { display: none !important; }
-  .scroll { overflow: visible !important; }
-  .complete-inner { margin: 0; }
+  /* collapse the app's grid/flex chrome so the cert can use the full page width
+     (otherwise the hidden sidebar's 280px grid column squeezes it into a strip) */
+  .shell { display: block !important; height: auto !important; overflow: visible !important; }
+  .main { display: block !important; }
+  .scroll { overflow: visible !important; height: auto !important; }
+  .page { max-width: none !important; padding: 0 !important; }
+  .app-bg { background-image: none !important; }
+  .complete-inner { max-width: none !important; margin: 0 auto !important; }
   /* scale the certificate up to fill the landscape page */
   .cert {
     box-shadow: none;
     border-color: #bbb;
     margin: 0 auto;
-    max-width: 780px;
+    max-width: 820px;
     padding: 56px 64px 46px;
   }
   .cert::before { inset: 12px; }
