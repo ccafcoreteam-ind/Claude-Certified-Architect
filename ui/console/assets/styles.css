@@ -483,8 +483,15 @@ a { color: inherit; }
 @keyframes confetti-fall { 0% { transform: translateY(0) rotate(0); opacity: 1; } 100% { transform: translateY(108vh) rotate(680deg); opacity: 0.85; } }
 
 @media print {
-  .sidebar, .topbar, .confetti, .congrats, .congrats-sub, .start-actions { display: none !important; }
+  /* default the certificate PDF/print to landscape */
+  @page { size: landscape; margin: 12mm; }
+  .sidebar, .topbar, .confetti, .congrats, .congrats-sub, .start-actions, .app-foot { display: none !important; }
   .scroll { overflow: visible !important; }
-  .cert { box-shadow: none; border-color: #bbb; }
+  .cert {
+    box-shadow: none;
+    border-color: #bbb;
+    margin: 0 auto;
+    max-width: 620px;
+  }
   .complete-inner { margin-top: 0; }
 }
