@@ -107,7 +107,7 @@ a { color: inherit; }
   color: var(--text-faint);
 }
 .foot-disclaimer {
-  font-size: 11.5px;
+  font-size: 10px;
   line-height: 1.7;
   color: var(--text-faint);
   margin: 0 auto;
