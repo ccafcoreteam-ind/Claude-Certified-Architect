@@ -487,11 +487,21 @@ a { color: inherit; }
   @page { size: landscape; margin: 12mm; }
   .sidebar, .topbar, .confetti, .congrats, .congrats-sub, .start-actions, .app-foot { display: none !important; }
   .scroll { overflow: visible !important; }
+  .complete-inner { margin: 0; }
+  /* scale the certificate up to fill the landscape page */
   .cert {
     box-shadow: none;
     border-color: #bbb;
     margin: 0 auto;
-    max-width: 620px;
+    max-width: 780px;
+    padding: 56px 64px 46px;
   }
-  .complete-inner { margin-top: 0; }
+  .cert::before { inset: 12px; }
+  .cert-ribbon { font-size: 13px; margin-bottom: 20px; }
+  .cert-badge { width: 96px; height: 96px; margin-bottom: 20px; }
+  .cert-pre { font-size: 16px; }
+  .cert-name { font-size: 46px; margin: 10px 0 14px; }
+  .cert-body { font-size: 18px; max-width: 560px; margin-bottom: 22px; }
+  .cert-stats { font-size: 14px; padding-top: 20px; }
+  .cert-foot { font-size: 13px; margin-top: 24px; }
 }
