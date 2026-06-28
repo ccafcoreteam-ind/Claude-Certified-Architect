@@ -409,13 +409,13 @@ function DemoView({ task, progress, setCovered, goTask, solvedMap, onSolved }) {
           </div>
 
           <div className="row-between" style={{ marginTop: 6 }}>
-            <button className="btn btn-ghost" disabled={idx === 0} style={{ opacity: idx === 0 ? 0.4 : 1 }}
-              onClick={() => idx > 0 && goTask(domainTasks[idx - 1].id)}>
-              <Svg d={Icon.arrow} size={14} cls="" /> <span style={{ transform: "scaleX(-1)", display: "inline-block" }}></span>Previous
+            <button className="btn btn-ghost" disabled={globalIdx === 0} style={{ opacity: globalIdx === 0 ? 0.4 : 1 }}
+              onClick={() => globalIdx > 0 && goTask(CCA.tasks[globalIdx - 1].id)}>
+              <span style={{ display: "inline-flex", transform: "scaleX(-1)" }}><Svg d={Icon.arrow} size={14} /></span> Previous
             </button>
             <span className="mono" style={{ fontSize: 12, color: "var(--text-faint)" }}>{idx + 1} / {domainTasks.length} in Domain {domain.n}</span>
-            <button className="btn btn-ghost" disabled={idx === domainTasks.length - 1} style={{ opacity: idx === domainTasks.length - 1 ? 0.4 : 1 }}
-              onClick={() => idx < domainTasks.length - 1 && goTask(domainTasks[idx + 1].id)}>
+            <button className="btn btn-ghost" disabled={globalIdx === TOTAL - 1} style={{ opacity: globalIdx === TOTAL - 1 ? 0.4 : 1 }}
+              onClick={() => globalIdx < TOTAL - 1 && goTask(CCA.tasks[globalIdx + 1].id)}>
               Next <Svg d={Icon.arrow} size={14} />
             </button>
           </div>
@@ -747,11 +747,9 @@ function App() {
       else if (e.key === "4") goto({ view: "mock" });
       else if (e.key.toLowerCase() === "t") setTheme((t) => (t === "light" ? "dark" : "light"));
       else if ((e.key === "ArrowRight" || e.key === "ArrowLeft") && route.view === "demo") {
-        const t = CCA.taskById[route.taskId];
-        const list = CCA.tasks.filter((x) => x.d === t.d);
-        const i = list.findIndex((x) => x.id === t.id);
-        const ni = e.key === "ArrowRight" ? Math.min(i + 1, list.length - 1) : Math.max(i - 1, 0);
-        goTask(list[ni].id);
+        const i = CCA.tasks.findIndex((x) => x.id === route.taskId);
+        const ni = e.key === "ArrowRight" ? Math.min(i + 1, CCA.tasks.length - 1) : Math.max(i - 1, 0);
+        goTask(CCA.tasks[ni].id);
       }
     };
     window.addEventListener("keydown", onKey);
