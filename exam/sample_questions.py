@@ -37,9 +37,10 @@ QUESTIONS = [
         },
         answer="A",
         why="A required tool SEQUENCE for critical business logic needs DETERMINISTIC "
-            "enforcement (a gate). B and C rely on probabilistic LLM compliance — "
-            "insufficient when errors move money. D addresses tool AVAILABILITY, not "
-            "ORDERING, which is the actual problem.",
+            "enforcement — a gate. Strengthening the prompt or adding few-shot examples "
+            "relies on probabilistic LLM compliance, insufficient when errors move money. "
+            "A routing classifier addresses tool AVAILABILITY, not the ORDERING that is the "
+            "actual problem.",
     ),
     dict(
         n=2, scenario="Customer Support", maps="D2 T2.1 · demo: domain2/task2_1 · scenario 1",
@@ -55,8 +56,9 @@ QUESTIONS = [
         },
         answer="B",
         why="Descriptions are the PRIMARY tool-selection mechanism; minimal ones starve the "
-            "model of context. B is the low-effort root-cause fix. A adds tokens without "
-            "fixing the cause; C is over-engineered; D is a bigger change than a 'first "
+            "model of context, so richer descriptions are the low-effort root-cause fix. "
+            "Few-shot examples add tokens without fixing the cause; a routing layer is "
+            "over-engineered; consolidating the tools is a bigger change than a 'first "
             "step' warrants.",
     ),
     dict(
@@ -72,9 +74,9 @@ QUESTIONS = [
         },
         answer="A",
         why="Root cause = unclear decision boundaries; explicit criteria + few-shot is the "
-            "proportionate fix. B fails — LLM self-confidence is miscalibrated (overconfident "
-            "on hard cases). C is over-engineered. D solves a different problem; sentiment "
-            "≠ complexity.",
+            "proportionate fix. Self-reported confidence is miscalibrated (overconfident on "
+            "hard cases); a separate trained classifier is over-engineered; sentiment "
+            "analysis solves a different problem — sentiment ≠ complexity.",
     ),
     dict(
         n=4, scenario="Code Generation", maps="D3 T3.2 · demo: domain3/task3_2 · scenario 2",
@@ -88,8 +90,9 @@ QUESTIONS = [
         },
         answer="A",
         why="Project-scoped commands in .claude/commands/ are version-controlled and reach "
-            "everyone. B is personal-only. C is for context, not command definitions. "
-            "D describes a mechanism that doesn't exist.",
+            "everyone. A personal ~/.claude/ command is not shared; the root CLAUDE.md is for "
+            "context, not command definitions; a .claude/config.json commands array describes "
+            "a mechanism that doesn't exist.",
     ),
     dict(
         n=5, scenario="Code Generation", maps="D3 T3.4 · demo: domain3/task3_4 · scenario 2",
@@ -102,9 +105,11 @@ QUESTIONS = [
             "D": "Begin direct; switch to plan mode only if complexity emerges.",
         },
         answer="A",
-        why="Plan mode is built for large-scale, multi-approach, architectural work. B "
-            "risks costly rework. C assumes you already know the structure. D ignores that "
-            "the complexity is ALREADY stated, not hypothetical.",
+        why="Plan mode is built for large-scale, multi-approach, architectural work. "
+            "Starting with direct execution risks costly rework; comprehensive upfront "
+            "instructions assume you already know the structure; deferring to plan mode "
+            "'only if complexity emerges' ignores that the complexity is ALREADY stated, "
+            "not hypothetical.",
     ),
     dict(
         n=6, scenario="Code Generation", maps="D3 T3.3 · demo: domain3/task3_3 · scenario 2",
@@ -118,9 +123,10 @@ QUESTIONS = [
             "D": "A separate CLAUDE.md in each subdirectory.",
         },
         answer="A",
-        why="Glob-pattern rules (e.g., **/*.test.tsx) apply by path regardless of directory "
-            "— essential for scattered files. B relies on inference. C needs manual "
-            "invocation. D can't follow files spread across many directories.",
+        why="Glob-pattern rule files (e.g., **/*.test.tsx) apply by path regardless of "
+            "directory — essential for scattered files. A single root CLAUDE.md relies on "
+            "inference; skills need manual invocation; a per-directory CLAUDE.md can't follow "
+            "files spread across many directories.",
     ),
     dict(
         n=7, scenario="Multi-Agent Research", maps="D1 T1.2 · demo: domain1/task1_2 · scenario 3",
@@ -136,7 +142,8 @@ QUESTIONS = [
         answer="B",
         why="The logs show the coordinator only created visual-arts subtasks. Subagents "
             "executed their assignments correctly — the problem is WHAT they were assigned. "
-            "A, C, D blame downstream agents that worked correctly.",
+            "The other options blame downstream agents (synthesis, web search, document "
+            "analysis) that worked correctly.",
     ),
     dict(
         n=8, scenario="Multi-Agent Research", maps="D5 T5.3 · demo: domain5/task5_3 · scenario 3",
@@ -150,9 +157,11 @@ QUESTIONS = [
             "D": "Propagate the exception to a top-level handler that terminates the workflow.",
         },
         answer="A",
-        why="Structured context lets the coordinator retry-modified, try an alternative, or "
-            "proceed with partials. B's generic status hides context. C suppresses the "
-            "error (silent holes). D overreacts by killing the whole run.",
+        why="Structured error context lets the coordinator retry with modifications, try an "
+            "alternative, or proceed with partial results. A generic 'search unavailable' "
+            "status hides that context; marking a timeout as successful suppresses the error "
+            "into silent holes; propagating an exception that terminates the workflow "
+            "overreacts by killing the whole run.",
     ),
     dict(
         n=9, scenario="Multi-Agent Research", maps="D2 T2.3 · demo: domain2/task2_3 · scenario 3",
@@ -167,9 +176,11 @@ QUESTIONS = [
             "D": "Have the web search agent pre-cache extra context around each source.",
         },
         answer="A",
-        why="Least privilege: give synthesis exactly the scoped tool for the common 85%, "
-            "keep the complex 15% routed. B creates blocking dependencies. C over-provisions "
-            "(it starts searching instead of synthesizing). D can't predict needs.",
+        why="Least privilege: give synthesis exactly the scoped tool for the common 85% and "
+            "keep the complex 15% routed through the coordinator. Batching all verifications "
+            "creates blocking dependencies; giving it every web-search tool over-provisions "
+            "(it starts searching instead of synthesizing); pre-caching extra context can't "
+            "predict what will be needed.",
     ),
     dict(
         n=10, scenario="CI/CD", maps="D3 T3.6 · demo: domain3/task3_6 · scenario 5",
@@ -183,8 +194,9 @@ QUESTIONS = [
         },
         answer="A",
         why="-p / --print is the documented non-interactive mode: process, print, exit. "
-            "B and D reference non-existent features; C is a Unix workaround that doesn't "
-            "address Claude Code's command syntax.",
+            "CLAUDE_HEADLESS and --batch reference non-existent features; redirecting stdin "
+            "from /dev/null is a Unix workaround that doesn't address Claude Code's command "
+            "syntax.",
     ),
     dict(
         n=11, scenario="CI/CD / Cost", maps="D4 T4.5 · demo: domain4/task4_5 · scenario 5/6",
@@ -198,10 +210,11 @@ QUESTIONS = [
             "D": "Switch both to batch with a timeout fallback to real-time.",
         },
         answer="A",
-        why="Batch is 50% cheaper but up to 24h with NO latency SLA — unfit for a blocking "
-            "check, ideal for overnight jobs. B's 'often faster' isn't acceptable for "
-            "blocking work. C is a misconception (custom_id correlates results). D adds "
-            "needless complexity.",
+        why="Batch is 50% cheaper but takes up to 24h with NO latency SLA — unfit for a "
+            "blocking pre-merge check, ideal for overnight jobs. Switching both to batch "
+            "isn't acceptable for blocking work; keeping both real-time forgoes easy savings "
+            "and misreads batch ordering (custom_id correlates results); a timeout fallback "
+            "adds needless complexity.",
     ),
     dict(
         n=12, scenario="CI/CD / Review", maps="D4 T4.6 · demo: domain4/task4_6 · scenario 5",
@@ -215,10 +228,11 @@ QUESTIONS = [
             "D": "Run three passes; flag only issues appearing in ≥2 of 3.",
         },
         answer="A",
-        why="Root cause = attention dilution. Per-file passes give consistent depth; an "
-            "integration pass catches cross-file issues. B shifts burden to devs. C "
-            "misunderstands that bigger context ≠ better attention. D suppresses real "
-            "intermittently-caught bugs.",
+        why="Root cause = attention dilution. Per-file passes give consistent depth and a "
+            "separate integration pass catches cross-file issues. Forcing developers to split "
+            "PRs shifts the burden to them; a bigger context window misunderstands that more "
+            "context ≠ better attention; keeping only issues found in ≥2 of 3 passes "
+            "suppresses real, intermittently-caught bugs.",
     ),
 ]
 

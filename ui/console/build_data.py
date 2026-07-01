@@ -17,6 +17,7 @@ Run:  python3 ui/console/build_data.py     # rewrites ui/console/assets/data.js
 import ast
 import json
 import os
+import random
 import re
 import sys
 
@@ -203,22 +204,35 @@ def demo_output(rel, limit=18):
 
 
 # --- questions + cheat from the exam modules ---
+def _shuffle_options(options, answer_idx, seed):
+    """Deterministically reorder the 4 options so the correct answer isn't always A.
+    Seeded by the question id, so the order is stable across regenerations (no churn).
+    The explanations are letter-free, so reordering never invalidates them."""
+    order = list(range(len(options)))
+    random.Random(seed).shuffle(order)
+    return [options[i] for i in order], order.index(answer_idx)
+
+
 def build_questions():
     out = []
     for q in QUESTIONS:
         maps = q["maps"]
         task = re.search(r"T(\d\.\d)", maps).group(1)
         dom = "d" + re.search(r"D(\d)", maps).group(1)
+        qid = f"q{q['n']}"
+        opts, ans = _shuffle_options(
+            [q["options"][k] for k in ("A", "B", "C", "D")], "ABCD".index(q["answer"]), qid)
         out.append({
-            "id": f"q{q['n']}", "task": task, "domain": dom, "prompt": q["q"],
-            "options": [q["options"][k] for k in ("A", "B", "C", "D")],
-            "answer": "ABCD".index(q["answer"]), "why": q["why"],
+            "id": qid, "task": task, "domain": dom, "prompt": q["q"],
+            "options": opts, "answer": ans, "why": q["why"],
         })
     for i, q in enumerate(PRACTICE, 1):   # authored practice questions (P1..P18)
+        pid = f"p{i}"
+        opts, ans = _shuffle_options(
+            [q["options"][k] for k in ("A", "B", "C", "D")], "ABCD".index(q["answer"]), pid)
         out.append({
-            "id": f"p{i}", "task": q["task"], "domain": q["domain"], "prompt": q["q"],
-            "options": [q["options"][k] for k in ("A", "B", "C", "D")],
-            "answer": "ABCD".index(q["answer"]), "why": q["why"],
+            "id": pid, "task": q["task"], "domain": q["domain"], "prompt": q["q"],
+            "options": opts, "answer": ans, "why": q["why"],
         })
     return out
 
