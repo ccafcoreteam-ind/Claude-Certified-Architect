@@ -91,6 +91,12 @@ a { color: inherit; }
   border-top: 1px solid var(--border);
   text-align: center;
 }
+.foot-credit {
+  font-size: 13px;
+  color: var(--text-soft);
+  line-height: 1.6;
+  margin: 0 0 12px;
+}
 .foot-disclaimer {
   font-size: 10px;
   line-height: 1.7;
