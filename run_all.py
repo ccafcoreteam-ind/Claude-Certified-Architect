@@ -37,6 +37,7 @@ def discover():
         groups[name] = sorted(glob.glob(os.path.join(d, "*.py")))
     groups["exam"] = [str(ROOT / "exam" / "sample_questions.py"),
                       str(ROOT / "exam" / "practice_questions.py"),
+                      str(ROOT / "exam" / "mock_bank.py"),
                       str(ROOT / "exam" / "prep_exercises.py"),
                       str(ROOT / "exam" / "cheatsheet.py")]
     return groups
