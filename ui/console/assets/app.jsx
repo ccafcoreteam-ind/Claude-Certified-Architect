@@ -529,67 +529,192 @@ function shuffle(arr) {
   for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
   return a;
 }
+const EXAM_WEIGHTS = { d1: 27, d2: 18, d3: 20, d4: 20, d5: 15 };
+/* Draw n questions in proportion to the real exam's domain weights. */
+function pickWeighted(pool, n) {
+  const byDom = {};
+  pool.forEach((q) => { (byDom[q.domain] = byDom[q.domain] || []).push(q); });
+  Object.keys(byDom).forEach((k) => { byDom[k] = shuffle(byDom[k]); });
+  const picks = [], chosen = new Set();
+  Object.keys(EXAM_WEIGHTS).forEach((d) => {
+    const want = Math.min((byDom[d] || []).length, Math.round((n * EXAM_WEIGHTS[d]) / 100));
+    (byDom[d] || []).slice(0, want).forEach((q) => { picks.push(q); chosen.add(q.id); });
+  });
+  if (picks.length < n) {
+    shuffle(pool.filter((q) => !chosen.has(q.id))).slice(0, n - picks.length).forEach((q) => picks.push(q));
+  }
+  return shuffle(picks.slice(0, n));
+}
+function fmtTime(s) {
+  const m = Math.floor(s / 60), r = s % 60;
+  return m + ":" + String(r).padStart(2, "0");
+}
+const SEC_PER_Q = 70;
+
 function MockExam({ goTask }) {
-  const N = Math.min(10, CCA.questions.length);
-  const [exam, setExam] = useState(() => shuffle(CCA.questions).slice(0, N));
+  const bank = (CCA.mock && CCA.mock.length) ? CCA.mock : CCA.questions;
+  const maxN = bank.length;
+  const lengths = [60, 20, 10].filter((n) => n <= maxN);
+  if (!lengths.includes(maxN) && maxN < 60) lengths.unshift(maxN);
+  const [phase, setPhase] = useState("setup");   // setup | run | done
+  const [mode, setMode] = useState("exam");       // exam | practice
+  const [length, setLength] = useState(lengths[0]);
+  const [exam, setExam] = useState([]);
   const [answers, setAnswers] = useState({});
-  const answered = Object.keys(answers).length;
-  const correct = exam.filter((q) => answers[q.id] === q.answer).length;
-  const submitted = answered === exam.length;
-  const scaled = Math.round(100 + (correct / exam.length) * 900);
-  const pass = scaled >= 720;
-  const retake = () => { setExam(shuffle(CCA.questions).slice(0, N)); setAnswers({}); window.scrollTo && window.scrollTo(0, 0); };
+  const [timeLeft, setTimeLeft] = useState(0);
+  const [onlyWrong, setOnlyWrong] = useState(false);
   const keys = ["A", "B", "C", "D"];
+
+  const begin = (len, m) => {
+    setExam(pickWeighted(bank, len)); setAnswers({}); setLength(len); setMode(m);
+    setTimeLeft(len * SEC_PER_Q); setOnlyWrong(false); setPhase("run");
+    if (window.scrollTo) window.scrollTo(0, 0);
+  };
+  const finish = () => { setPhase("done"); if (window.scrollTo) window.scrollTo(0, 0); };
+  const reset = () => { setPhase("setup"); setExam([]); setAnswers({}); };
+
+  // countdown (exam mode only); auto-submits at zero
+  useEffect(() => {
+    if (phase !== "run" || mode !== "exam") return;
+    if (timeLeft <= 0) { setPhase("done"); if (window.scrollTo) window.scrollTo(0, 0); return; }
+    const t = setTimeout(() => setTimeLeft((s) => s - 1), 1000);
+    return () => clearTimeout(t);
+  }, [phase, mode, timeLeft]);
+
+  const answered = exam.filter((q) => answers[q.id] != null).length;
+  const correctCount = exam.filter((q) => answers[q.id] === q.answer).length;
+  const scaled = Math.round(100 + (correctCount / (exam.length || 1)) * 900);
+  const pass = scaled >= 720;
+
+  // ---------- Setup ----------
+  if (phase === "setup") {
+    return (
+      <div className="page">
+        <span className="eyebrow">Mock exam</span>
+        <h1 className="h1" style={{ marginTop: 10 }}>Mock exam</h1>
+        <p className="lede">A verified, blueprint-aligned question bank covering all 30 task statements. The full exam is
+          60 questions, scored 100–1000 — passing is ≥ 720, like the real exam. Questions are drawn in
+          proportion to the official domain weights.</p>
+        <div className="setup-card">
+          <div className="setup-row">
+            <div className="setup-label">Length</div>
+            <div className="chip-row">
+              {lengths.map((n) => (
+                <button key={n} className={"chip" + (length === n ? " on" : "")} onClick={() => setLength(n)}>
+                  {n === 60 ? "Full · 60" : n + " questions"}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="setup-row">
+            <div className="setup-label">Mode</div>
+            <div className="chip-row">
+              <button className={"chip" + (mode === "exam" ? " on" : "")} onClick={() => setMode("exam")}>
+                Exam · timed, reveal at end
+              </button>
+              <button className={"chip" + (mode === "practice" ? " on" : "")} onClick={() => setMode("practice")}>
+                Practice · instant feedback
+              </button>
+            </div>
+          </div>
+          <div className="setup-foot">
+            <span className="mono setup-hint">
+              {mode === "exam" ? `⏱ ${fmtTime(length * SEC_PER_Q)} timer · no feedback until you submit` : "No timer · each answer is graded as you go"}
+            </span>
+            <button className="btn btn-primary" onClick={() => begin(length, mode)}>
+              <Svg d={Icon.target} size={15} /> Start exam
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const done = phase === "done";
+  // per-domain breakdown for the results screen
+  const domStats = Object.keys(EXAM_WEIGHTS).map((d) => {
+    const qs = exam.filter((q) => q.domain === d);
+    const ok = qs.filter((q) => answers[q.id] === q.answer).length;
+    return { d, total: qs.length, ok, pct: qs.length ? Math.round((ok / qs.length) * 100) : 0 };
+  }).filter((s) => s.total > 0);
+
+  const shown = done && onlyWrong ? exam.filter((q) => answers[q.id] !== q.answer) : exam;
+
   return (
     <div className="page">
-      <span className="eyebrow">Mock exam</span>
-      <h1 className="h1" style={{ marginTop: 10 }}>Practice exam — {exam.length} questions</h1>
-      <p className="lede">Drawn at random from all {CCA.questions.length} questions. One attempt each, scored 100–1000 — pass is ≥ 720, like the real exam. Answer every question to see your score.</p>
+      <span className="eyebrow">Mock exam · {mode === "exam" ? "exam mode" : "practice"}</span>
+      <h1 className="h1" style={{ marginTop: 10 }}>{done ? "Your results" : `${exam.length}-question exam`}</h1>
 
+      {/* sticky status bar */}
       <div className="exam-bar">
         <span className="mono">{answered}/{exam.length} answered</span>
         <span className="minibar" style={{ flex: 1 }}><i style={{ width: (answered / exam.length * 100) + "%" }} /></span>
-        <button className="btn btn-ghost" style={{ height: 30 }} onClick={retake}><Svg d={Icon.refresh} size={14} /> New set</button>
+        {!done && mode === "exam" && (
+          <span className={"exam-timer mono" + (timeLeft <= 60 ? " low" : "")}>⏱ {fmtTime(timeLeft)}</span>
+        )}
+        {!done && <button className="btn btn-primary" style={{ height: 30 }} onClick={finish}>Submit</button>}
+        <button className="btn btn-ghost" style={{ height: 30 }} onClick={reset}><Svg d={Icon.refresh} size={14} /> New exam</button>
       </div>
 
-      {submitted && (
-        <div className={"exam-result " + (pass ? "pass" : "fail")}>
-          <div className="score mono">{scaled}<span>/1000</span></div>
-          <div className="score-txt">
-            <b>{pass ? "Pass 🎉" : "Below passing"}</b>
-            <span>{correct} / {exam.length} correct · passing is 720</span>
+      {done && (
+        <>
+          <div className={"exam-result " + (pass ? "pass" : "fail")}>
+            <div className="score mono">{scaled}<span>/1000</span></div>
+            <div className="score-txt">
+              <b>{pass ? "Pass 🎉" : "Below passing"}</b>
+              <span>{correctCount} / {exam.length} correct · passing is 720</span>
+            </div>
+            <button className="btn btn-primary" onClick={() => begin(length, mode)}><Svg d={Icon.refresh} size={15} /> Retake (new questions)</button>
           </div>
-          <button className="btn btn-primary" onClick={retake}><Svg d={Icon.refresh} size={15} /> Retake (new questions)</button>
-        </div>
+          <div className="dombreak">
+            <div className="dombreak-h mono">Score by domain</div>
+            {domStats.map((s) => (
+              <div key={s.d} className="dombar-row" onClick={() => goDomainFromMock(goTask, s.d)} title="Open this domain">
+                <span className="dombar-name">{CCA.domainById[s.d].short}</span>
+                <span className="dombar-track"><i className={s.pct >= 72 ? "ok" : "low"} style={{ width: s.pct + "%" }} /></span>
+                <span className="dombar-num mono">{s.ok}/{s.total}</span>
+              </div>
+            ))}
+          </div>
+          <div className="exam-bar" style={{ marginTop: 4 }}>
+            <button className={"chip" + (onlyWrong ? " on" : "")} onClick={() => setOnlyWrong((v) => !v)}>
+              {onlyWrong ? "Showing incorrect only" : "Review incorrect only"}
+            </button>
+            <span className="mono setup-hint">Reference links below each question open the matching lesson.</span>
+          </div>
+        </>
       )}
 
       <div className="spacer-m"></div>
-      {exam.map((q, qi) => {
+      {shown.map((q, qi) => {
         const chosen = answers[q.id];
-        const locked = chosen != null;
+        const revealed = mode === "practice" ? chosen != null : done;
+        const num = exam.indexOf(q) + 1;
         return (
           <div key={q.id} className="card exam-q">
             <div className="qmeta">
-              <span className="qtag">{qi + 1}</span>
+              <span className="qtag">{num}</span>
               <span className="pill">Task {q.task}</span>
-              {locked && <span className={chosen === q.answer ? "qsolved" : "qsolved bad"}>{chosen === q.answer ? "✓ correct" : "✗ incorrect"}</span>}
+              {revealed && <span className={chosen === q.answer ? "qsolved" : "qsolved bad"}>{chosen === q.answer ? "✓ correct" : (chosen == null ? "✗ unanswered" : "✗ incorrect")}</span>}
             </div>
             <p className="qp">{q.prompt}</p>
             {q.options.map((opt, i) => {
               let cls = "qopt";
-              if (locked) { if (i === q.answer) cls += " correct"; else if (i === chosen) cls += " wrong"; }
+              if (revealed) { if (i === q.answer) cls += " correct"; else if (i === chosen) cls += " wrong"; }
+              else if (i === chosen) cls += " chosen";
               return (
-                <button key={i} className={cls} disabled={locked} onClick={() => setAnswers((a) => ({ ...a, [q.id]: i }))}>
+                <button key={i} className={cls} disabled={revealed} onClick={() => setAnswers((a) => ({ ...a, [q.id]: i }))}>
                   <span className="qk">{keys[i]}</span><span>{opt}</span>
-                  {locked && i === q.answer && <Svg d={Icon.check} size={15} />}
+                  {revealed && i === q.answer && <Svg d={Icon.check} size={15} />}
                 </button>
               );
             })}
-            {locked && (
+            {revealed && (
               <div className="explain">
                 <b>{chosen === q.answer ? "Correct. " : "Incorrect. "}</b>{q.why}
+                {q.ref && <div className="qref">📖 {q.ref}</div>}
                 <button className="link-row" style={{ marginTop: 10 }} onClick={() => goTask(q.task)}>
-                  <span className="lid">{q.task}</span><span className="ltxt">Open the lesson</span><Svg d={Icon.arrow} size={14} cls="larr" />
+                  <span className="lid">{q.task}</span><span className="ltxt">Open the lesson to review</span><Svg d={Icon.arrow} size={14} cls="larr" />
                 </button>
               </div>
             )}
@@ -598,6 +723,10 @@ function MockExam({ goTask }) {
       })}
     </div>
   );
+}
+function goDomainFromMock(goTask, d) {
+  const first = CCA.tasks.find((t) => t.d === d);
+  if (first) goTask(first.id);
 }
 
 /* ---------- Course complete (congratulations + certificate) ---------- */
