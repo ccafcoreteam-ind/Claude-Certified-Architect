@@ -38,8 +38,8 @@ PRACTICE = [
          },
          answer="A",
          why="Termination must be driven by stop_reason, the structured signal the API "
-             "returns. Parsing natural-language text (B, D) is probabilistic and brittle; "
-             "an iteration cap (C) is only a safety net, not the normal stop condition."),
+             "returns. Parsing natural-language text is probabilistic and brittle; "
+             "an iteration cap is only a safety net, not the normal stop condition."),
 
     dict(task="1.3", domain="d1",
          q="A coordinator delegates to a synthesis subagent, but the subagent keeps "
@@ -58,8 +58,9 @@ PRACTICE = [
          },
          answer="A",
          why="Subagents have isolated context; anything they need must be explicitly placed "
-             "in their prompt. B is contradicted by the stem. C over-provisions and "
-             "duplicates work. D affects latency, not whether context transfers."),
+             "in their prompt. The missing-'Task'-tool explanation is contradicted by the "
+             "stem; giving synthesis its own web-search tool over-provisions and duplicates "
+             "work; parallel spawning affects latency, not whether context transfers."),
 
     dict(task="1.5", domain="d1",
          q="Three backend tools return timestamps in three formats (Unix epoch, ISO 8601, "
@@ -75,8 +76,8 @@ PRACTICE = [
          },
          answer="A",
          why="PostToolUse hooks transform results deterministically before the model "
-             "processes them. Prompt instructions (B) and few-shot (C) are probabilistic; "
-             "an extra tool the agent must remember to call (D) reintroduces the failure."),
+             "processes them. Prompt instructions and few-shot are probabilistic; "
+             "an extra tool the agent must remember to call reintroduces the failure."),
 
     dict(task="1.6", domain="d1",
          q="You must add comprehensive tests to a large legacy codebase whose structure and "
@@ -92,8 +93,8 @@ PRACTICE = [
          },
          answer="A",
          why="Open-ended, discovery-driven work needs adaptive decomposition; you cannot "
-             "know the steps up front, which rules out a fixed pipeline (B). One mega-prompt "
-             "(C) dilutes attention; uncoordinated parallel agents (D) duplicate and miss "
+             "know the steps up front, which rules out a fixed pipeline. One mega-prompt "
+             "(C) dilutes attention; uncoordinated parallel agents duplicate and miss "
              "cross-cutting areas."),
 
     dict(task="1.7", domain="d1",
@@ -109,7 +110,7 @@ PRACTICE = [
          answer="A",
          why="When prior tool results are largely stale, a fresh session with an injected "
              "summary beats reasoning over outdated facts. The model will not auto-detect "
-             "changed files (B); context size does not fix staleness (C); forking (D) is for "
+             "changed files; context size does not fix staleness; forking is for "
              "exploring divergent approaches from a still-valid baseline."),
 
     dict(task="2.2", domain="d2",
@@ -128,9 +129,9 @@ PRACTICE = [
          },
          answer="A",
          why="The agent cannot choose the right recovery without categorized, structured "
-             "errors. Blanket retries (B) waste calls on non-retryable failures; a prompt "
-             "rule (C) is probabilistic and blind to the tool's internal cause; a raw stack "
-             "trace (D) is noise the agent can't reliably act on."),
+             "errors. Blanket retries waste calls on non-retryable failures; a prompt "
+             "rule is probabilistic and blind to the tool's internal cause; a raw stack "
+             "trace is noise the agent can't reliably act on."),
 
     dict(task="2.4", domain="d2",
          q="Your team needs everyone to share a Jira MCP server, authenticated with a token "
@@ -146,8 +147,8 @@ PRACTICE = [
          answer="A",
          why="Project-scoped .mcp.json shares the server with the team via version control, "
              "and ${ENV_VAR} expansion keeps the secret out of the committed file. Personal "
-             "config (B) isn't shared and hardcodes the secret; gitignoring the config (C) "
-             "means teammates don't get the server; Jira is not a built-in tool (D)."),
+             "config isn't shared and hardcodes the secret; gitignoring the config "
+             "means teammates don't get the server; Jira is not a built-in tool."),
 
     dict(task="2.5", domain="d2",
          q="You need to find every file whose name ends in .test.tsx, then within one of "
@@ -161,8 +162,8 @@ PRACTICE = [
          },
          answer="A",
          why="Glob matches file NAMES/paths; Edit makes a targeted change anchored on unique "
-             "text. Grep searches CONTENTS, not names (B); Glob does not search contents "
-             "(C); reading every file upfront is wasteful (D)."),
+             "text. Grep searches CONTENTS, not names; Glob does not search contents "
+             "(C); reading every file upfront is wasteful."),
 
     dict(task="3.1", domain="d3",
          q="A new teammate clones the repo, but Claude ignores the team's coding conventions "
@@ -178,9 +179,10 @@ PRACTICE = [
          },
          answer="A",
          why="User-level config is personal and not shared through version control, so a "
-             "teammate never receives it; the project CLAUDE.md is. B misdiagnoses "
-             "(project-level would already reach them); C moves it the wrong direction; D is "
-             "not how CLAUDE.md works."),
+             "teammate never receives it; the project CLAUDE.md is. Telling them to run "
+             "/memory misdiagnoses it (project-level would already reach them); moving it "
+             "into ~/.claude/ goes the wrong direction; 'wait a few sessions' is not how "
+             "CLAUDE.md works."),
 
     dict(task="3.5", domain="d3",
          q="Claude's data-transformation output is inconsistent run-to-run despite a "
@@ -195,7 +197,7 @@ PRACTICE = [
          answer="A",
          why="Concrete input-to-output examples communicate a transformation far more "
              "reliably than prose, which is interpreted inconsistently. More/longer prose "
-             "(B) and exhortations (D) don't pin the behavior down; temperature (C) isn't a "
+             "(B) and exhortations don't pin the behavior down; temperature isn't a "
              "prompt instruction and doesn't fix ambiguous intent."),
 
     dict(task="4.1", domain="d4",
@@ -211,8 +213,8 @@ PRACTICE = [
          },
          answer="A",
          why="Specific categorical criteria give a decidable boundary; vague modifiers like "
-             "'high-confidence' / 'be conservative' (B) do not move precision. Self-reported "
-             "confidence (C) is poorly calibrated; a bigger model (D) doesn't fix an "
+             "'high-confidence' / 'be conservative' do not move precision. Self-reported "
+             "confidence is poorly calibrated; a bigger model doesn't fix an "
              "underspecified task."),
 
     dict(task="4.2", domain="d4",
@@ -227,8 +229,8 @@ PRACTICE = [
          },
          answer="A",
          why="A demonstrated example of the null/edge case teaches the boundary more "
-             "reliably than any prose rule (B). Making the field required (C) actively forces "
-             "fabrication; temperature (D) doesn't address missing-data behavior."),
+             "reliably than any prose rule. Making the field required actively forces "
+             "fabrication; temperature doesn't address missing-data behavior."),
 
     dict(task="4.3", domain="d4",
          q="You must extract data from documents of an unknown type and need guaranteed "
@@ -244,8 +246,8 @@ PRACTICE = [
          answer="A",
          why="Tool-use with a JSON schema eliminates syntax errors; 'any' guarantees a tool "
              "is called when the right schema depends on the unknown input; nullable fields "
-             "prevent fabrication. Free-text JSON (B) reintroduces syntax errors; required "
-             "fields (C) force made-up values; forcing one tool (D) fails when the type "
+             "prevent fabrication. Free-text JSON reintroduces syntax errors; required "
+             "fields force made-up values; forcing one tool fails when the type "
              "varies."),
 
     dict(task="4.4", domain="d4",
@@ -262,7 +264,7 @@ PRACTICE = [
          },
          answer="A",
          why="Retries fix format/structure errors but can never conjure information absent "
-             "from the source, so retrying (B, C) is futile. Silently dropping the validation "
+             "from the source, so retrying is futile. Silently dropping the validation "
              "(D) hides a real data gap."),
 
     dict(task="5.1", domain="d5",
@@ -279,8 +281,8 @@ PRACTICE = [
          answer="A",
          why="Numbers and dates are the first casualties of progressive summarization; a "
              "structured facts block kept outside the summary preserves them. More "
-             "summarization (B) worsens it; a bigger window (C) doesn't stop "
-             "lost-in-the-middle/erosion; 'remember carefully' (D) is no guarantee."),
+             "summarization worsens it; a bigger window doesn't stop "
+             "lost-in-the-middle/erosion; 'remember carefully' is no guarantee."),
 
     dict(task="5.4", domain="d5",
          q="Deep into a long codebase-exploration session, the agent starts answering with "
@@ -297,8 +299,8 @@ PRACTICE = [
          answer="A",
          why="Answering from 'typical patterns' instead of discovered specifics signals "
              "working-memory pressure; the fix is external memory + delegation/compaction. "
-             "It is not correct generalization (B); pasting everything (C) worsens the "
-             "pressure; a full restart (D) wastes the progress a summary could preserve."),
+             "It is not correct generalization; pasting everything worsens the "
+             "pressure; a full restart wastes the progress a summary could preserve."),
 
     dict(task="5.5", domain="d5",
          q="An extraction system reports 97% overall accuracy, so a manager wants to fully "
@@ -313,9 +315,9 @@ PRACTICE = [
          },
          answer="A",
          why="Aggregate metrics hide segment-level failure; validate per type/field and keep "
-             "auditing the trusted lane. Blanket automation (B) ships the hidden pockets; "
-             "routing by a global percentage (C) ignores per-segment risk; tuning the "
-             "threshold to inflate the headline number (D) games the metric."),
+             "auditing the trusted lane. Blanket automation ships the hidden pockets; "
+             "routing by a global percentage ignores per-segment risk; tuning the "
+             "threshold to inflate the headline number games the metric."),
 
     dict(task="5.6", domain="d5",
          q="A multi-source research report cites a 2021 figure of $136B and a 2024 figure of "
@@ -331,8 +333,8 @@ PRACTICE = [
          },
          answer="A",
          why="Figures from different years represent change over time, not disagreement; "
-             "attaching dates prevents the misreading. Dropping (B) or averaging (D) destroys "
-             "real information; assuming an error (C) misdiagnoses a temporal trend."),
+             "attaching dates prevents the misreading. Dropping or averaging destroys "
+             "real information; assuming an error misdiagnoses a temporal trend."),
 ]
 
 
