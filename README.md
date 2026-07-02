@@ -5,7 +5,7 @@ concept from the study guide is turned into a small, **runnable** Python demo yo
 project on a screen, step through, and discuss in a teaching session.
 
 > ### ▶ Play with it online — no install
-> **[https://jacinthpaul.github.io/Claude-Certified-Architect/](https://ccafcoreteam-ind.github.io/Claude-Certified-Architect/)**
+> **[https://ccafcoreteam-ind.github.io/Claude-Certified-Architect/](https://ccafcoreteam-ind.github.io/Claude-Certified-Architect/)**
 >
 > The hosted **Exam Prep Console**: browse all 5 domains / 30 tasks, run each demo, take the
 > interactive 12-question quiz, and read the cheat sheet — right in your browser. (Loads
