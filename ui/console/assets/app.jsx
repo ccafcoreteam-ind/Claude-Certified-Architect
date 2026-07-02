@@ -545,12 +545,6 @@ function pickWeighted(pool, n) {
   }
   return shuffle(picks.slice(0, n));
 }
-function fmtTime(s) {
-  const m = Math.floor(s / 60), r = s % 60;
-  return m + ":" + String(r).padStart(2, "0");
-}
-const SEC_PER_Q = 70;
-
 function MockExam({ goTask }) {
   const bank = (CCA.mock && CCA.mock.length) ? CCA.mock : CCA.questions;
   const maxN = bank.length;
@@ -561,25 +555,16 @@ function MockExam({ goTask }) {
   const [length, setLength] = useState(lengths[0]);
   const [exam, setExam] = useState([]);
   const [answers, setAnswers] = useState({});
-  const [timeLeft, setTimeLeft] = useState(0);
   const [onlyWrong, setOnlyWrong] = useState(false);
   const keys = ["A", "B", "C", "D"];
 
   const begin = (len, m) => {
     setExam(pickWeighted(bank, len)); setAnswers({}); setLength(len); setMode(m);
-    setTimeLeft(len * SEC_PER_Q); setOnlyWrong(false); setPhase("run");
+    setOnlyWrong(false); setPhase("run");
     if (window.scrollTo) window.scrollTo(0, 0);
   };
   const finish = () => { setPhase("done"); if (window.scrollTo) window.scrollTo(0, 0); };
   const reset = () => { setPhase("setup"); setExam([]); setAnswers({}); };
-
-  // countdown (exam mode only); auto-submits at zero
-  useEffect(() => {
-    if (phase !== "run" || mode !== "exam") return;
-    if (timeLeft <= 0) { setPhase("done"); if (window.scrollTo) window.scrollTo(0, 0); return; }
-    const t = setTimeout(() => setTimeLeft((s) => s - 1), 1000);
-    return () => clearTimeout(t);
-  }, [phase, mode, timeLeft]);
 
   const answered = exam.filter((q) => answers[q.id] != null).length;
   const correctCount = exam.filter((q) => answers[q.id] === q.answer).length;
@@ -610,7 +595,7 @@ function MockExam({ goTask }) {
             <div className="setup-label">Mode</div>
             <div className="chip-row">
               <button className={"chip" + (mode === "exam" ? " on" : "")} onClick={() => setMode("exam")}>
-                Exam · timed, reveal at end
+                Exam · reveal at end
               </button>
               <button className={"chip" + (mode === "practice" ? " on" : "")} onClick={() => setMode("practice")}>
                 Practice · instant feedback
@@ -619,7 +604,7 @@ function MockExam({ goTask }) {
           </div>
           <div className="setup-foot">
             <span className="mono setup-hint">
-              {mode === "exam" ? `⏱ ${fmtTime(length * SEC_PER_Q)} timer · no feedback until you submit` : "No timer · each answer is graded as you go"}
+              {mode === "exam" ? "No feedback until you submit — answer, then submit to see your score" : "Each answer is graded as you go"}
             </span>
             <button className="btn btn-primary" onClick={() => begin(length, mode)}>
               <Svg d={Icon.target} size={15} /> Start exam
@@ -649,9 +634,6 @@ function MockExam({ goTask }) {
       <div className="exam-bar">
         <span className="mono">{answered}/{exam.length} answered</span>
         <span className="minibar" style={{ flex: 1 }}><i style={{ width: (answered / exam.length * 100) + "%" }} /></span>
-        {!done && mode === "exam" && (
-          <span className={"exam-timer mono" + (timeLeft <= 60 ? " low" : "")}>⏱ {fmtTime(timeLeft)}</span>
-        )}
         {!done && <button className="btn btn-primary" style={{ height: 30 }} onClick={finish}>Submit</button>}
         <button className="btn btn-ghost" style={{ height: 30 }} onClick={reset}><Svg d={Icon.refresh} size={14} /> New exam</button>
       </div>

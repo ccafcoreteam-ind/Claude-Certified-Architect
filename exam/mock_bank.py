@@ -1,12 +1,12 @@
 """
-exam/mock_bank.py — 60-question blueprint-aligned MOCK EXAM bank (+3 supplementary)
+exam/mock_bank.py — 60-question blueprint-aligned MOCK EXAM bank
 ============================================================================
 Verified, exam-style scenario questions cross-checked against the official Claude
 Certified Architect – Foundations Exam Guide. Each item carries the correct answer, a
 letter-free explanation (so option order can be shuffled in the console), and the
 official Domain / Task Statement reference the question tests.
 
-These power the console's timed Mock Exam (ui/console). Tagged M1..M63.
+These power the console's Mock Exam (ui/console). Tagged M1..M60.
 Not official exam items; a study aid.
 """
 import sys
@@ -738,48 +738,12 @@ MOCK_BANK = [
          why='Task Statement 5.6 prescribes annotating conflicting statistics with source attribution rather than arbitrarily selecting one value, and requiring publication or collection dates so temporal differences are not misinterpreted as contradictions. Arbitrarily choosing, silently averaging, or discarding both destroy provenance and mislead the reader.',
          ref='Domain 5, Task Statement 5.6 — Preserve information provenance and handle uncertainty in multi-source synthesis.'),
 
-    dict(task='5.4', domain='d5',
-         q='During a multi-hour Claude Code exploration of a large legacy codebase, the agent begins giving inconsistent answers and referencing "typical patterns" instead of the specific classes it discovered earlier in the session. Which mitigation directly addresses this context degradation?',
-         options={
-             'A': 'Increase max_tokens on every request',
-             'B': 'Have the agent maintain a scratchpad file recording key findings, and reference it when answering subsequent questions',
-             'C': 'Raise the temperature so the model explores more broadly',
-             'D': 'Move the exploration to the Message Batches API',
-         },
-         answer='B',
-         why='Task Statement 5.4 identifies exactly this degradation signature — inconsistent answers and reversion to "typical patterns" rather than discovered specifics — and prescribes scratchpad files that persist key findings across context boundaries so the agent re-grounds its answers in recorded facts. max_tokens affects output length only, temperature adds randomness, and batch processing is unrelated to interactive exploration. Complementary tactics include subagent delegation for verbose discovery and /compact to reduce context usage.',
-         ref='Domain 5, Task Statement 5.4 — Manage context effectively in large codebase exploration.'),
-
-    dict(task='5.4', domain='d5',
-         q='A long-running multi-agent codebase analysis occasionally crashes partway through, losing hours of discovery work. What design enables recovery without full re-exploration?',
-         options={
-             'A': 'Each agent exports structured state to a known location, and on resume the coordinator loads a manifest and injects the summaries into agent prompts',
-             'B': "Rely on --resume to automatically restore all agents' in-memory state after a crash",
-             'C': 'Re-run the entire analysis from scratch after every crash',
-             'D': 'Keep all state exclusively inside the conversation context so nothing exists outside it',
-         },
-         answer='A',
-         why="Task Statement 5.4 prescribes crash recovery via structured agent state exports: each agent writes its state to a known location, and the coordinator loads a manifest on resume, injecting summaries into agent prompts. --resume resumes a conversation but cannot reconstruct a multi-agent system's distributed progress, full re-runs are exactly the waste being avoided, and context-only state is what makes crashes catastrophic in the first place.",
-         ref='Domain 5, Task Statement 5.4 — Manage context effectively in large codebase exploration.'),
-
-    dict(task='5.5', domain='d5',
-         q='Your extraction pipeline reports 97% aggregate accuracy, and leadership wants to remove human review for high-confidence extractions. What should you do before automating?',
-         options={
-             'A': 'Automate immediately — 97% aggregate accuracy exceeds any reasonable threshold',
-             'B': 'Analyze accuracy by document type and field segment, and implement stratified random sampling of high-confidence extractions to measure error rates and detect novel error patterns',
-             'C': 'Ask the model to apply a stricter confidence threshold to itself and trust the result',
-             'D': 'Keep reviewing every extraction manually indefinitely',
-         },
-         answer='B',
-         why='Task Statement 5.5 warns that aggregate accuracy metrics can mask poor performance on specific document types or fields, and prescribes validating accuracy by segment plus stratified random sampling of high-confidence extractions for ongoing error-rate measurement and novel-pattern detection. Immediate automation trusts a potentially misleading aggregate, self-applied thresholds rely on uncalibrated self-assessment rather than labeled validation sets, and permanent full review ignores the calibrated routing the task statement is about.',
-         ref='Domain 5, Task Statement 5.5 — Design human review workflows and confidence calibration.'),
-
 ]
 
 
 def main():
-    banner("Mock Exam Bank", "60 blueprint-aligned questions (+3 supplementary) — verified, exam-style")
-    note("These power the console's timed 60-question Mock Exam (M1..M63). Study aid, not official items.")
+    banner("Mock Exam Bank", "60 blueprint-aligned questions — verified, exam-style")
+    note("These power the console's 60-question Mock Exam (M1..M60). Study aid, not official items.")
     for i, q in enumerate(MOCK_BANK, 1):
         h1(f"M{i} — Task {q['task']} ({q['domain'].upper()})")
         note(q["q"])
