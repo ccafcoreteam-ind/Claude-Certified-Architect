@@ -520,23 +520,26 @@ a { color: inherit; }
   .scroll { overflow: visible !important; height: auto !important; }
   .page { max-width: none !important; padding: 0 !important; }
   .app-bg { background-image: none !important; }
-  /* center the certificate vertically on the page and let it fill the sheet */
-  .complete-page { min-height: 92vh; display: flex; align-items: center; justify-content: center; }
+  /* collapse the document to the certificate's height so no blank 2nd page prints */
+  html, body { height: auto !important; }
+  .complete-page { display: block !important; min-height: 0 !important; }
   .complete-inner { max-width: none !important; width: 100%; margin: 0 auto !important; }
-  /* scale the certificate up to fill the landscape page */
+  /* the certificate must stay on ONE page — never split it across sheets */
   .cert {
     box-shadow: none;
     border-color: #bbb;
-    margin: 0 auto;
-    max-width: 940px;
-    padding: 80px 90px 64px;
+    margin: 8mm auto 0;
+    max-width: 860px;
+    padding: 54px 64px 44px;
+    break-inside: avoid;
+    page-break-inside: avoid;
   }
-  .cert::before { inset: 14px; }
-  .cert-ribbon { font-size: 15px; margin-bottom: 28px; }
-  .cert-badge { width: 120px; height: 120px; margin-bottom: 28px; }
-  .cert-pre { font-size: 18px; }
-  .cert-name { font-size: 58px; margin: 14px 0 18px; }
-  .cert-body { font-size: 22px; max-width: 680px; margin-bottom: 30px; }
-  .cert-stats { font-size: 16px; padding-top: 28px; }
-  .cert-foot { font-size: 15px; margin-top: 34px; }
+  .cert::before { inset: 12px; }
+  .cert-ribbon { font-size: 14px; margin-bottom: 20px; }
+  .cert-badge { width: 92px; height: 92px; margin-bottom: 20px; }
+  .cert-pre { font-size: 16px; }
+  .cert-name { font-size: 46px; margin: 12px 0 14px; }
+  .cert-body { font-size: 19px; max-width: 620px; margin-bottom: 22px; }
+  .cert-stats { font-size: 15px; padding-top: 20px; }
+  .cert-foot { font-size: 14px; margin-top: 24px; }
 }
