@@ -27,6 +27,8 @@ const Icon = {
   target: "M12 21a9 9 0 1 1 0-18 9 9 0 0 1 0 18M12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8",
   award: "M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12M8.5 13.5 7 22l5-3 5 3-1.5-8.5",
   refresh: "M21 12a9 9 0 1 1-3-6.7M21 4v4h-4",
+  menu: "M3 6h18M3 12h18M3 18h18",
+  close: "M6 6l12 12M18 6L6 18",
 };
 function Svg({ d, size = 16, sw = 1.8, fill = "none", cls }) {
   return (
@@ -765,7 +767,7 @@ function Complete({ name, goto, resetProgress }) {
 }
 
 /* ---------- Sidebar ---------- */
-function Sidebar({ route, goto, goTask, progress, completeCount }) {
+function Sidebar({ route, goto, goTask, progress, completeCount, drawerOpen, onClose }) {
   const [open, setOpen] = useState(() => ({ [route.taskId ? CCA.taskById[route.taskId]?.d : "d1"]: true }));
   const toggle = (id) => setOpen((o) => ({ ...o, [id]: !o[id] }));
   const top = [
@@ -777,12 +779,13 @@ function Sidebar({ route, goto, goTask, progress, completeCount }) {
   ];
   const pct = Math.round((completeCount / TOTAL) * 100);
   return (
-    <aside className="sidebar">
+    <aside className={"sidebar" + (drawerOpen ? " open" : "")}>
       <div className="sb-head">
         <div className="brand">
           <div className="brand-mark">CC</div>
           <div className="brand-txt"><b>Architect Course</b><span>foundations · self-paced</span></div>
         </div>
+        <button className="sb-close" onClick={onClose} aria-label="Close menu"><Svg d={Icon.close} size={18} /></button>
       </div>
       <nav className="sb-nav">
         <div className="nav-group">
@@ -844,12 +847,14 @@ function App() {
   const [progress, setProgress] = useLocal("cca-progress", {});
   const [solvedMap, setSolvedMap] = useLocal("cca-solved", {});
   const [name, setName] = useLocal("cca-name", "");
+  const [navOpen, setNavOpen] = useState(false);
   const scrollRef = useRef(null);
 
   const completeCount = CCA.tasks.filter((t) => progress[t.id]).length;
 
   useEffect(() => { document.documentElement.setAttribute("data-theme", theme); }, [theme]);
   useEffect(() => { if (scrollRef.current) scrollRef.current.scrollTop = 0; }, [route]);
+  useEffect(() => { setNavOpen(false); }, [route]);   // close the mobile drawer on navigation
 
   const goto = (r) => setRoute({ taskId: null, ...r });
   const goTask = (id) => setRoute({ view: "demo", taskId: id });
@@ -895,9 +900,11 @@ function App() {
 
   return (
     <div className="shell">
-      <Sidebar route={route} goto={goto} goTask={goTask} progress={progress} completeCount={completeCount} />
+      <Sidebar route={route} goto={goto} goTask={goTask} progress={progress} completeCount={completeCount} drawerOpen={navOpen} onClose={() => setNavOpen(false)} />
+      {navOpen && <div className="nav-backdrop" onClick={() => setNavOpen(false)} />}
       <div className="main">
         <div className="topbar">
+          <button className="hamburger" onClick={() => setNavOpen(true)} aria-label="Open menu"><Svg d={Icon.menu} size={18} /></button>
           <div className="crumbs">
             <span style={{ color: "var(--text-faint)" }}>course</span>
             <span className="crumb-sep">/</span>
