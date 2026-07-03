@@ -743,7 +743,7 @@ function Complete({ name, goto, resetProgress }) {
           <p className="cert-pre">This certifies that</p>
           <h1 className="cert-name">{name && name.trim() ? name.trim() : "You"}</h1>
           <p className="cert-body">has completed all {TOTAL} lessons of the<br /><b>Claude Certified Architect — Foundations Study Course</b></p>
-          <div className="cert-stats">{TOTAL}/{TOTAL} lessons · {TOTAL} questions solved · 5 domains</div>
+          <div className="cert-stats">{CCA.domains.length} domains · {CCA.scenarios.length} scenarios · {TOTAL}/{TOTAL} lessons · {(CCA.mock && CCA.mock.length) || 60} questions solved</div>
           <div className="cert-foot"><span>Self-paced study course</span><span>{today}</span></div>
         </div>
 
