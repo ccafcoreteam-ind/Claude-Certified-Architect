@@ -19,7 +19,7 @@ from ccarch import banner, h1, kv, note, right, tip, rule
 # Each: task, domain, q (prompt), options A-D, answer letter, why (letter-free), ref.
 MOCK_BANK = [
     dict(task='1.1', domain='d1',
-         q='In a Claude Agent SDK agentic loop, which condition should your control-flow code use to decide whether to continue executing tools versus stopping and returning the final answer?',
+         q="You're building an agent that resolves each user request by calling tools in a loop — looking something up, checking a rule, then acting — until the request is fully handled. After every model turn, your control-flow code has to decide whether to run another tool or stop and return the final answer. Which condition should your control-flow code use to make that decision?",
          options={
              'A': 'Parse the assistant\'s text for a keyword such as "done" or "complete"',
              'B': 'Continue while stop_reason is "tool_use"; terminate when stop_reason is "end_turn"',
@@ -31,7 +31,7 @@ MOCK_BANK = [
          ref='Domain 1, Task Statement 1.1 — Design and implement agentic loops for autonomous task execution.'),
 
     dict(task='1.2', domain='d1',
-         q="When a coordinator agent spawns a subagent via the Task tool, what does the subagent know about the coordinator's prior conversation?",
+         q="You're designing a multi-agent system where a coordinator delegates sub-tasks to subagents through the Task tool, and you're deciding how much information to pass into each one. When a coordinator agent spawns a subagent via the Task tool, what does the subagent know about the coordinator's prior conversation?",
          options={
              'A': 'It automatically inherits the full conversation history of the coordinator',
              'B': 'It shares a live memory space with the coordinator and all sibling subagents',
@@ -43,7 +43,7 @@ MOCK_BANK = [
          ref='Domain 1, Task Statement 1.2 — Orchestrate multi-agent systems with coordinator-subagent patterns (also relates to Task Statement 1.3).'),
 
     dict(task='1.3', domain='d1',
-         q='For a coordinator agent to invoke subagents through the Task tool, what configuration is required?',
+         q="You're wiring up a coordinator that should delegate sub-topics to specialist subagents, but at runtime its spawn attempts silently do nothing and no subagents ever run, so you start checking its configuration. For a coordinator agent to invoke subagents through the Task tool, what configuration is required?",
          options={
              'A': 'The coordinator\'s allowedTools must include "Task"',
              'B': 'Each subagent must be granted tool_choice: "any"',
@@ -91,7 +91,7 @@ MOCK_BANK = [
          ref='Domain 1, Task Statement 1.5 — Apply Agent SDK hooks for tool call interception and data normalization.'),
 
     dict(task='1.3', domain='d1',
-         q='You want subagents in a research pipeline to run in parallel rather than sequentially to reduce latency. How does the coordinator achieve parallel execution?',
+         q='Your research pipeline currently runs its subagents one after another, and end-to-end latency is too high because each one waits for the previous to finish. You want them to run in parallel instead. How does the coordinator achieve parallel execution?',
          options={
              'A': 'It emits multiple Task tool calls within a single coordinator response',
              'B': 'It sets max_tokens to a higher value',
@@ -127,7 +127,7 @@ MOCK_BANK = [
          ref='Domain 2, Task Statement 2.3 — Distribute tools appropriately across agents and configure tool choice. Closely parallels Official Exam Guide Sample Question 9.'),
 
     dict(task='1.6', domain='d1',
-         q='When should you choose a fixed sequential pipeline (prompt chaining) over dynamic adaptive decomposition for a workflow?',
+         q="You're structuring a multi-step workflow and weighing a fixed pipeline of predefined steps against a plan that adapts as it discovers more about the task. When should you choose a fixed sequential pipeline (prompt chaining) over dynamic adaptive decomposition for a workflow?",
          options={
              'A': 'When the task is open-ended investigation whose subtasks depend on intermediate discoveries',
              'B': 'When the workflow is a predictable, multi-aspect review with known steps (e.g., analyze each file, then a cross-file pass)',
@@ -151,7 +151,7 @@ MOCK_BANK = [
          ref='Domain 1, Task Statement 1.4 — Implement multi-step workflows with enforcement and handoff patterns.'),
 
     dict(task='1.5', domain='d1',
-         q='An Agent SDK hook must block any refund exceeding $500 and redirect it to human escalation. Which hook pattern enforces this deterministically?',
+         q='Your support agent can issue refunds, and policy requires that any refund over $500 be blocked and redirected to a human — with no way for the model to talk its way past it. You decide to enforce this with an Agent SDK hook. Which hook pattern enforces this deterministically?',
          options={
              'A': 'A PostToolUse hook that logs the refund after it executes',
              'B': 'A tool-call interception hook (a PreToolUse-style gate) that blocks the process_refund call when the amount exceeds the threshold and redirects to escalation',
@@ -175,7 +175,7 @@ MOCK_BANK = [
          ref='Domain 1, Task Statement 1.7 — Manage session state, resumption, and forking.'),
 
     dict(task='1.7', domain='d1',
-         q='What is the primary purpose of fork_session in the Agent SDK / Claude Code?',
+         q='You want to explore two different refactoring approaches from the same analyzed starting point without one contaminating the other, and while planning you come across fork_session. What is the primary purpose of fork_session in the Agent SDK / Claude Code?',
          options={
              'A': 'To run two independent branches from a shared analysis baseline to explore divergent approaches',
              'B': 'To permanently merge two separate sessions into one',
@@ -199,7 +199,7 @@ MOCK_BANK = [
          ref='Domain 1, Task Statement 1.4 — Implement multi-step workflows with enforcement and handoff patterns.'),
 
     dict(task='1.1', domain='d1',
-         q='Which of the following is the clearest example of when an agentic architecture (model-driven decision-making) is preferable to a pre-configured decision tree?',
+         q="You're deciding whether a new automation should be built as a model-driven agent or as a hard-coded, pre-configured decision tree. Which of the following is the clearest example of when an agentic architecture (model-driven decision-making) is preferable to a pre-configured decision tree?",
          options={
              'A': 'A workflow where the exact sequence of steps is fixed and known in advance',
              'B': 'An open-ended task where the next action genuinely depends on information discovered at each step',
@@ -235,7 +235,7 @@ MOCK_BANK = [
          ref='Domain 2, Task Statement 2.2 — Implement structured error responses for MCP tools.'),
 
     dict(task='2.2', domain='d2',
-         q='Which pairing of MCP error category and retry behavior is correct?',
+         q="You're designing the structured error responses your MCP tools return so the agent retries only what is safe to retry and stops wasting calls on failures that will never succeed. Which pairing of MCP error category and retry behavior is correct?",
          options={
              'A': 'A business-rule violation (e.g., refund exceeds policy limit) → retryable',
              'B': 'A validation error (malformed input) → retryable without changes',
@@ -271,7 +271,7 @@ MOCK_BANK = [
          ref='Domain 4, Task Statement 4.3 — Enforce structured output using tool use and JSON schemas (also relates to Task Statement 2.3).'),
 
     dict(task='2.3', domain='d2',
-         q='In a document pipeline, extract_metadata must always run before any enrichment tools. Which configuration guarantees this ordering on the first call?',
+         q="You're assembling a document-processing pipeline where several enrichment tools depend on metadata that another tool produces, so extract_metadata must always run before any enrichment tools. You want to guarantee that ordering rather than hope the model picks it. Which configuration guarantees this ordering on the first call?",
          options={
              'A': 'tool_choice: "auto"',
              'B': 'tool_choice: "any"',
@@ -307,7 +307,7 @@ MOCK_BANK = [
          ref='Domain 2, Task Statement 2.4 — Integrate MCP servers into Claude Code and agent workflows.'),
 
     dict(task='2.4', domain='d2',
-         q='When should MCP resources (rather than tools) be used?',
+         q="While integrating an MCP server into your workflow, you're deciding whether to expose certain capabilities as tools the model calls or as resources it reads. When should MCP resources (rather than tools) be used?",
          options={
              'A': 'To perform state-changing actions such as processing a refund',
              'B': 'To expose content catalogs (e.g., issue summaries, documentation hierarchies, database schemas) so the agent has visibility without exploratory tool calls',
@@ -319,7 +319,7 @@ MOCK_BANK = [
          ref='Domain 2, Task Statement 2.4 — Integrate MCP servers into Claude Code and agent workflows.'),
 
     dict(task='2.5', domain='d2',
-         q='A developer needs to find every file matching **/*.test.tsx across a codebase. Which built-in tool is appropriate, and why?',
+         q='While setting up a test-coverage sweep, a developer needs to find every file matching **/*.test.tsx across a large codebase before editing any of them. Which built-in tool is appropriate for locating them, and why?',
          options={
              'A': 'Grep, because it searches file contents for patterns',
              'B': 'Glob, because it matches file paths by name/extension patterns',
@@ -331,7 +331,7 @@ MOCK_BANK = [
          ref='Domain 2, Task Statement 2.5 — Select and apply built-in tools (Read, Write, Edit, Bash, Grep, Glob) effectively.'),
 
     dict(task='2.5', domain='d2',
-         q='An Edit operation fails because the anchor text it is trying to match appears in more than one place in the file. What is the recommended fallback?',
+         q="You ask the agent to change one line in a file, but the Edit operation fails because the anchor text it is trying to match appears in more than one place in the file, so the change isn't unique. What is the recommended fallback?",
          options={
              'A': 'Retry Edit several times until it succeeds',
              'B': 'Use Read to load the full file, then Write the modified contents',
@@ -343,7 +343,7 @@ MOCK_BANK = [
          ref='Domain 2, Task Statement 2.5 — Select and apply built-in tools (Read, Write, Edit, Bash, Grep, Glob) effectively.'),
 
     dict(task='2.1', domain='d2',
-         q='A generic analyze_document tool is being misused because it does too many things. Following tool-design best practices, what is the better structure?',
+         q="Your team exposed a single generic analyze_document tool, and the agent keeps misusing it because it does too many unrelated things and its description can't clearly say when to call it. Following tool-design best practices, what is the better structure?",
          options={
              'A': 'Keep it generic but add a longer description',
              'B': 'Split it into purpose-specific tools with defined I/O contracts (e.g., extract_data_points, summarize_content, verify_claim_against_source)',
@@ -355,7 +355,7 @@ MOCK_BANK = [
          ref='Domain 2, Task Statement 2.1 — Design effective tool interfaces with clear descriptions and boundaries.'),
 
     dict(task='2.3', domain='d2',
-         q='A synthesis subagent is attempting web searches even though search is outside its role, producing poor results. What is the best corrective design?',
+         q='In your multi-agent pipeline, a synthesis subagent is attempting web searches even though search is outside its role, and the extra freedom is producing poor, unfocused results. What is the best corrective design?',
          options={
              'A': 'Give every subagent access to all tools for flexibility',
              'B': "Restrict each subagent's tool set to those relevant to its role, preventing cross-specialization misuse",
@@ -367,7 +367,7 @@ MOCK_BANK = [
          ref='Domain 2, Task Statement 2.3 — Distribute tools appropriately across agents and configure tool choice.'),
 
     dict(task='2.2', domain='d2',
-         q='An MCP tool runs a query that legitimately returns no matching records. How should this be distinguished from a failure?',
+         q="One of your MCP tools runs a query that legitimately returns no matching records — an empty result, not a malfunction — and you want the agent to treat that differently from an actual error. How should a 'no results' outcome be distinguished from a failure?",
          options={
              'A': 'Return isError: true so the agent retries',
              'B': 'Return a valid empty result (isError: false, e.g., resultCount: 0), distinct from an access failure',
@@ -415,7 +415,7 @@ MOCK_BANK = [
          ref='Domain 3, Task Statement 3.3 — Apply path-specific rules for conditional convention loading. Closely parallels Official Exam Guide Sample Question 6.'),
 
     dict(task='3.2', domain='d3',
-         q='Which SKILL.md frontmatter option runs a skill in an isolated sub-agent context so its verbose output does not pollute the main conversation?',
+         q="You're authoring a skill whose discovery step produces a lot of verbose output, and you don't want that output cluttering the main conversation's context. Which SKILL.md frontmatter option runs a skill in an isolated sub-agent context so its verbose output does not pollute the main conversation?",
          options={
              'A': 'disable-model-invocation: true',
              'B': 'context: fork',
@@ -439,7 +439,7 @@ MOCK_BANK = [
          ref='Domain 3, Task Statement 3.4 — Determine when to use plan mode vs direct execution. Closely parallels Official Exam Guide Sample Question 5.'),
 
     dict(task='3.4', domain='d3',
-         q='For which task is direct execution (not plan mode) the appropriate choice?',
+         q="You're deciding, task by task, whether to jump straight into changes or to explore and plan first. For which task is direct execution (not plan mode) the appropriate choice?",
          options={
              'A': 'Migrating a library across 45+ files',
              'B': 'Choosing between two integration approaches with different infrastructure',
@@ -475,7 +475,7 @@ MOCK_BANK = [
          ref='Domain 3, Task Statement 3.6 — Integrate Claude Code into CI/CD pipelines.'),
 
     dict(task='3.6', domain='d3',
-         q='When re-running an automated code review after new commits, how do you avoid duplicate PR comments?',
+         q="Your CI runs a Claude Code review on every push to a pull request, and reviewers are complaining that each re-run reposts the same comments they've already seen. When re-running an automated code review after new commits, how do you avoid duplicate PR comments?",
          options={
              'A': 'Delete all prior comments before every run',
              'B': 'Include prior review findings in context and instruct Claude to report only new or still-unaddressed issues',
@@ -487,7 +487,7 @@ MOCK_BANK = [
          ref='Domain 3, Task Statement 3.6 — Integrate Claude Code into CI/CD pipelines.'),
 
     dict(task='3.6', domain='d3',
-         q='Why is it recommended that a code-review pass in CI run in a session independent from the one that generated the code?',
+         q="You're setting up a CI stage where Claude Code first generates code and, later in the pipeline, reviews it, and a colleague asks why the review shouldn't reuse the generating session. Why is it recommended that a code-review pass in CI run in a session independent from the one that generated the code?",
          options={
              'A': 'Independent sessions are cheaper to run',
              'B': 'The generating session retains its reasoning context and is less likely to question its own decisions; an independent instance catches more issues',
@@ -535,7 +535,7 @@ MOCK_BANK = [
          ref='Domain 4, Task Statement 4.1 — Design prompts with explicit criteria to improve precision and reduce false positives.'),
 
     dict(task='4.2', domain='d4',
-         q='Which technique is most effective for getting consistently formatted, actionable output when detailed written instructions alone still produce inconsistent results?',
+         q="You've written a detailed, carefully worded prose spec for the output you want, but the model's formatting still varies from run to run. Which technique is most effective for getting consistently formatted, actionable output when detailed written instructions alone still produce inconsistent results?",
          options={
              'A': 'Few-shot examples demonstrating the exact desired output (location, issue, severity, suggested fix)',
              'B': 'Increasing the temperature to encourage variety',
@@ -583,7 +583,7 @@ MOCK_BANK = [
          ref='Domain 4, Task Statement 4.3 — Enforce structured output using tool use and JSON schemas.'),
 
     dict(task='4.4', domain='d4',
-         q='When you retry an extraction with error feedback, in which situation will retrying be ineffective?',
+         q='Your extraction pipeline automatically retries whenever validation fails, appending the validation error to the prompt so the model can correct itself. When you retry an extraction with error feedback, in which situation will retrying be ineffective?',
          options={
              'A': 'When the output had a format mismatch you can describe in the error',
              'B': 'When a structural/schema error occurred that the model can correct',
@@ -619,7 +619,7 @@ MOCK_BANK = [
          ref='Domain 4, Task Statement 4.5 — Design efficient batch processing strategies.'),
 
     dict(task='4.5', domain='d4',
-         q='Which statement about the Message Batches API is accurate?',
+         q='Your team is evaluating the Message Batches API to cut costs and wants to confirm how it actually behaves before committing to it. Which statement about the Message Batches API is accurate?',
          options={
              'A': 'It supports multi-turn tool calling within a single request, executing tools mid-request',
              'B': 'It provides a guaranteed sub-hour latency SLA',
@@ -643,7 +643,7 @@ MOCK_BANK = [
          ref='Domain 4, Task Statement 4.6 — Design multi-instance and multi-pass review architectures. Closely parallels Official Exam Guide Sample Question 12.'),
 
     dict(task='4.6', domain='d4',
-         q='Why is an independent Claude instance generally better than self-review or extended thinking for catching subtle issues in generated code?',
+         q="You're deciding how to review AI-generated code and wondering whether the same session that wrote it can simply review its own work. Why is an independent Claude instance generally better than self-review or extended thinking for catching subtle issues in generated code?",
          options={
              'A': 'Independent instances are always faster',
              'B': 'The generating instance retains its reasoning context and is biased toward its own decisions; a context-free reviewer evaluates the result on its own terms',
@@ -655,7 +655,7 @@ MOCK_BANK = [
          ref='Domain 4, Task Statement 4.6 — Design multi-instance and multi-pass review architectures.'),
 
     dict(task='4.3', domain='d4',
-         q='For an extensible categorization field where new categories may appear over time, which schema design best avoids forced misclassification?',
+         q="You're designing the output schema for a classifier whose categories aren't fixed — new categories may appear over time, and you don't want the model forced to jam a novel case into an existing bucket. For this extensible categorization field, which schema design best avoids forced misclassification?",
          options={
              'A': 'A free-text string with no constraints',
              'B': 'An enum with a fixed closed set of values only',
@@ -691,7 +691,7 @@ MOCK_BANK = [
          ref='Domain 5, Task Statement 5.1 — Manage conversation context to preserve critical information across long interactions.'),
 
     dict(task='5.2', domain='d5',
-         q='A customer explicitly demands to speak with a human agent about a straightforward issue the agent could resolve. What is the correct behavior?',
+         q='Mid-conversation, a customer explicitly demands to speak with a human agent about an issue that is actually straightforward and that the agent could resolve on its own. What is the correct behavior?',
          options={
              'A': 'Refuse and insist on resolving it autonomously first',
              'B': 'Honor the explicit request for a human immediately, without first attempting investigation',
@@ -703,7 +703,7 @@ MOCK_BANK = [
          ref='Domain 5, Task Statement 5.2 — Design effective escalation and ambiguity resolution patterns.'),
 
     dict(task='5.2', domain='d5',
-         q='Which of the following is an unreliable proxy for deciding when an agent should escalate a case?',
+         q="You're writing the escalation rules for a support agent and want to avoid triggers that look useful but actually mislead. Which of the following is an unreliable proxy for deciding when an agent should escalate a case?",
          options={
              'A': 'The customer explicitly asks for a human',
              'B': "The policy is silent or ambiguous on the customer's specific request",
@@ -715,7 +715,7 @@ MOCK_BANK = [
          ref='Domain 5, Task Statement 5.2 — Design effective escalation and ambiguity resolution patterns.'),
 
     dict(task='5.3', domain='d5',
-         q='A web-search subagent times out. Which error-propagation approach best enables the coordinator to recover intelligently?',
+         q='In a multi-agent research run, a web-search subagent times out partway through, and the coordinator needs enough information to decide whether to retry, try a different approach, or proceed with what it has. Which error-propagation approach best enables the coordinator to recover intelligently?',
          options={
              'A': 'Return structured error context: failure type, the attempted query, any partial results, and possible alternatives',
              'B': 'Retry silently with backoff and return a generic "search unavailable" only after all retries fail',
@@ -727,7 +727,7 @@ MOCK_BANK = [
          ref='Domain 5, Task Statement 5.3 — Implement error propagation strategies across multi-agent systems. Closely parallels Official Exam Guide Sample Question 8.'),
 
     dict(task='5.6', domain='d5',
-         q='Two credible sources report different statistics for the same metric during multi-source synthesis. How should the system handle this?',
+         q='While synthesizing a report from several sources, the system finds two credible sources reporting different statistics for the same metric, and it must decide how to present the discrepancy. How should the system handle this?',
          options={
              'A': 'Arbitrarily pick one value and drop the other',
              'B': 'Average the two values silently',
