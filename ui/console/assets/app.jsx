@@ -191,7 +191,7 @@ function StartHere({ name, setName, completeCount, firstIncomplete, goTask, goto
     { icon: Icon.book, t: "Lessons (30)", d: "One page per task statement. Each is a self-contained lesson with a runnable demo and a question you must answer correctly to complete it." },
     { icon: Icon.layers, t: "Scenarios (6)", d: "The end-to-end production systems the exam is built around — each step links to the lesson that teaches it." },
     { icon: Icon.book, t: "Cheat sheet", d: "The high-yield facts to memorise, grouped by domain, each pointing to the lesson that proves it." },
-    { icon: Icon.target, t: "Mock exam", d: "10 random questions scored 100–1000 (pass ≥ 720), just like the real exam. Retake with a fresh set anytime." },
+    { icon: Icon.target, t: "Mock exam", d: "60 questions scored 100–1000 (pass ≥ 720), just like the real exam. Retake with a fresh set anytime." },
   ];
   const anatomy = [
     ["Concept", "the idea in one or two sentences"],
