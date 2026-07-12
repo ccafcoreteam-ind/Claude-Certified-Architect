@@ -11,6 +11,12 @@ project on a screen, step through, and discuss in a teaching session.
 > interactive 12-question quiz, and read the cheat sheet — right in your browser. (Loads
 > React from a CDN; nothing to install. Auto-redeploys on every push.)
 
+## 🎥 Video walkthrough
+
+A quick tour of the hosted Exam Prep Console — click to watch on YouTube:
+
+[![Claude Certified Architect — Exam Prep Console walkthrough](https://img.youtube.com/vi/of9PPnuBedU/maxresdefault.jpg)](https://youtu.be/of9PPnuBedU)
+
 It's a **self-paced course**: a "Start here" page, a progress bar, per-lesson questions you
 answer until correct, a mock exam, and a completion certificate.
 
