@@ -13,7 +13,7 @@ project on a screen, step through, and discuss in a teaching session.
 
 ## 🎥 Video walkthrough
 
-A quick tour of the hosted Exam Prep Console — click to watch on YouTube:
+A quick overview of the Architect Foundations Exam topics and exam questions — click to watch on YouTube:
 
 [![Claude Certified Architect — Exam Prep Console walkthrough](https://img.youtube.com/vi/of9PPnuBedU/maxresdefault.jpg)](https://youtu.be/of9PPnuBedU)
 
