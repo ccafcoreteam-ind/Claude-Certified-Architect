@@ -38,7 +38,7 @@ deterministic simulator so the architecture and the teaching points are identica
 
 ## Quick start
 
-Or just open the **[hosted console](https://jacinthpaul.github.io/Claude-Certified-Architect/)** — no clone, no install. To run locally:
+Or just open the **[hosted console](https://ccafcoreteam-ind.github.io/Claude-Certified-Architect/)** — no clone, no install. To run locally:
 
 ```bash
 # nothing to install for the offline (simulated) demos — standard library only
@@ -150,7 +150,7 @@ There are two browser consoles; both run the repo's demos and the quiz, and neit
 The polished console: a dashboard, domain/task sidebar, **Scenarios** and **Cheat sheet**
 views, light/dark themes, "mark covered" progress, and the interactive 12-question quiz.
 
-- **Hosted (zero setup):** **[https://jacinthpaul.github.io/Claude-Certified-Architect/](https://jacinthpaul.github.io/Claude-Certified-Architect/)**
+- **Hosted (zero setup):** **[https://ccafcoreteam-ind.github.io/Claude-Certified-Architect/](https://ccafcoreteam-ind.github.io/Claude-Certified-Architect/)**
   — published from `ui/console/` by `.github/workflows/pages.yml` on every push. As a static
   page it shows the demo output baked into the page; the sidebar, quiz, and cheat sheet are
   fully interactive.
