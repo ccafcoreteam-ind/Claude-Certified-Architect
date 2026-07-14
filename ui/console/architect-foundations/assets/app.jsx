@@ -930,7 +930,7 @@ function App() {
           {route.view === "mock" && <MockExam goTask={goTask} />}
           {route.view === "complete" && <Complete name={name} goto={goto} resetProgress={resetProgress} />}
           <footer className="app-foot">
-            <p className="foot-credit">Built by Jacinth Paul to help aspirants on their Claude Certified Architect journey.</p>
+            <p className="foot-credit">Built by <b>Jacinth Paul</b> · Vanguard Account, EPAM India — to help aspirants on their Claude Certified Architect journey.</p>
             <p className="foot-disclaimer">
               This is an independent, community-made study aid — <b>not an official Anthropic
               product</b> and not affiliated with or endorsed by Anthropic. It’s supporting

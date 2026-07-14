@@ -22,7 +22,25 @@ import re
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-REPO = os.path.dirname(os.path.dirname(HERE))
+
+
+def _find_repo_root(start):
+    """Walk up until we find the folder containing `domains/` (the repo root).
+
+    Robust to how deep this console is nested (e.g. ui/console/architect-foundations/),
+    matching api_server.py's discovery instead of assuming a fixed depth.
+    """
+    d = start
+    while True:
+        if os.path.isdir(os.path.join(d, "domains")):
+            return d
+        parent = os.path.dirname(d)
+        if parent == d:
+            return start  # reached filesystem root; fall back
+        d = parent
+
+
+REPO = _find_repo_root(HERE)
 sys.path.insert(0, HERE)   # api_server
 sys.path.insert(0, REPO)   # exam.*
 
